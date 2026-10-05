@@ -1,0 +1,2552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#070b16">
+<title>Stock Lab</title>
+
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:#070b16;color:#f4f7ff;font-family:Arial,sans-serif}
+body{min-height:100vh}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+:root{
+--bg:#070b16;
+--panel:#0e1627;
+--panel2:#121d31;
+--panel3:#182640;
+--line:#22304a;
+--text:#f4f7ff;
+--muted:#8995ad;
+--accent:#6475ff;
+--accent2:#7c88ff;
+--green:#35d39b;
+--yellow:#ffc857;
+--red:#ff6877
+}
+
+.app{min-height:100vh;padding-bottom:30px}
+
+header{
+position:sticky;top:0;z-index:20;
+height:64px;padding:0 16px;
+display:flex;align-items:center;justify-content:space-between;
+background:rgba(7,11,22,.94);
+backdrop-filter:blur(18px);
+border-bottom:1px solid var(--line)
+}
+
+.brand{display:flex;align-items:center;gap:10px}
+.logo{
+width:38px;height:38px;border-radius:12px;
+display:grid;place-items:center;
+background:linear-gradient(135deg,#6475ff,#8d72ff);
+font-size:20px
+}
+.brandText strong{display:block;font-size:17px}
+.brandText span{font-size:11px;color:var(--muted)}
+
+.topBtn{
+border:1px solid var(--line);
+background:var(--panel2);
+color:var(--text);
+padding:9px 12px;border-radius:11px
+}
+
+nav{
+display:flex;gap:7px;padding:10px 14px;
+background:#090e1b;
+border-bottom:1px solid var(--line);
+position:sticky;top:64px;z-index:15
+}
+.navBtn{
+flex:1;border:1px solid transparent;
+background:transparent;color:var(--muted);
+padding:10px 7px;border-radius:10px;font-size:13px
+}
+.navBtn.active{
+background:var(--panel2);
+border-color:var(--line);
+color:white
+}
+
+main{max-width:1100px;margin:auto;padding:16px}
+
+.view{display:none}
+.view.active{display:block}
+
+.storage{
+padding:14px;background:var(--panel);
+border:1px solid var(--line);
+border-radius:16px;margin-bottom:16px
+}
+.storageTop{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.storageTitle{font-weight:bold}
+.storageStatus{font-size:12px;color:var(--muted);margin-top:4px}
+.storageStatus.ok{color:var(--green)}
+.folderBtn{
+border:0;background:var(--accent);color:#fff;
+padding:10px 13px;border-radius:10px;font-weight:bold
+}
+
+.stats{
+display:grid;grid-template-columns:repeat(3,1fr);
+gap:10px;margin-bottom:16px
+}
+.stat{
+background:var(--panel);
+border:1px solid var(--line);
+border-radius:15px;padding:15px
+}
+.stat span{font-size:12px;color:var(--muted)}
+.stat strong{display:block;font-size:25px;margin-top:5px}
+
+.toolbar{
+display:flex;gap:9px;flex-wrap:wrap;margin-bottom:16px
+}
+.input,.select{
+background:var(--panel);
+border:1px solid var(--line);
+color:var(--text);
+padding:11px 12px;border-radius:11px;
+outline:none
+}
+.input:focus,.select:focus{border-color:var(--accent)}
+.search{flex:1;min-width:180px}
+
+.products{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:12px
+}
+
+.card{
+background:var(--panel);
+border:1px solid var(--line);
+border-radius:16px;
+overflow:hidden;
+position:relative
+}
+.cardImage{
+height:170px;background:#080d18;
+position:relative;
+display:grid;place-items:center
+}
+.cardImage img{
+width:100%;height:100%;object-fit:contain
+}
+.noImage{color:#59657d;font-size:13px}
+
+.cardBody{padding:13px}
+.cardName{
+font-weight:bold;font-size:15px;
+white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.cardMeta{color:var(--muted);font-size:12px;margin-top:5px}
+.badge{
+display:inline-block;margin-top:9px;
+padding:5px 8px;border-radius:7px;
+font-size:11px;font-weight:bold
+}
+.badge.good{background:rgba(53,211,155,.12);color:var(--green)}
+.badge.warn{background:rgba(255,200,87,.12);color:var(--yellow)}
+.badge.bad{background:rgba(255,104,119,.12);color:var(--red)}
+
+.cardActions{
+display:flex;gap:7px;margin-top:12px
+}
+.smallBtn{
+flex:1;padding:8px;border-radius:9px;
+background:var(--panel2);border:1px solid var(--line);
+color:white
+}
+.smallBtn.delete{color:#ff8b98}
+
+.addBtn{
+position:fixed;right:18px;bottom:20px;
+width:56px;height:56px;border-radius:50%;
+border:0;background:var(--accent);color:#fff;
+font-size:25px;box-shadow:0 10px 30px rgba(0,0,0,.4);
+z-index:30
+}
+
+.empty{
+padding:45px 15px;text-align:center;
+border:1px dashed var(--line);
+border-radius:16px;color:var(--muted)
+}
+
+/* scanner */
+
+.scannerBox{
+background:#050812;
+border:1px solid var(--line);
+border-radius:18px;
+overflow:hidden;
+position:relative
+}
+
+.videoWrap{
+position:relative;
+width:100%;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+min-height:300px
+}
+
+#video{
+display:block;
+width:100%;
+height:auto;
+max-height:70vh;
+background:#000;
+object-fit:contain;
+}
+
+.scanFrame{
+position:absolute;
+left:12%;
+right:12%;
+top:30%;
+height:40%;
+border:2px solid rgba(124,136,255,.95);
+border-radius:15px;
+pointer-events:none;
+box-shadow:0 0 0 9999px rgba(0,0,0,.16)
+}
+
+.scanLine{
+position:absolute;
+left:12%;
+right:12%;
+height:2px;
+top:30%;
+background:#7c88ff;
+box-shadow:0 0 12px #7c88ff;
+animation:scanline 2s linear infinite;
+pointer-events:none
+}
+
+@keyframes scanline{
+0%{top:30%}
+50%{top:70%}
+100%{top:30%}
+}
+
+.cameraMessage{
+padding:12px;text-align:center;
+color:var(--muted);font-size:13px
+}
+
+.controls{
+display:flex;gap:8px;flex-wrap:wrap;
+padding:12px;background:var(--panel)
+}
+.controlBtn{
+background:var(--panel2);
+color:white;border:1px solid var(--line);
+padding:10px 12px;border-radius:10px
+}
+.controlBtn.primary{background:var(--accent);border-color:var(--accent)}
+
+.cameraInfo{
+display:grid;grid-template-columns:1fr 1fr;
+gap:8px;padding:12px
+}
+.infoBox{
+background:var(--panel);
+border:1px solid var(--line);
+padding:10px;border-radius:10px
+}
+.infoBox span{display:block;color:var(--muted);font-size:10px}
+.infoBox strong{font-size:12px;display:block;margin-top:3px}
+
+.sliderBox{
+padding:12px;
+background:var(--panel);
+border-top:1px solid var(--line)
+}
+.sliderBox label{
+display:flex;justify-content:space-between;
+font-size:12px;color:var(--muted);margin-bottom:6px
+}
+input[type=range]{width:100%}
+
+.manual{
+display:flex;gap:8px;margin-top:12px
+}
+.manual input{flex:1}
+
+.scanResult{
+margin-top:12px;
+padding:14px;background:var(--panel);
+border:1px solid var(--line);
+border-radius:14px
+}
+.scanResult strong{font-size:18px}
+.scanResult small{color:var(--muted)}
+
+.history{
+margin-top:16px
+}
+.history h3{font-size:14px}
+.historyItem{
+padding:11px 12px;
+background:var(--panel);
+border:1px solid var(--line);
+border-radius:10px;
+margin-top:7px;
+display:flex;justify-content:space-between;
+gap:10px
+}
+.historyItem span{font-size:13px}
+.historyItem small{color:var(--muted)}
+
+.about{
+max-width:650px;margin:auto
+}
+.aboutHero{
+padding:30px 20px;text-align:center;
+background:linear-gradient(145deg,#101a31,#0d1424);
+border:1px solid var(--line);
+border-radius:20px
+}
+.avatar{
+width:78px;height:78px;border-radius:50%;
+margin:auto;display:grid;place-items:center;
+background:linear-gradient(135deg,#6475ff,#8d72ff);
+font-size:30px
+}
+.about h1{margin:14px 0 5px}
+.about p{color:var(--muted);line-height:1.6}
+.aboutStats{
+display:grid;grid-template-columns:repeat(3,1fr);
+gap:9px;margin-top:18px
+}
+.aboutStat{
+background:var(--panel);
+border:1px solid var(--line);
+padding:13px;border-radius:12px
+}
+.aboutStat strong{display:block;font-size:20px}
+.aboutStat span{font-size:10px;color:var(--muted)}
+
+.modal{
+position:fixed;inset:0;
+background:rgba(0,0,0,.72);
+display:none;align-items:flex-end;
+z-index:100
+}
+.modal.show{display:flex}
+.modalBox{
+width:100%;max-height:92vh;overflow:auto;
+background:var(--panel);
+border-radius:22px 22px 0 0;
+border:1px solid var(--line);
+padding:18px
+}
+.modalTitle{
+display:flex;justify-content:space-between;
+align-items:center;margin-bottom:15px
+}
+.close{
+border:0;background:var(--panel2);
+color:white;width:35px;height:35px;border-radius:10px
+}
+.formGrid{
+display:grid;grid-template-columns:1fr 1fr;gap:10px
+}
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+.field label{font-size:11px;color:var(--muted)}
+.formInput{
+background:var(--panel2);
+border:1px solid var(--line);
+color:white;border-radius:10px;padding:11px
+}
+.photoPreview{
+display:flex;gap:8px;overflow:auto;margin-top:8px
+}
+.photoPreview img{
+width:75px;height:75px;object-fit:cover;
+border-radius:10px;border:1px solid var(--line)
+}
+.modalActions{
+display:flex;gap:8px;margin-top:17px
+}
+.modalActions button{
+flex:1;padding:12px;border-radius:11px;
+border:1px solid var(--line)
+}
+.save{background:var(--accent);color:#fff;border-color:var(--accent)!important}
+.cancel{background:var(--panel2);color:white}
+
+.toast{
+position:fixed;left:50%;bottom:85px;
+transform:translateX(-50%) translateY(15px);
+background:#18243a;color:#fff;
+border:1px solid var(--line);
+padding:11px 15px;border-radius:11px;
+opacity:0;pointer-events:none;
+transition:.25s;z-index:200;
+font-size:13px
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(min-width:700px){
+.products{grid-template-columns:repeat(3,minmax(0,1fr))}
+.videoWrap{max-height:650px}
+}
+
+@media(max-width:480px){
+main{padding:12px}
+header{padding:0 12px}
+.stats{gap:7px}
+.stat{padding:12px}
+.stat strong{font-size:21px}
+.cardImage{height:150px}
+.formGrid{grid-template-columns:1fr}
+.field.full{grid-column:auto}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <div class="brand">
+    <div class="logo">📦</div>
+    <div class="brandText">
+      <strong>Stock Lab</strong>
+      <span>Inventory Manager</span>
+    </div>
+  </div>
+  <button class="topBtn" id="folderBtn">📁 Folder</button>
+</header>
+
+<nav>
+  <button class="navBtn active" data-view="stockView">📦 Stock Lab</button>
+  <button class="navBtn" data-view="scannerView">📷 Scanner</button>
+  <button class="navBtn" data-view="aboutView">👤 About Me</button>
+</nav>
+
+<main>
+
+<!-- STOCK -->
+<section id="stockView" class="view active">
+
+  <div class="storage">
+    <div class="storageTop">
+      <div>
+        <div class="storageTitle">Storage</div>
+        <div id="storageStatus" class="storageStatus">
+          Browser storage active
+        </div>
+      </div>
+      <button class="folderBtn" id="chooseFolderBtn">Choose Folder</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <span>Total Products</span>
+      <strong id="totalStat">0</strong>
+    </div>
+    <div class="stat">
+      <span>Low Stock</span>
+      <strong id="lowStat">0</strong>
+    </div>
+    <div class="stat">
+      <span>Out of Stock</span>
+      <strong id="outStat">0</strong>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input id="searchInput" class="input search"
+      placeholder="Search product, size, code...">
+
+    <select id="categoryFilter" class="select">
+      <option value="">All categories</option>
+    </select>
+
+    <select id="stockFilter" class="select">
+      <option value="all">All stock</option>
+      <option value="in">In Stock</option>
+      <option value="low">Low Stock</option>
+      <option value="out">Out of Stock</option>
+    </select>
+
+    <select id="sortSelect" class="select">
+      <option value="newest">Newest</option>
+      <option value="name">Name</option>
+      <option value="quantity">Quantity</option>
+    </select>
+  </div>
+
+  <div id="products" class="products"></div>
+
+</section>
+
+<!-- SCANNER -->
+<section id="scannerView" class="view">
+
+  <div class="scannerBox">
+
+    <div class="videoWrap" id="videoWrap">
+
+      <video id="video"
+        autoplay
+        playsinline
+        muted></video>
+
+      <div class="scanFrame"></div>
+      <div class="scanLine"></div>
+
+    </div>
+
+    <div id="cameraMessage" class="cameraMessage">
+      Press Start Camera. Allow camera permission when Android asks.
+    </div>
+
+    <div class="controls">
+      <button id="startCamera" class="controlBtn primary">
+        ▶ Start Camera
+      </button>
+
+      <button id="stopCamera" class="controlBtn">
+        ■ Stop
+      </button>
+
+      <button id="focusBtn" class="controlBtn">
+        🎯 Focus
+      </button>
+
+      <button id="torchBtn" class="controlBtn">
+        🔦 Torch
+      </button>
+    </div>
+
+    <div class="cameraInfo">
+
+      <div class="infoBox">
+        <span>Actual Camera Resolution</span>
+        <strong id="resolutionInfo">—</strong>
+      </div>
+
+      <div class="infoBox">
+        <span>Focus</span>
+        <strong id="focusInfo">—</strong>
+      </div>
+
+      <div class="infoBox">
+        <span>Zoom</span>
+        <strong id="zoomInfo">—</strong>
+      </div>
+
+      <div class="infoBox">
+        <span>Barcode Engine</span>
+        <strong id="formatInfo">Checking...</strong>
+      </div>
+
+    </div>
+
+    <div class="sliderBox">
+      <label>
+        <span>Zoom</span>
+        <span id="zoomValue">1×</span>
+      </label>
+      <input id="zoomSlider" type="range" min="1" max="1" step=".1" value="1">
+    </div>
+
+  </div>
+
+  <div class="manual">
+    <input id="manualCode"
+      class="input"
+      placeholder="Enter barcode manually">
+    <button id="manualScan" class="controlBtn primary">
+      Scan
+    </button>
+  </div>
+
+  <div id="scanResult" class="scanResult hidden"></div>
+
+  <div class="history">
+    <h3>Recent Scans</h3>
+    <div id="historyList"></div>
+  </div>
+
+</section>
+
+<!-- ABOUT -->
+<section id="aboutView" class="view">
+
+  <div class="about">
+
+    <div class="aboutHero">
+
+      <div class="avatar">⚡</div>
+
+      <h1>@xprocket</h1>
+
+      <p>
+        Building simple, useful and offline-first tools.
+        Stock Lab is designed to keep inventory management
+        fast and practical directly from your phone.
+      </p>
+
+      <div class="aboutStats">
+        <div class="aboutStat">
+          <strong>15+</strong>
+          <span>Projects</span>
+        </div>
+        <div class="aboutStat">
+          <strong>100%</strong>
+          <span>Offline Focus</span>
+        </div>
+        <div class="aboutStat">
+          <strong>∞</strong>
+          <span>Ideas</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<button id="addBtn" class="addBtn">+</button>
+
+</div>
+
+<!-- PRODUCT MODAL -->
+<div id="productModal" class="modal">
+
+  <div class="modalBox">
+
+    <div class="modalTitle">
+      <strong id="modalTitle">Add Product</strong>
+      <button class="close" id="closeModal">×</button>
+    </div>
+
+    <div class="formGrid">
+
+      <div class="field full">
+        <label>Product Name *</label>
+        <input id="pName" class="formInput">
+      </div>
+
+      <div class="field">
+        <label>Code / SKU / Barcode</label>
+        <input id="pCode" class="formInput">
+      </div>
+
+      <div class="field">
+        <label>Category</label>
+        <input id="pCat" class="formInput">
+      </div>
+
+      <div class="field">
+        <label>Size / Variant</label>
+        <input id="pSize" class="formInput">
+      </div>
+
+      <div class="field">
+        <label>Color</label>
+        <input id="pColor" class="formInput">
+      </div>
+
+      <div class="field">
+        <label>Price</label>
+        <input id="pPrice" class="formInput" type="number">
+      </div>
+
+      <div class="field">
+        <label>Boxes</label>
+        <input id="pBoxes" class="formInput" type="number" min="0">
+      </div>
+
+      <div class="field">
+        <label>Units</label>
+        <input id="pUnits" class="formInput" type="number" min="0">
+      </div>
+
+      <div class="field">
+        <label>Low Stock Threshold</label>
+        <input id="pThreshold" class="formInput" type="number" min="1" value="5">
+      </div>
+
+      <div class="field full">
+        <label>Product Photos</label>
+        <input id="pPhotos" class="formInput"
+          type="file"
+          accept="image/*"
+          multiple>
+        <div id="photoPreview" class="photoPreview"></div>
+      </div>
+
+    </div>
+
+    <div class="modalActions">
+      <button class="cancel" id="cancelModal">Cancel</button>
+      <button class="save" id="saveProduct">Save Product</button>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/* =========================================================
+   STOCK LAB
+   Offline inventory + file storage + adaptive camera
+========================================================= */
+
+const LS_PRODUCTS = "stock_lab_products_v4";
+const LS_CATS = "stock_lab_categories_v4";
+const LS_HISTORY = "stock_lab_scan_history_v4";
+
+let products = [];
+let categories = [];
+let scanHistory = [];
+let editingId = null;
+let selectedImages = [];
+
+let folderHandle = null;
+let stream = null;
+let videoTrack = null;
+let detector = null;
+let scanning = false;
+let scanBusy = false;
+let lastCode = "";
+let lastScanTime = 0;
+let cameraCapabilities = {};
+let cameraSettings = {};
+
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
+
+const $ = id => document.getElementById(id);
+
+function toast(message){
+  const el = $("toast");
+  el.textContent = message;
+  el.classList.add("show");
+
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>{
+    el.classList.remove("show");
+  },2500);
+}
+
+function safeJSON(key,fallback){
+  try{
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  }catch{
+    return fallback;
+  }
+}
+
+function saveLocal(){
+  localStorage.setItem(LS_PRODUCTS,JSON.stringify(products));
+  localStorage.setItem(LS_CATS,JSON.stringify(categories));
+  localStorage.setItem(LS_HISTORY,JSON.stringify(scanHistory));
+}
+
+function uid(){
+  return Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,9);
+}
+
+function escapeHTML(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function totalUnits(p){
+  return Number(p.boxes||0) + Number(p.units||0);
+}
+
+function stockState(p){
+  const q = totalUnits(p);
+  const t = Number(p.threshold||5);
+
+  if(q <= 0) return "out";
+  if(q <= t) return "low";
+  return "good";
+}
+
+function stockText(state){
+  if(state==="out") return "OUT OF STOCK";
+  if(state==="low") return "LOW STOCK";
+  return "IN STOCK";
+}
+
+/* =========================================================
+   LOAD
+========================================================= */
+
+products = safeJSON(LS_PRODUCTS,[]);
+categories = safeJSON(LS_CATS,[]);
+scanHistory = safeJSON(LS_HISTORY,[]);
+
+/* backward compatibility */
+if(!products.length){
+  const old = safeJSON("stock_lab",[]);
+  if(Array.isArray(old) && old.length){
+    products = old;
+  }
+}
+
+if(!categories.length){
+  const oldCats = safeJSON("inv_cats_clean",[]);
+  if(Array.isArray(oldCats)) categories = oldCats;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+document.querySelectorAll(".navBtn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".navBtn")
+      .forEach(x=>x.classList.remove("active"));
+
+    document.querySelectorAll(".view")
+      .forEach(x=>x.classList.remove("active"));
+
+    btn.classList.add("active");
+    $(btn.dataset.view).classList.add("active");
+
+    if(btn.dataset.view !== "scannerView"){
+      stopCamera();
+    }
+  });
+});
+
+/* =========================================================
+   FILE STORAGE
+========================================================= */
+
+function fileStorageSupported(){
+  return !!(
+    window.showDirectoryPicker &&
+    window.FileSystemDirectoryHandle
+  );
+}
+
+async function getFolderPermission(handle){
+
+  if(!handle) return "denied";
+
+  try{
+
+    if(handle.queryPermission){
+      const current =
+        await handle.queryPermission({mode:"readwrite"});
+
+      if(current === "granted") return "granted";
+    }
+
+    if(handle.requestPermission){
+      const requested =
+        await handle.requestPermission({mode:"readwrite"});
+
+      return requested;
+    }
+
+    return "unknown";
+
+  }catch(err){
+    console.error("Permission check:",err);
+    return "denied";
+  }
+}
+
+async function ensureFolder(name){
+
+  if(!folderHandle) throw new Error("No folder selected");
+
+  return await folderHandle.getDirectoryHandle(
+    name,
+    {create:true}
+  );
+}
+
+function safeFileName(name){
+  return String(name || "product")
+    .replace(/[<>:"/\\|?*\x00-\x1F]/g,"_")
+    .replace(/\s+/g," ")
+    .trim()
+    .slice(0,70);
+}
+
+async function writeTextFile(dir,name,text){
+
+  const fileHandle =
+    await dir.getFileHandle(name,{create:true});
+
+  const writable =
+    await fileHandle.createWritable();
+
+  await writable.write(text);
+  await writable.close();
+}
+
+async function saveDataFile(){
+
+  if(!folderHandle) return false;
+
+  const payload = {
+    app:"Stock Lab",
+    version:4,
+    savedAt:new Date().toISOString(),
+    products:products,
+    categories:categories
+  };
+
+  await writeTextFile(
+    folderHandle,
+    "stock-lab-data.json",
+    JSON.stringify(payload,null,2)
+  );
+
+  return true;
+}
+
+function dataURLtoBlob(dataURL){
+
+  const parts = dataURL.split(",");
+  const mime =
+    parts[0].match(/:(.*?);/)[1];
+
+  const binary =
+    atob(parts[1]);
+
+  const arr =
+    new Uint8Array(binary.length);
+
+  for(let i=0;i<binary.length;i++){
+    arr[i]=binary.charCodeAt(i);
+  }
+
+  return new Blob([arr],{type:mime});
+}
+
+async function saveProductFiles(product){
+
+  if(!folderHandle) return;
+
+  const productsDir =
+    await ensureFolder("Products");
+
+  const base =
+    safeFileName(
+      (product.code || product.name || "product") +
+      "-" +
+      String(product.id).slice(-6)
+    );
+
+  const dir =
+    await productsDir.getDirectoryHandle(
+      base,
+      {create:true}
+    );
+
+  await writeTextFile(
+    dir,
+    "product.json",
+    JSON.stringify(
+      {...product,imgs:[]},
+      null,
+      2
+    )
+  );
+
+  for(let i=0;i<(product.imgs||[]).length;i++){
+
+    const blob =
+      dataURLtoBlob(product.imgs[i]);
+
+    const fileHandle =
+      await dir.getFileHandle(
+        `photo-${i+1}.jpg`,
+        {create:true}
+      );
+
+    const writable =
+      await fileHandle.createWritable();
+
+    await writable.write(blob);
+    await writable.close();
+  }
+}
+
+async function chooseFolder(){
+
+  if(!fileStorageSupported()){
+    toast("File folders aren't supported in this browser. Browser storage is still active.");
+    return;
+  }
+
+  try{
+
+    const picked =
+      await window.showDirectoryPicker({
+        mode:"readwrite"
+      });
+
+    folderHandle = picked;
+
+    let permission =
+      await getFolderPermission(folderHandle);
+
+    if(permission !== "granted"){
+
+      toast("Requesting folder access...");
+
+      permission =
+        await folderHandle.requestPermission({
+          mode:"readwrite"
+        });
+    }
+
+    if(permission !== "granted"){
+
+      $("storageStatus").textContent =
+        "Folder access was not granted";
+
+      toast("Folder access was not granted.");
+      return;
+    }
+
+    /* Test real directory access */
+    await ensureFolder("Products");
+
+    /* Test actual file writing */
+    await saveDataFile();
+
+    $("storageStatus").textContent =
+      "✓ Stock Lab folder connected";
+
+    $("storageStatus").classList.add("ok");
+
+    toast("Folder connected successfully.");
+
+  }catch(err){
+
+    console.error(err);
+
+    if(err.name === "AbortError"){
+      return;
+    }
+
+    $("storageStatus").textContent =
+      "Browser storage active";
+
+    toast(
+      "Folder access failed. Your products are still saved in browser storage."
+    );
+  }
+}
+
+$("chooseFolderBtn").addEventListener(
+  "click",
+  chooseFolder
+);
+
+$("folderBtn").addEventListener(
+  "click",
+  chooseFolder
+);
+
+/* =========================================================
+   RENDER CATEGORIES
+========================================================= */
+
+function renderCategories(){
+
+  const select = $("categoryFilter");
+
+  const current = select.value;
+
+  select.innerHTML =
+    `<option value="">All categories</option>`;
+
+  [...new Set(categories)]
+    .filter(Boolean)
+    .sort()
+    .forEach(cat=>{
+      const option =
+        document.createElement("option");
+
+      option.value=cat;
+      option.textContent=cat;
+
+      select.appendChild(option);
+    });
+
+  select.value=current;
+}
+
+/* =========================================================
+   RENDER PRODUCTS
+========================================================= */
+
+function renderProducts(){
+
+  const grid = $("products");
+
+  const search =
+    $("searchInput").value.trim().toLowerCase();
+
+  const category =
+    $("categoryFilter").value;
+
+  const filter =
+    $("stockFilter").value;
+
+  const sort =
+    $("sortSelect").value;
+
+  let list = [...products];
+
+  if(search){
+    list=list.filter(p=>{
+      return [
+        p.name,
+        p.code,
+        p.cat,
+        p.size,
+        p.color
+      ].join(" ").toLowerCase().includes(search);
+    });
+  }
+
+  if(category){
+    list=list.filter(p=>p.cat===category);
+  }
+
+  if(filter !== "all"){
+    list=list.filter(p=>stockState(p)===
+      (filter==="in"?"good":filter));
+  }
+
+  if(sort==="name"){
+    list.sort((a,b)=>
+      String(a.name).localeCompare(String(b.name))
+    );
+  }
+
+  if(sort==="quantity"){
+    list.sort((a,b)=>totalUnits(b)-totalUnits(a));
+  }
+
+  if(sort==="newest"){
+    list.sort((a,b)=>
+      Number(b.created||0)-Number(a.created||0)
+    );
+  }
+
+  if(!list.length){
+
+    grid.innerHTML = `
+      <div class="empty" style="grid-column:1/-1">
+        No products found.
+      </div>
+    `;
+
+    return;
+  }
+
+  grid.innerHTML = list.map(p=>{
+
+    const state=stockState(p);
+    const q=totalUnits(p);
+
+    const img =
+      p.imgs && p.imgs.length
+      ? `<img src="${p.imgs[0]}" alt="">`
+      : `<div class="noImage">No image</div>`;
+
+    return `
+      <div class="card">
+
+        <div class="cardImage">
+          ${img}
+        </div>
+
+        <div class="cardBody">
+
+          <div class="cardName">
+            ${escapeHTML(p.name)}
+          </div>
+
+          <div class="cardMeta">
+            ${p.size ? escapeHTML(p.size)+" · " : ""}
+            ${p.code ? escapeHTML(p.code) : "No code"}
+          </div>
+
+          <div class="cardMeta">
+            Quantity: <b>${q}</b>
+            ${p.price ? " · ₹"+escapeHTML(p.price) : ""}
+          </div>
+
+          <span class="badge ${state}">
+            ${stockText(state)}
+          </span>
+
+          <div class="cardActions">
+            <button
+              class="smallBtn"
+              onclick="editProduct('${p.id}')">
+              Edit
+            </button>
+
+            <button
+              class="smallBtn delete"
+              onclick="deleteProduct('${p.id}')">
+              Delete
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
+
+  $("totalStat").textContent=products.length;
+
+  $("lowStat").textContent=
+    products.filter(p=>stockState(p)==="low").length;
+
+  $("outStat").textContent=
+    products.filter(p=>stockState(p)==="out").length;
+}
+
+function refresh(){
+
+  saveLocal();
+  renderCategories();
+  renderProducts();
+}
+
+/* =========================================================
+   PRODUCT MODAL
+========================================================= */
+
+function openModal(product=null){
+
+  editingId=product ? product.id : null;
+
+  $("modalTitle").textContent =
+    product ? "Edit Product" : "Add Product";
+
+  $("pName").value=product?.name||"";
+  $("pCode").value=product?.code||"";
+  $("pCat").value=product?.cat||"";
+  $("pSize").value=product?.size||"";
+  $("pColor").value=product?.color||"";
+  $("pPrice").value=product?.price||"";
+  $("pBoxes").value=product?.boxes||0;
+  $("pUnits").value=product?.units||0;
+  $("pThreshold").value=product?.threshold||5;
+
+  selectedImages =
+    product?.imgs ? [...product.imgs] : [];
+
+  renderPhotoPreview();
+
+  $("productModal").classList.add("show");
+}
+
+function closeModal(){
+
+  $("productModal").classList.remove("show");
+  editingId=null;
+  selectedImages=[];
+  $("pPhotos").value="";
+}
+
+$("addBtn").addEventListener(
+  "click",
+  ()=>openModal()
+);
+
+$("closeModal").addEventListener(
+  "click",
+  closeModal
+);
+
+$("cancelModal").addEventListener(
+  "click",
+  closeModal
+);
+
+$("productModal").addEventListener("click",e=>{
+  if(e.target === $("productModal")){
+    closeModal();
+  }
+});
+
+function renderPhotoPreview(){
+
+  $("photoPreview").innerHTML =
+    selectedImages.map((src,i)=>`
+      <div style="position:relative;flex:none">
+        <img src="${src}">
+        <button
+          onclick="removePhoto(${i})"
+          style="
+          position:absolute;
+          right:2px;
+          top:2px;
+          border:0;
+          background:#000c;
+          color:#fff;
+          border-radius:50%;
+          width:22px;
+          height:22px;
+          ">
+          ×
+        </button>
+      </div>
+    `).join("");
+}
+
+function removePhoto(index){
+
+  selectedImages.splice(index,1);
+  renderPhotoPreview();
+}
+
+$("pPhotos").addEventListener("change",async e=>{
+
+  const files=[...e.target.files];
+
+  for(const file of files){
+
+    if(!file.type.startsWith("image/")) continue;
+
+    try{
+
+      const src =
+        await compressImage(file);
+
+      selectedImages.push(src);
+
+    }catch(err){
+      console.error(err);
+    }
+  }
+
+  renderPhotoPreview();
+  $("pPhotos").value="";
+});
+
+function compressImage(file){
+
+  return new Promise((resolve,reject)=>{
+
+    const reader=new FileReader();
+
+    reader.onload=()=>{
+
+      const img=new Image();
+
+      img.onload=()=>{
+
+        const max=1400;
+
+        let w=img.width;
+        let h=img.height;
+
+        if(w>max || h>max){
+
+          const scale=Math.min(
+            max/w,
+            max/h
+          );
+
+          w=Math.round(w*scale);
+          h=Math.round(h*scale);
+        }
+
+        const canvas=document.createElement("canvas");
+
+        canvas.width=w;
+        canvas.height=h;
+
+        const ctx=canvas.getContext("2d");
+
+        ctx.drawImage(img,0,0,w,h);
+
+        resolve(
+          canvas.toDataURL("image/jpeg",.82)
+        );
+      };
+
+      img.onerror=reject;
+      img.src=reader.result;
+    };
+
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+
+  });
+}
+
+$("saveProduct").addEventListener(
+  "click",
+  saveProduct
+);
+
+async function saveProduct(){
+
+  const name =
+    $("pName").value.trim();
+
+  if(!name){
+    toast("Product name is required.");
+    return;
+  }
+
+  const now=Date.now();
+
+  const product={
+    id:editingId || uid(),
+    name,
+    code:$("pCode").value.trim(),
+    cat:$("pCat").value.trim(),
+    size:$("pSize").value.trim(),
+    color:$("pColor").value.trim(),
+    price:$("pPrice").value,
+    boxes:Number($("pBoxes").value||0),
+    units:Number($("pUnits").value||0),
+    threshold:Number($("pThreshold").value||5),
+    imgs:[...selectedImages],
+    created:editingId
+      ? (products.find(p=>p.id===editingId)?.created||now)
+      : now,
+    updated:now
+  };
+
+  const index =
+    products.findIndex(p=>p.id===product.id);
+
+  if(index>=0){
+    products[index]=product;
+  }else{
+    products.unshift(product);
+  }
+
+  if(product.cat &&
+     !categories.includes(product.cat)){
+    categories.push(product.cat);
+  }
+
+  refresh();
+
+  closeModal();
+
+  toast("Product saved.");
+
+  /* file-backed save */
+  if(folderHandle){
+
+    try{
+
+      await saveProductFiles(product);
+      await saveDataFile();
+
+    }catch(err){
+
+      console.error("File save error:",err);
+
+      toast(
+        "Saved on device. File folder update failed."
+      );
+    }
+  }
+}
+
+window.editProduct=function(id){
+
+  const p=products.find(x=>x.id===id);
+
+  if(p) openModal(p);
+};
+
+window.deleteProduct=async function(id){
+
+  const p=products.find(x=>x.id===id);
+
+  if(!p) return;
+
+  if(!confirm(`Delete "${p.name}"?`)) return;
+
+  products=products.filter(x=>x.id!==id);
+
+  refresh();
+
+  toast("Product deleted.");
+
+  if(folderHandle){
+
+    try{
+      await saveDataFile();
+    }catch(err){
+      console.error(err);
+    }
+  }
+};
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+$("searchInput").addEventListener(
+  "input",
+  renderProducts
+);
+
+$("categoryFilter").addEventListener(
+  "change",
+  renderProducts
+);
+
+$("stockFilter").addEventListener(
+  "change",
+  renderProducts
+);
+
+$("sortSelect").addEventListener(
+  "change",
+  renderProducts
+);
+
+/* =========================================================
+   SCANNER
+========================================================= */
+
+function cameraSupported(){
+
+  return !!(
+    navigator.mediaDevices &&
+    navigator.mediaDevices.getUserMedia
+  );
+}
+
+async function getSupportedBarcodeFormats(){
+
+  const wanted=[
+    "aztec",
+    "code_128",
+    "code_39",
+    "code_93",
+    "codabar",
+    "data_matrix",
+    "ean_13",
+    "ean_8",
+    "itf",
+    "pdf417",
+    "qr_code",
+    "upc_a",
+    "upc_e"
+  ];
+
+  if(!("BarcodeDetector" in window)){
+    return [];
+  }
+
+  try{
+
+    if(BarcodeDetector.getSupportedFormats){
+
+      const supported =
+        await BarcodeDetector.getSupportedFormats();
+
+      return wanted.filter(x=>
+        supported.includes(x)
+      );
+    }
+
+  }catch(err){
+    console.error(err);
+  }
+
+  return wanted;
+}
+
+async function createDetector(){
+
+  const formats =
+    await getSupportedBarcodeFormats();
+
+  if(!("BarcodeDetector" in window)){
+
+    $("formatInfo").textContent =
+      "Not supported";
+
+    return null;
+  }
+
+  try{
+
+    if(formats.length){
+
+      detector =
+        new BarcodeDetector({formats});
+
+      $("formatInfo").textContent =
+        formats.length+" formats";
+
+    }else{
+
+      detector =
+        new BarcodeDetector();
+
+      $("formatInfo").textContent =
+        "Default formats";
+    }
+
+    return detector;
+
+  }catch(err){
+
+    console.error(err);
+
+    $("formatInfo").textContent =
+      "Unavailable";
+
+    return null;
+  }
+}
+
+/*
+  IMPORTANT CAMERA STRATEGY
+
+  We don't lock the camera to 1920x1080.
+  We first request very high resolution.
+  Then we inspect the actual capabilities and
+  apply the maximum width/height the browser exposes.
+*/
+
+async function getBestCameraStream(){
+
+  if(!cameraSupported()){
+    throw new Error("Camera API unavailable");
+  }
+
+  const attempts=[
+
+    {
+      video:{
+        facingMode:{exact:"environment"},
+        width:{ideal:3840,min:1920},
+        height:{ideal:2160,min:1080},
+        frameRate:{ideal:30,max:60}
+      },
+      audio:false
+    },
+
+    {
+      video:{
+        facingMode:{exact:"environment"},
+        width:{ideal:2560,min:1920},
+        height:{ideal:1440,min:1080},
+        frameRate:{ideal:30}
+      },
+      audio:false
+    },
+
+    {
+      video:{
+        facingMode:"environment",
+        width:{ideal:1920},
+        height:{ideal:1080},
+        frameRate:{ideal:30}
+      },
+      audio:false
+    },
+
+    {
+      video:{
+        facingMode:"environment"
+      },
+      audio:false
+    }
+
+  ];
+
+  let lastError=null;
+
+  for(const constraints of attempts){
+
+    try{
+
+      return await navigator.mediaDevices
+        .getUserMedia(constraints);
+
+    }catch(err){
+
+      lastError=err;
+      console.warn(
+        "Camera attempt failed:",
+        err
+      );
+    }
+  }
+
+  throw lastError || new Error("Could not open camera");
+}
+
+async function configureCamera(){
+
+  if(!videoTrack) return;
+
+  cameraCapabilities =
+    videoTrack.getCapabilities
+      ? videoTrack.getCapabilities()
+      : {};
+
+  cameraSettings =
+    videoTrack.getSettings
+      ? videoTrack.getSettings()
+      : {};
+
+  /*
+    Request maximum practical resolution
+    exposed by this particular camera.
+  */
+
+  const advanced={};
+
+  if(cameraCapabilities.width){
+
+    const maxWidth =
+      cameraCapabilities.width.max;
+
+    if(maxWidth){
+      advanced.width=maxWidth;
+    }
+  }
+
+  if(cameraCapabilities.height){
+
+    const maxHeight =
+      cameraCapabilities.height.max;
+
+    if(maxHeight){
+      advanced.height=maxHeight;
+    }
+  }
+
+  /*
+    Autofocus
+  */
+
+  if(
+    Array.isArray(cameraCapabilities.focusMode) &&
+    cameraCapabilities.focusMode.includes("continuous")
+  ){
+    advanced.focusMode="continuous";
+  }
+
+  /*
+    Start at minimum/1x zoom.
+    This avoids starting with ugly digital zoom.
+  */
+
+  if(cameraCapabilities.zoom){
+
+    advanced.zoom =
+      Math.max(
+        cameraCapabilities.zoom.min ?? 1,
+        1
+      );
+  }
+
+  try{
+
+    if(Object.keys(advanced).length){
+
+      await videoTrack.applyConstraints({
+        advanced:[advanced]
+      });
+    }
+
+  }catch(err){
+
+    console.warn(
+      "Advanced camera constraints failed:",
+      err
+    );
+
+    /*
+      Try only autofocus separately.
+    */
+
+    try{
+
+      if(
+        Array.isArray(cameraCapabilities.focusMode) &&
+        cameraCapabilities.focusMode.includes("continuous")
+      ){
+
+        await videoTrack.applyConstraints({
+          focusMode:"continuous"
+        });
+      }
+
+    }catch(e){
+      console.warn(e);
+    }
+  }
+
+  /*
+    Read final REAL settings after constraints.
+  */
+
+  cameraSettings =
+    videoTrack.getSettings
+      ? videoTrack.getSettings()
+      : {};
+
+  updateCameraInfo();
+
+  setupZoom();
+
+}
+
+function updateCameraInfo(){
+
+  const w =
+    cameraSettings.width || video.videoWidth;
+
+  const h =
+    cameraSettings.height || video.videoHeight;
+
+  $("resolutionInfo").textContent =
+    w && h ? `${w} × ${h}` : "—";
+
+  const modes =
+    cameraCapabilities.focusMode;
+
+  if(
+    Array.isArray(modes) &&
+    modes.includes("continuous")
+  ){
+
+    $("focusInfo").textContent =
+      "Continuous";
+
+  }else if(
+    Array.isArray(modes) &&
+    modes.length
+  ){
+
+    $("focusInfo").textContent =
+      modes.join(", ");
+
+  }else{
+
+    $("focusInfo").textContent =
+      "Auto / browser controlled";
+  }
+
+  if(cameraCapabilities.zoom){
+
+    const current =
+      cameraSettings.zoom ??
+      cameraCapabilities.zoom.min ??
+      1;
+
+    $("zoomInfo").textContent =
+      Number(current).toFixed(1)+"×";
+
+  }else{
+
+    $("zoomInfo").textContent =
+      "Unavailable";
+  }
+}
+
+function setupZoom(){
+
+  const slider=$("zoomSlider");
+
+  if(!cameraCapabilities.zoom){
+
+    slider.disabled=true;
+    slider.min=1;
+    slider.max=1;
+    slider.value=1;
+
+    $("zoomValue").textContent="1×";
+
+    return;
+  }
+
+  slider.disabled=false;
+
+  const min =
+    Number(cameraCapabilities.zoom.min ?? 1);
+
+  const max =
+    Number(cameraCapabilities.zoom.max ?? 1);
+
+  const step =
+    Number(cameraCapabilities.zoom.step ?? .1);
+
+  slider.min=min;
+  slider.max=max;
+  slider.step=step;
+
+  const current =
+    Number(cameraSettings.zoom ?? min);
+
+  slider.value =
+    Math.max(min,Math.min(max,current));
+
+  updateZoomText();
+}
+
+function updateZoomText(){
+
+  const value =
+    Number($("zoomSlider").value||1);
+
+  $("zoomValue").textContent =
+    value.toFixed(1)+"×";
+
+  $("zoomInfo").textContent =
+    value.toFixed(1)+"×";
+}
+
+$("zoomSlider").addEventListener(
+  "input",
+  async ()=>{
+
+    updateZoomText();
+
+    if(!videoTrack ||
+       !cameraCapabilities.zoom) return;
+
+    const value =
+      Number($("zoomSlider").value);
+
+    try{
+
+      await videoTrack.applyConstraints({
+        advanced:[{zoom:value}]
+      });
+
+    }catch(err){
+      console.warn(err);
+    }
+  }
+);
+
+/* =========================================================
+   TAP TO FOCUS
+========================================================= */
+
+$("videoWrap").addEventListener(
+  "click",
+  async e=>{
+
+    if(!videoTrack) return;
+
+    if(
+      !Array.isArray(cameraCapabilities.focusMode)
+    ) return;
+
+    const modes =
+      cameraCapabilities.focusMode;
+
+    try{
+
+      if(modes.includes("single-shot")){
+
+        await videoTrack.applyConstraints({
+          advanced:[
+            {focusMode:"single-shot"}
+          ]
+        });
+
+        setTimeout(async()=>{
+          try{
+
+            if(modes.includes("continuous")){
+
+              await videoTrack.applyConstraints({
+                advanced:[
+                  {focusMode:"continuous"}
+                ]
+              });
+            }
+
+          }catch(err){}
+        },700);
+
+      }else if(modes.includes("continuous")){
+
+        await videoTrack.applyConstraints({
+          advanced:[
+            {focusMode:"continuous"}
+          ]
+        });
+      }
+
+      toast("Focus adjusted.");
+
+    }catch(err){
+
+      console.warn(err);
+    }
+  }
+);
+
+$("focusBtn").addEventListener(
+  "click",
+  async ()=>{
+
+    if(!videoTrack){
+      toast("Start the camera first.");
+      return;
+    }
+
+    try{
+
+      if(
+        Array.isArray(cameraCapabilities.focusMode) &&
+        cameraCapabilities.focusMode.includes("single-shot")
+      ){
+
+        await videoTrack.applyConstraints({
+          advanced:[
+            {focusMode:"single-shot"}
+          ]
+        });
+
+        setTimeout(async()=>{
+          try{
+
+            if(
+              cameraCapabilities.focusMode.includes(
+                "continuous"
+              )
+            ){
+
+              await videoTrack.applyConstraints({
+                advanced:[
+                  {focusMode:"continuous"}
+                ]
+              });
+            }
+
+          }catch(err){}
+        },700);
+
+      }else if(
+        Array.isArray(cameraCapabilities.focusMode) &&
+        cameraCapabilities.focusMode.includes("continuous")
+      ){
+
+        await videoTrack.applyConstraints({
+          advanced:[
+            {focusMode:"continuous"}
+          ]
+        });
+      }
+
+      toast("Focus adjusted.");
+
+    }catch(err){
+
+      toast("Manual focus isn't exposed by this camera.");
+    }
+  }
+);
+
+/* =========================================================
+   TORCH
+========================================================= */
+
+let torchOn=false;
+
+$("torchBtn").addEventListener(
+  "click",
+  async ()=>{
+
+    if(!videoTrack){
+      toast("Start the camera first.");
+      return;
+    }
+
+    if(!cameraCapabilities.torch){
+
+      toast("Torch control isn't available.");
+      return;
+    }
+
+    try{
+
+      torchOn=!torchOn;
+
+      await videoTrack.applyConstraints({
+        advanced:[
+          {torch:torchOn}
+        ]
+      });
+
+      $("torchBtn").textContent =
+        torchOn ? "🔦 Torch ON" : "🔦 Torch";
+
+    }catch(err){
+
+      torchOn=false;
+
+      toast("Torch couldn't be controlled.");
+    }
+  }
+);
+
+/* =========================================================
+   START CAMERA
+========================================================= */
+
+async function startCamera(){
+
+  if(scanning) return;
+
+  if(!cameraSupported()){
+
+    $("cameraMessage").textContent =
+      "This browser does not support camera access.";
+
+    return;
+  }
+
+  try{
+
+    $("cameraMessage").textContent =
+      "Opening highest-quality rear camera...";
+
+    stopCamera();
+
+    /*
+      Create detector first.
+    */
+
+    await createDetector();
+
+    /*
+      Ask Android for the camera.
+    */
+
+    stream =
+      await getBestCameraStream();
+
+    video.srcObject=stream;
+
+    /*
+      NEVER crop the camera preview.
+    */
+
+    video.style.objectFit="contain";
+
+    await video.play();
+
+    videoTrack =
+      stream.getVideoTracks()[0];
+
+    /*
+      Configure using actual camera capabilities.
+    */
+
+    await configureCamera();
+
+    scanning=true;
+
+    $("cameraMessage").textContent =
+      "Camera ready — place barcode inside the frame.";
+
+    toast("High-quality camera started.");
+
+    scanLoop();
+
+  }catch(err){
+
+    console.error("Camera error:",err);
+
+    scanning=false;
+
+    let message="Could not start camera.";
+
+    if(err.name==="NotAllowedError"){
+      message =
+        "Camera permission was denied. Allow camera access in Android/browser settings.";
+    }
+
+    if(err.name==="NotFoundError"){
+      message =
+        "No camera was found.";
+    }
+
+    if(err.name==="NotReadableError"){
+      message =
+        "Camera is being used by another app.";
+    }
+
+    if(err.name==="SecurityError"){
+      message =
+        "Camera requires a secure browser context.";
+    }
+
+    $("cameraMessage").textContent=message;
+
+    toast(message);
+  }
+}
+
+/* =========================================================
+   STOP CAMERA
+========================================================= */
+
+function stopCamera(){
+
+  scanning=false;
+  scanBusy=false;
+
+  if(stream){
+
+    stream.getTracks().forEach(
+      track=>track.stop()
+    );
+  }
+
+  stream=null;
+  videoTrack=null;
+  video.srcObject=null;
+
+  torchOn=false;
+
+  $("torchBtn").textContent="🔦 Torch";
+}
+
+$("startCamera").addEventListener(
+  "click",
+  startCamera
+);
+
+$("stopCamera").addEventListener(
+  "click",
+  ()=>{
+    stopCamera();
+
+    $("cameraMessage").textContent =
+      "Camera stopped.";
+  }
+);
+
+/* =========================================================
+   BARCODE SCAN LOOP
+========================================================= */
+
+async function scanLoop(){
+
+  if(!scanning) return;
+
+  if(
+    detector &&
+    video.readyState >= 2 &&
+    !scanBusy
+  ){
+
+    scanBusy=true;
+
+    try{
+
+      const codes =
+        await detector.detect(video);
+
+      if(codes && codes.length){
+
+        for(const item of codes){
+
+          const value =
+            item.rawValue?.trim();
+
+          if(value){
+
+            processScan(value);
+            break;
+          }
+        }
+      }
+
+    }catch(err){
+
+      /*
+        Detection errors are common while camera
+        frames are changing. Don't kill the camera.
+      */
+
+    }finally{
+
+      scanBusy=false;
+    }
+  }
+
+  setTimeout(
+    scanLoop,
+    100
+  );
+}
+
+/* =========================================================
+   PROCESS SCAN
+========================================================= */
+
+function processScan(code){
+
+  const now=Date.now();
+
+  /*
+    Avoid repeated detection of same barcode.
+  */
+
+  if(
+    code===lastCode &&
+    now-lastScanTime<1800
+  ){
+    return;
+  }
+
+  lastCode=code;
+  lastScanTime=now;
+
+  scanHistory.unshift({
+    code,
+    time:now
+  });
+
+  scanHistory =
+    scanHistory.slice(0,30);
+
+  saveLocal();
+
+  showScanResult(code);
+
+  renderHistory();
+
+  /*
+    Automatically look for product.
+  */
+
+  const product =
+    products.find(
+      p=>String(p.code).trim()===String(code).trim()
+    );
+
+  if(product){
+
+    toast("Found: "+product.name);
+
+  }else{
+
+    toast("Barcode detected: "+code);
+  }
+}
+
+function showScanResult(code){
+
+  const product =
+    products.find(
+      p=>String(p.code).trim()===String(code).trim()
+    );
+
+  const box=$("scanResult");
+
+  box.classList.remove("hidden");
+
+  if(product){
+
+    box.innerHTML=`
+      <strong>${escapeHTML(product.name)}</strong>
+      <br>
+      <small>
+        Code: ${escapeHTML(code)}
+        · Stock: ${totalUnits(product)}
+      </small>
+      <br><br>
+      <button
+        class="controlBtn primary"
+        onclick="editProduct('${product.id}')">
+        Edit Product
+      </button>
+    `;
+
+  }else{
+
+    box.innerHTML=`
+      <strong>${escapeHTML(code)}</strong>
+      <br>
+      <small>No matching product found.</small>
+      <br><br>
+      <button
+        class="controlBtn primary"
+        onclick="openProductWithCode('${escapeHTML(code)}')">
+        Add Product With This Code
+      </button>
+    `;
+  }
+}
+
+window.openProductWithCode=function(code){
+
+  openModal();
+
+  $("pCode").value=code;
+};
+
+/* =========================================================
+   MANUAL SCAN
+========================================================= */
+
+$("manualScan").addEventListener(
+  "click",
+  ()=>{
+
+    const code =
+      $("manualCode").value.trim();
+
+    if(!code){
+
+      toast("Enter a barcode.");
+      return;
+    }
+
+    processScan(code);
+  }
+);
+
+$("manualCode").addEventListener(
+  "keydown",
+  e=>{
+    if(e.key==="Enter"){
+      $("manualScan").click();
+    }
+  }
+);
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function renderHistory(){
+
+  const box=$("historyList");
+
+  if(!scanHistory.length){
+
+    box.innerHTML=
+      `<div class="empty">No scans yet.</div>`;
+
+    return;
+  }
+
+  box.innerHTML =
+    scanHistory.map(item=>`
+
+      <div class="historyItem">
+
+        <span>${escapeHTML(item.code)}</span>
+
+        <small>
+          ${new Date(item.time).toLocaleTimeString()}
+        </small>
+
+      </div>
+
+    `).join("");
+}
+
+/* =========================================================
+   VISIBILITY
+========================================================= */
+
+document.addEventListener(
+  "visibilitychange",
+  ()=>{
+
+    if(document.hidden){
+      stopCamera();
+    }
+  }
+);
+
+/* =========================================================
+   INITIAL RENDER
+========================================================= */
+
+refresh();
+renderHistory();
+
+/*
+  Show File System Access availability.
+*/
+
+if(!fileStorageSupported()){
+
+  $("storageStatus").textContent =
+    "Browser storage active · Folder storage unavailable in this browser";
+
+}
+
+/*
+  Improve camera UI after metadata is loaded.
+*/
+
+$("video").addEventListener(
+  "loadedmetadata",
+  ()=>{
+    if(videoTrack){
+      cameraSettings =
+        videoTrack.getSettings
+          ? videoTrack.getSettings()
+          : {};
+
+      updateCameraInfo();
+    }
+  }
+);
+
+</script>
+
+</body>
+        </html>
