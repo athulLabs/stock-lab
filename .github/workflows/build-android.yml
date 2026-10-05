@@ -48,5 +48,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Stock-Lab-APK
+          name: Stock-Lab-v2-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
