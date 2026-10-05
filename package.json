@@ -3,15 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "mkdir -p www && cp index.html www/index.html",
-    "cap:sync": "npx cap sync android"
+    "build": "mkdir -p www && cp index.html www/index.html"
   },
   "dependencies": {
-    "@capacitor/android": "^8.0.0",
-    "@capacitor/barcode-scanner": "^8.0.0",
-    "@capacitor/core": "^8.0.0"
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/barcode-scanner": "^3.1.2",
+    "@capacitor/core": "^8.5.2"
   },
   "devDependencies": {
-    "@capacitor/cli": "^8.0.0"
+    "@capacitor/cli": "^8.5.2"
   }
 }
