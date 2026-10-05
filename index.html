@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080a0f">
-
 <title>Stock Lab</title>
 
 <style>
@@ -15,11 +12,11 @@
   --panel:#10131a;
   --panel2:#151922;
   --card:#11151d;
-  --line:#242a35;
+  --line:#252b36;
   --text:#f4f6fa;
   --muted:#8c95a5;
   --accent:#7c5cff;
-  --accent2:#9b86ff;
+  --accent2:#a28fff;
   --green:#39d98a;
   --yellow:#f6c85f;
   --red:#ff5c6c;
@@ -34,20 +31,17 @@
 
 html,body{
   margin:0;
-  padding:0;
   min-height:100%;
   background:var(--bg);
   color:var(--text);
-  font-family:
-    Inter,system-ui,-apple-system,BlinkMacSystemFont,
-    "Segoe UI",sans-serif;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
 body{
-  padding-bottom:88px;
+  padding-bottom:90px;
 }
 
-button,input,select,textarea{
+button,input,select{
   font:inherit;
 }
 
@@ -60,15 +54,17 @@ button{
   display:none!important;
 }
 
-/* ---------- HEADER ---------- */
+button:disabled{
+  opacity:.5;
+}
+
+/* HEADER */
 
 .header{
   position:sticky;
   top:0;
   z-index:50;
-  padding:
-    calc(14px + env(safe-area-inset-top))
-    16px 14px;
+  padding:calc(13px + env(safe-area-inset-top)) 15px 13px;
   background:rgba(8,10,15,.94);
   backdrop-filter:blur(20px);
   border-bottom:1px solid var(--line);
@@ -78,7 +74,6 @@ button{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
 }
 
 .brand{
@@ -93,24 +88,29 @@ button{
   display:grid;
   place-items:center;
   border-radius:14px;
-  background:linear-gradient(135deg,#7c5cff,#4b36b8);
-  box-shadow:0 8px 25px rgba(124,92,255,.25);
-  font-size:21px;
+  background:linear-gradient(135deg,var(--accent),#4b36b8);
+  box-shadow:0 8px 25px color-mix(in srgb,var(--accent) 30%,transparent);
 }
 
 .brand-title{
   font-size:20px;
-  font-weight:800;
-  letter-spacing:-.5px;
+  font-weight:850;
 }
 
 .brand-sub{
   color:var(--muted);
   font-size:11px;
-  margin-top:1px;
 }
 
-/* ---------- NAV ---------- */
+.lock-top{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:#181c25;
+  color:#ddd;
+}
+
+/* NAV */
 
 .nav{
   position:fixed;
@@ -119,10 +119,7 @@ button{
   bottom:0;
   z-index:100;
   display:flex;
-  justify-content:space-around;
-  padding:
-    8px 8px
-    calc(8px + env(safe-area-inset-bottom));
+  padding:7px 5px calc(7px + env(safe-area-inset-bottom));
   background:rgba(12,14,20,.97);
   border-top:1px solid var(--line);
   backdrop-filter:blur(20px);
@@ -130,31 +127,29 @@ button{
 
 .nav button{
   flex:1;
-  max-width:130px;
   background:none;
   color:var(--muted);
-  padding:8px 4px;
-  border-radius:14px;
+  padding:7px 2px;
+  border-radius:13px;
 }
 
 .nav button.active{
-  color:white;
-  background:#191c26;
+  background:#191d27;
+  color:#fff;
 }
 
 .nav-icon{
   display:block;
-  font-size:20px;
-  line-height:22px;
+  font-size:19px;
 }
 
 .nav-label{
   display:block;
-  font-size:10px;
-  margin-top:3px;
+  font-size:9px;
+  margin-top:2px;
 }
 
-/* ---------- PAGE ---------- */
+/* PAGE */
 
 .page{
   max-width:1100px;
@@ -165,55 +160,103 @@ button{
 .page-title{
   font-size:26px;
   font-weight:850;
-  letter-spacing:-.8px;
-  margin:4px 0 5px;
+  letter-spacing:-.7px;
 }
 
 .page-subtitle{
   color:var(--muted);
-  font-size:13px;
-  margin-bottom:20px;
+  font-size:12px;
+  margin:5px 0 18px;
 }
 
-/* ---------- DASHBOARD ---------- */
+/* STATS */
 
 .stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:9px;
-  margin-bottom:18px;
+  gap:8px;
+  margin-bottom:16px;
 }
 
 .stat{
-  background:linear-gradient(145deg,#121620,#0e1118);
+  padding:13px 10px;
+  background:linear-gradient(145deg,#141821,#0d1016);
   border:1px solid var(--line);
   border-radius:17px;
-  padding:14px 10px;
-  min-width:0;
 }
 
 .stat-icon{
-  font-size:18px;
+  font-size:17px;
 }
 
 .stat-value{
-  font-size:23px;
+  font-size:22px;
   font-weight:850;
-  margin-top:8px;
+  margin-top:6px;
 }
 
 .stat-name{
   color:var(--muted);
-  font-size:10px;
-  margin-top:2px;
+  font-size:9px;
 }
 
-/* ---------- TOOLBAR ---------- */
+/* STORAGE */
+
+.storage{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:14px;
+  margin-bottom:16px;
+  background:linear-gradient(145deg,#111720,#0c1016);
+  border:1px solid var(--line);
+  border-radius:18px;
+}
+
+.storage-icon{
+  width:41px;
+  height:41px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:#14251d;
+  color:var(--green);
+}
+
+.storage-info{
+  flex:1;
+}
+
+.storage-title{
+  font-size:12px;
+  font-weight:750;
+}
+
+.storage-sub{
+  color:var(--muted);
+  font-size:9px;
+  margin-top:3px;
+}
+
+.storage-actions{
+  display:flex;
+  gap:5px;
+}
+
+.small-btn{
+  padding:8px 9px;
+  border-radius:10px;
+  background:#1b2029;
+  color:#dfe3eb;
+  font-size:10px;
+}
+
+/* TOOLBAR */
 
 .toolbar{
   display:flex;
   gap:8px;
-  margin-bottom:14px;
+  margin-bottom:10px;
 }
 
 .search{
@@ -223,62 +266,56 @@ button{
 
 .search input{
   width:100%;
-  height:47px;
-  padding:0 15px 0 43px;
-  border-radius:15px;
+  height:46px;
+  padding:0 14px 0 41px;
   border:1px solid var(--line);
+  border-radius:14px;
   background:var(--panel);
   color:white;
   outline:none;
 }
 
-.search input:focus{
-  border-color:var(--accent);
-}
-
 .search-icon{
   position:absolute;
-  left:15px;
-  top:13px;
+  left:14px;
+  top:12px;
   color:var(--muted);
 }
 
 .add-btn{
-  width:48px;
-  height:47px;
-  border-radius:15px;
+  width:47px;
+  height:46px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--accent),#573dd1);
   color:white;
-  background:linear-gradient(135deg,#7c5cff,#573dd1);
   font-size:25px;
-  box-shadow:0 7px 20px rgba(124,92,255,.22);
 }
 
-/* ---------- FILTERS ---------- */
+/* FILTER */
 
 .filters{
   display:flex;
   gap:7px;
   overflow:auto;
-  padding-bottom:4px;
-  margin-bottom:16px;
+  padding-bottom:5px;
+  margin-bottom:15px;
 }
 
 .filters select{
   flex:none;
-  color:#dce0e8;
-  background:var(--panel);
+  padding:9px 10px;
   border:1px solid var(--line);
-  border-radius:12px;
-  padding:9px 11px;
-  outline:none;
+  border-radius:11px;
+  background:var(--panel);
+  color:#dce1e9;
 }
 
-/* ---------- PRODUCTS ---------- */
+/* PRODUCTS */
 
 .product-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:11px;
+  gap:10px;
 }
 
 @media(min-width:700px){
@@ -288,14 +325,12 @@ button{
 }
 
 .product-card{
-  position:relative;
   overflow:hidden;
-  background:
-    linear-gradient(145deg,#151922,#0e1117);
-  border:1px solid #252b36;
+  background:linear-gradient(145deg,#151922,#0e1117);
+  border:1px solid #282e39;
   border-radius:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,.22);
-  transition:.18s ease;
+  box-shadow:0 10px 28px rgba(0,0,0,.2);
+  transition:.16s;
 }
 
 .product-card:active{
@@ -312,8 +347,8 @@ button{
 .product-image img{
   width:100%;
   height:100%;
-  display:block;
   object-fit:cover;
+  display:block;
 }
 
 .no-image{
@@ -321,47 +356,42 @@ button{
   height:100%;
   display:grid;
   place-items:center;
+  font-size:36px;
   color:#555d6b;
-  font-size:38px;
-  background:
-    radial-gradient(circle at center,#202532 0,#0b0e14 65%);
 }
 
 .status{
   position:absolute;
-  left:9px;
-  top:9px;
-  padding:5px 8px;
-  border-radius:9px;
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:.3px;
-  backdrop-filter:blur(10px);
+  left:8px;
+  top:8px;
+  padding:5px 7px;
+  border-radius:8px;
+  font-size:8px;
+  font-weight:850;
 }
 
 .status.in{
-  background:rgba(30,180,110,.88);
-  color:#07160e;
+  background:rgba(57,217,138,.9);
+  color:#06140d;
 }
 
 .status.low{
-  background:rgba(246,200,95,.93);
-  color:#241a05;
+  background:rgba(246,200,95,.94);
+  color:#241b05;
 }
 
 .status.out{
-  background:rgba(255,92,108,.9);
-  color:white;
+  background:rgba(255,92,108,.92);
+  color:#fff;
 }
 
 .card-body{
-  padding:12px;
+  padding:11px;
 }
 
 .product-name{
-  font-size:14px;
-  font-weight:750;
-  line-height:1.25;
+  font-size:13px;
+  font-weight:800;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -369,154 +399,132 @@ button{
 
 .product-code{
   color:#737c8c;
-  font-size:9px;
-  margin-top:4px;
+  font-size:8px;
+  margin-top:3px;
 }
 
 .product-meta{
   display:flex;
-  gap:5px;
   flex-wrap:wrap;
-  margin-top:9px;
+  gap:5px;
+  margin-top:8px;
 }
 
 .meta{
-  padding:5px 7px;
-  border-radius:8px;
+  padding:4px 6px;
+  border-radius:7px;
   background:#1a1e28;
-  color:#aeb6c5;
-  font-size:9px;
+  color:#abb3c1;
+  font-size:8px;
 }
 
 .stock-row{
   display:flex;
   justify-content:space-between;
   align-items:end;
-  margin-top:12px;
+  margin-top:10px;
 }
 
 .quantity{
-  font-size:20px;
+  font-size:19px;
   font-weight:850;
 }
 
 .quantity-label{
   color:var(--muted);
+  font-size:8px;
+}
+
+.box-unit{
+  display:flex;
+  gap:6px;
+  color:#b7bfcd;
   font-size:9px;
+  margin-top:5px;
 }
 
 .price{
-  font-size:12px;
-  font-weight:700;
+  font-size:11px;
+  font-weight:750;
 }
 
 .card-actions{
   display:flex;
-  gap:6px;
-  padding:0 12px 12px;
+  gap:5px;
+  padding:0 10px 10px;
 }
 
 .card-actions button{
   flex:1;
-  height:34px;
-  border-radius:10px;
+  height:32px;
+  border-radius:9px;
   background:#1a1e27;
   color:#dce1e9;
-  font-size:11px;
+  font-size:10px;
 }
 
-.card-actions button.primary{
-  background:#27203e;
-  color:#b9aaff;
+.card-actions .primary{
+  background:color-mix(in srgb,var(--accent) 25%,#181c25);
+  color:var(--accent2);
 }
 
-.card-actions button.danger{
-  color:#ff7a87;
+/* COMPACT CARD */
+
+.compact .product-card{
+  display:grid;
+  grid-template-columns:78px 1fr;
 }
 
-/* ---------- EMPTY ---------- */
+.compact .product-image{
+  aspect-ratio:auto;
+  height:100%;
+  min-height:105px;
+}
+
+.compact .card-body{
+  padding:10px;
+}
+
+.compact .card-actions{
+  grid-column:1/-1;
+}
+
+.compact .product-meta{
+  margin-top:5px;
+}
+
+/* EMPTY */
 
 .empty{
-  text-align:center;
+  grid-column:1/-1;
   padding:55px 20px;
-  border:1px dashed #2b313c;
+  text-align:center;
+  border:1px dashed #2c323d;
   border-radius:20px;
   color:var(--muted);
 }
 
 .empty-icon{
   font-size:40px;
-  margin-bottom:10px;
 }
 
 .empty-title{
-  color:#e8ebf1;
+  color:#eee;
   font-weight:750;
-  margin-bottom:5px;
+  margin:9px 0 4px;
 }
 
-/* ---------- STORAGE ---------- */
-
-.storage{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:15px;
-  margin-bottom:18px;
-  background:linear-gradient(145deg,#111720,#0d1117);
-  border:1px solid var(--line);
-  border-radius:18px;
-}
-
-.storage-icon{
-  width:42px;
-  height:42px;
-  display:grid;
-  place-items:center;
-  border-radius:13px;
-  background:#17251e;
-  color:var(--green);
-}
-
-.storage-info{
-  flex:1;
-}
-
-.storage-title{
-  font-size:13px;
-  font-weight:750;
-}
-
-.storage-sub{
-  font-size:10px;
-  color:var(--muted);
-  margin-top:3px;
-}
-
-.storage-actions{
-  display:flex;
-  gap:6px;
-}
-
-.small-btn{
-  padding:8px 10px;
-  border-radius:10px;
-  background:#1b2029;
-  color:#dce1e9;
-  font-size:10px;
-}
-
-/* ---------- SCANNER ---------- */
+/* SCANNER */
 
 .scanner-box{
+  background:linear-gradient(145deg,#12161e,#0c1016);
   border:1px solid var(--line);
   border-radius:22px;
   overflow:hidden;
-  background:#0b0d12;
 }
 
-.scanner-hero{
-  padding:20px;
+.scanner-head{
+  padding:22px 18px 18px;
   text-align:center;
 }
 
@@ -525,113 +533,275 @@ button{
 }
 
 .scanner-title{
-  font-size:22px;
+  font-size:21px;
   font-weight:850;
   margin-top:7px;
 }
 
 .scanner-desc{
   color:var(--muted);
-  font-size:12px;
+  font-size:11px;
   line-height:1.5;
-  margin:6px auto 18px;
-  max-width:350px;
+  margin:7px auto 16px;
+  max-width:360px;
 }
 
 .scan-main{
   width:100%;
-  height:54px;
-  border-radius:15px;
-  color:white;
+  height:52px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--accent),#573dd1);
+  color:#fff;
   font-weight:800;
-  background:linear-gradient(135deg,#7c5cff,#573dd1);
-  box-shadow:0 8px 25px rgba(124,92,255,.2);
 }
 
 .manual{
-  margin-top:12px;
+  margin-top:10px;
 }
 
 .manual input{
   width:100%;
-  height:46px;
+  height:45px;
   border:1px solid var(--line);
-  border-radius:13px;
-  background:#11151c;
+  border-radius:12px;
+  background:#0c1016;
   color:white;
-  padding:0 13px;
+  padding:0 12px;
   outline:none;
 }
 
 .manual button{
   width:100%;
-  height:43px;
-  margin-top:7px;
-  border-radius:12px;
+  height:42px;
+  margin-top:6px;
+  border-radius:11px;
   background:#1b2029;
   color:white;
 }
 
-.scan-result{
+/* SCAN HISTORY */
+
+.history{
   margin-top:15px;
-  padding:14px;
-  border-radius:15px;
-  background:#121721;
-  border:1px solid var(--line);
 }
 
-.result-code{
-  font-size:17px;
+.history-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.history-title{
+  font-size:14px;
   font-weight:800;
+}
+
+.history-actions{
+  display:flex;
+  gap:5px;
+}
+
+.history-list{
+  border:1px solid var(--line);
+  border-radius:16px;
+  overflow:hidden;
+}
+
+.scan-row{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:11px;
+  border-bottom:1px solid #20252f;
+}
+
+.scan-row:last-child{
+  border-bottom:0;
+}
+
+.scan-code{
+  flex:1;
+  font-family:monospace;
+  font-size:12px;
   word-break:break-all;
 }
 
-.result-format{
+.scan-format{
   color:var(--muted);
-  font-size:10px;
-  margin-top:5px;
+  font-size:8px;
+  margin-top:3px;
 }
 
-/* ---------- ABOUT ---------- */
+.row-btn{
+  flex:none;
+  padding:7px 8px;
+  border-radius:8px;
+  background:#1a1e27;
+  color:#ddd;
+  font-size:9px;
+}
+
+.row-btn.delete{
+  color:#ff7884;
+}
+
+/* SETTINGS */
+
+.setting-section{
+  margin-bottom:20px;
+}
+
+.setting-section-title{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.8px;
+  margin:0 4px 7px;
+  text-transform:uppercase;
+}
+
+.setting-card{
+  overflow:hidden;
+  background:linear-gradient(145deg,#12161e,#0d1016);
+  border:1px solid var(--line);
+  border-radius:17px;
+}
+
+.setting-row{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:14px;
+  border-bottom:1px solid #20252e;
+}
+
+.setting-row:last-child{
+  border-bottom:0;
+}
+
+.setting-icon{
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:#1a1f29;
+}
+
+.setting-main{
+  flex:1;
+}
+
+.setting-name{
+  font-size:12px;
+  font-weight:750;
+}
+
+.setting-description{
+  color:var(--muted);
+  font-size:9px;
+  margin-top:3px;
+}
+
+.setting-control{
+  color:#cdd3dd;
+  font-size:10px;
+}
+
+.theme-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:10px;
+}
+
+.theme-dot{
+  height:39px;
+  border-radius:11px;
+  border:2px solid transparent;
+  position:relative;
+}
+
+.theme-dot.active{
+  border-color:white;
+}
+
+.theme-dot span{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:white;
+  font-size:13px;
+}
+
+/* TOGGLE */
+
+.toggle{
+  width:44px;
+  height:25px;
+  padding:3px;
+  border-radius:20px;
+  background:#2a303a;
+  transition:.2s;
+}
+
+.toggle span{
+  display:block;
+  width:19px;
+  height:19px;
+  border-radius:50%;
+  background:#fff;
+  transition:.2s;
+}
+
+.toggle.on{
+  background:var(--accent);
+}
+
+.toggle.on span{
+  transform:translateX(19px);
+}
+
+/* ABOUT */
 
 .about-card{
-  background:linear-gradient(145deg,#151922,#0e1117);
+  text-align:center;
+  padding:25px 18px;
+  background:linear-gradient(145deg,#151922,#0d1016);
   border:1px solid var(--line);
   border-radius:22px;
-  padding:24px;
-  text-align:center;
 }
 
 .about-logo{
-  width:78px;
-  height:78px;
+  width:76px;
+  height:76px;
   margin:auto;
   display:grid;
   place-items:center;
-  border-radius:24px;
-  background:linear-gradient(135deg,#7c5cff,#4b36b8);
-  font-size:38px;
-  box-shadow:0 12px 35px rgba(124,92,255,.25);
+  border-radius:23px;
+  background:linear-gradient(135deg,var(--accent),#4b36b8);
+  font-size:37px;
 }
 
 .about-title{
-  font-size:25px;
+  font-size:24px;
   font-weight:850;
-  margin-top:15px;
+  margin-top:14px;
 }
 
 .about-version{
-  color:#8f97a7;
-  font-size:11px;
-  margin-top:4px;
+  color:var(--muted);
+  font-size:10px;
 }
 
 .about-text{
-  color:#9da5b3;
+  color:#a2aab8;
+  font-size:11px;
   line-height:1.65;
-  font-size:12px;
-  margin:18px auto;
-  max-width:500px;
+  max-width:450px;
+  margin:16px auto;
 }
 
 .feature-list{
@@ -641,14 +811,14 @@ button{
 }
 
 .feature{
-  padding:12px;
+  padding:11px;
   background:#12161e;
   border:1px solid #202631;
-  border-radius:13px;
-  font-size:11px;
+  border-radius:12px;
+  font-size:10px;
 }
 
-/* ---------- MODAL ---------- */
+/* MODAL */
 
 .modal{
   position:fixed;
@@ -656,8 +826,8 @@ button{
   z-index:200;
   display:none;
   align-items:flex-end;
-  background:rgba(0,0,0,.72);
-  backdrop-filter:blur(7px);
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(8px);
 }
 
 .modal.show{
@@ -666,10 +836,10 @@ button{
 
 .modal-box{
   width:100%;
-  max-height:92vh;
+  max-height:93vh;
   overflow:auto;
   background:#10131a;
-  border:1px solid #282e38;
+  border:1px solid #292f3a;
   border-radius:24px 24px 0 0;
   padding:18px;
   padding-bottom:calc(22px + env(safe-area-inset-bottom));
@@ -677,8 +847,8 @@ button{
 
 .modal-head{
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   margin-bottom:16px;
 }
 
@@ -690,43 +860,79 @@ button{
 .close{
   width:36px;
   height:36px;
-  border-radius:11px;
+  border-radius:10px;
   background:#1d222c;
-  color:#aaa;
+  color:#ddd;
 }
 
 .form{
   display:grid;
-  gap:11px;
+  gap:10px;
 }
 
 .field label{
   display:block;
   color:#929aaa;
-  font-size:10px;
-  margin:0 0 6px 3px;
+  font-size:9px;
+  margin:0 0 5px 2px;
 }
 
 .field input,
 .field select{
   width:100%;
-  height:45px;
-  border-radius:12px;
+  height:44px;
+  padding:0 11px;
   border:1px solid var(--line);
-  background:#0c0f15;
+  border-radius:12px;
+  background:#0b0f15;
   color:white;
-  padding:0 12px;
   outline:none;
 }
 
-.field input:focus{
+.field input:focus,
+.field select:focus{
   border-color:var(--accent);
 }
 
 .two{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:9px;
+  gap:8px;
+}
+
+.code-row{
+  display:flex;
+  gap:7px;
+}
+
+.code-row input{
+  flex:1;
+}
+
+.scan-code-btn{
+  flex:none;
+  width:49px;
+  border-radius:11px;
+  background:color-mix(in srgb,var(--accent) 30%,#171b24);
+  color:var(--accent2);
+  font-size:18px;
+}
+
+.category-row{
+  display:flex;
+  gap:7px;
+}
+
+.category-row select{
+  flex:1;
+}
+
+.category-add{
+  width:45px;
+  border-radius:11px;
+  background:#1b2029;
+  color:white;
+  font-size:20px;
 }
 
 .photo-preview{
@@ -737,12 +943,12 @@ button{
 
 .preview-item{
   flex:none;
-  width:72px;
-  height:72px;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid var(--line);
+  width:70px;
+  height:70px;
   position:relative;
+  overflow:hidden;
+  border-radius:11px;
+  border:1px solid var(--line);
 }
 
 .preview-item img{
@@ -752,25 +958,47 @@ button{
 }
 
 .save-btn{
-  height:50px;
+  width:100%;
+  height:49px;
+  margin-top:4px;
   border-radius:14px;
-  background:linear-gradient(135deg,#7c5cff,#573dd1);
+  background:linear-gradient(135deg,var(--accent),#573dd1);
   color:white;
   font-weight:800;
-  margin-top:5px;
 }
 
-/* ---------- LOCK ---------- */
+/* CATEGORY MODAL */
+
+.category-list{
+  display:grid;
+  gap:7px;
+}
+
+.category-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:12px;
+  background:#151922;
+  border:1px solid #242a35;
+  border-radius:11px;
+}
+
+.category-item span{
+  flex:1;
+}
+
+/* LOCK */
 
 .lock-screen{
   position:fixed;
   inset:0;
   z-index:1000;
-  background:#080a0f;
   display:none;
   align-items:center;
   justify-content:center;
-  padding:25px;
+  padding:24px;
+  background:#080a0f;
 }
 
 .lock-screen.show{
@@ -784,76 +1012,62 @@ button{
 }
 
 .lock-logo{
-  width:75px;
-  height:75px;
+  width:76px;
+  height:76px;
   margin:auto;
   display:grid;
   place-items:center;
   border-radius:23px;
-  background:linear-gradient(135deg,#7c5cff,#4b36b8);
+  background:linear-gradient(135deg,var(--accent),#4b36b8);
   font-size:34px;
 }
 
 .lock-title{
   font-size:25px;
   font-weight:850;
-  margin-top:18px;
+  margin-top:17px;
 }
 
 .lock-sub{
   color:var(--muted);
-  font-size:12px;
-  margin:7px 0 20px;
+  font-size:11px;
+  margin:7px 0 18px;
 }
 
-.pin{
+.biometric-btn{
   width:100%;
-  height:52px;
+  height:51px;
   border-radius:14px;
-  border:1px solid var(--line);
-  background:#11151c;
-  color:white;
-  text-align:center;
-  letter-spacing:8px;
-  font-size:20px;
-  outline:none;
-}
-
-.unlock{
-  width:100%;
-  height:50px;
-  margin-top:10px;
-  border-radius:14px;
-  background:linear-gradient(135deg,#7c5cff,#573dd1);
+  background:linear-gradient(135deg,var(--accent),#573dd1);
   color:white;
   font-weight:800;
 }
 
-.lock-error{
-  color:#ff7180;
-  font-size:11px;
+.lock-fallback{
   margin-top:9px;
+  color:#a9b0bd;
+  font-size:10px;
 }
 
-/* ---------- TOAST ---------- */
+/* TOAST */
 
 .toast{
   position:fixed;
   left:50%;
-  bottom:90px;
+  bottom:91px;
   z-index:500;
   transform:translate(-50%,20px);
   opacity:0;
   pointer-events:none;
+  padding:11px 14px;
+  border-radius:12px;
   background:#202631;
   border:1px solid #343b48;
   color:white;
-  padding:11px 15px;
-  border-radius:13px;
-  font-size:11px;
-  transition:.25s;
-  white-space:nowrap;
+  font-size:10px;
+  transition:.2s;
   max-width:90%;
+  white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
@@ -862,26 +1076,6 @@ button{
   opacity:1;
   transform:translate(-50%,0);
 }
-
-/* ---------- RESPONSIVE ---------- */
-
-@media(max-width:360px){
-  .product-grid{
-    gap:8px;
-  }
-
-  .card-body{
-    padding:10px;
-  }
-
-  .card-actions{
-    padding:0 10px 10px;
-  }
-
-  .stats{
-    gap:6px;
-  }
-}
 </style>
 </head>
 
@@ -889,6 +1083,7 @@ button{
 
 <header class="header">
   <div class="header-row">
+
     <div class="brand">
       <div class="brand-icon">📦</div>
       <div>
@@ -897,13 +1092,16 @@ button{
       </div>
     </div>
 
-    <button class="small-btn" onclick="lockApp()">🔒</button>
+    <button class="lock-top" onclick="lockApp()">🔒</button>
+
   </div>
 </header>
+
 
 <main>
 
 <!-- STOCK -->
+
 <section id="stockPage" class="page">
 
   <div class="page-title">Inventory</div>
@@ -912,19 +1110,29 @@ button{
   </div>
 
   <div class="storage">
+
     <div class="storage-icon">✓</div>
 
     <div class="storage-info">
-      <div class="storage-title">Local app storage</div>
+      <div class="storage-title">
+        Local app storage
+      </div>
+
       <div class="storage-sub">
-        Your products stay inside Stock Lab.
+        Products remain stored on this device.
       </div>
     </div>
 
     <div class="storage-actions">
-      <button class="small-btn" onclick="backupData()">Backup</button>
-      <button class="small-btn" onclick="restoreInput.click()">Restore</button>
+      <button class="small-btn" onclick="backupData()">
+        Backup
+      </button>
+
+      <button class="small-btn" onclick="restoreInput.click()">
+        Restore
+      </button>
     </div>
+
   </div>
 
   <input
@@ -956,6 +1164,7 @@ button{
 
   </div>
 
+
   <div class="toolbar">
 
     <div class="search">
@@ -967,9 +1176,12 @@ button{
       >
     </div>
 
-    <button class="add-btn" onclick="openProduct()">+</button>
+    <button class="add-btn" onclick="openProduct()">
+      +
+    </button>
 
   </div>
+
 
   <div class="filters">
 
@@ -993,33 +1205,35 @@ button{
 
   </div>
 
+
   <div id="productGrid" class="product-grid"></div>
 
 </section>
 
 
 <!-- SCANNER -->
+
 <section id="scannerPage" class="page hidden">
 
   <div class="page-title">Scanner</div>
 
   <div class="page-subtitle">
-    Scan product barcodes with your phone camera.
+    Scan and manage product codes.
   </div>
 
   <div class="scanner-box">
 
-    <div class="scanner-hero">
+    <div class="scanner-head">
 
       <div class="scanner-icon">📷</div>
 
       <div class="scanner-title">
-        Native Barcode Scanner
+        Barcode Scanner
       </div>
 
       <div class="scanner-desc">
-        Stock Lab uses the Android camera scanner for
-        faster and more reliable barcode detection.
+        Use the native Android camera scanner for
+        fast and reliable barcode detection.
       </div>
 
       <button
@@ -1038,24 +1252,445 @@ button{
         >
 
         <button onclick="useManualCode()">
-          Use Code
+          Add Code
         </button>
 
       </div>
 
-      <div id="scanResult" class="scan-result hidden">
+    </div>
 
-        <div id="resultCode" class="result-code"></div>
+  </div>
 
-        <div id="resultFormat" class="result-format"></div>
+
+  <div class="history">
+
+    <div class="history-head">
+
+      <div class="history-title">
+        Scan History
+      </div>
+
+      <div class="history-actions">
 
         <button
-          class="save-btn"
-          style="margin-top:12px;width:100%;"
-          onclick="addScannedProduct()"
+          class="row-btn"
+          onclick="copyAllHistory()"
         >
-          + Add Product With This Code
+          Copy All
         </button>
+
+        <button
+          class="row-btn delete"
+          onclick="clearHistory()"
+        >
+          Clear
+        </button>
+
+      </div>
+
+    </div>
+
+    <div id="historyList" class="history-list"></div>
+
+  </div>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="settingsPage" class="page hidden">
+
+  <div class="page-title">Settings</div>
+
+  <div class="page-subtitle">
+    Customize Stock Lab.
+  </div>
+
+
+  <!-- APPEARANCE -->
+
+  <div class="setting-section">
+
+    <div class="setting-section-title">
+      Appearance
+    </div>
+
+    <div class="setting-card">
+
+      <div class="setting-row">
+
+        <div class="setting-icon">🎨</div>
+
+        <div class="setting-main">
+          <div class="setting-name">
+            Theme color
+          </div>
+
+          <div class="setting-description">
+            Change Stock Lab accent color.
+          </div>
+
+          <div class="theme-grid">
+
+            <button
+              class="theme-dot"
+              data-color="#7c5cff"
+              style="background:#7c5cff"
+              onclick="setTheme('#7c5cff')"
+            ><span>✓</span></button>
+
+            <button
+              class="theme-dot"
+              data-color="#4ca6ff"
+              style="background:#4ca6ff"
+              onclick="setTheme('#4ca6ff')"
+            ><span>✓</span></button>
+
+            <button
+              class="theme-dot"
+              data-color="#39d98a"
+              style="background:#39d98a"
+              onclick="setTheme('#39d98a')"
+            ><span>✓</span></button>
+
+            <button
+              class="theme-dot"
+              data-color="#ff8a3d"
+              style="background:#ff8a3d"
+              onclick="setTheme('#ff8a3d')"
+            ><span>✓</span></button>
+
+            <button
+              class="theme-dot"
+              data-color="#ff5c6c"
+              style="background:#ff5c6c"
+              onclick="setTheme('#ff5c6c')"
+            ><span>✓</span></button>
+
+            <button
+              class="theme-dot"
+              data-color="#ff5ebc"
+              style="background:#ff5ebc"
+              onclick="setTheme('#ff5ebc')"
+            ><span>✓</span></button>
+
+            <button
+              class="theme-dot"
+              data-color="#e4b84d"
+              style="background:#e4b84d"
+              onclick="setTheme('#e4b84d')"
+            ><span>✓</span></button>
+
+            <button
+              class="theme-dot"
+              data-color="#d8dbe2"
+              style="background:#d8dbe2"
+              onclick="setTheme('#d8dbe2')"
+            ><span style="color:#111">✓</span></button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="setting-row">
+
+        <div class="setting-icon">🃏</div>
+
+        <div class="setting-main">
+
+          <div class="setting-name">
+            Product card style
+          </div>
+
+          <div class="setting-description">
+            Choose how products appear.
+          </div>
+
+        </div>
+
+        <select
+          id="cardStyle"
+          class="setting-control"
+          onchange="setCardStyle(this.value)"
+          style="
+            background:#181d26;
+            border:1px solid #2b313c;
+            color:white;
+            border-radius:9px;
+            padding:7px;
+          "
+        >
+
+          <option value="standard">
+            Standard
+          </option>
+
+          <option value="compact">
+            Compact
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- INVENTORY -->
+
+  <div class="setting-section">
+
+    <div class="setting-section-title">
+      Inventory
+    </div>
+
+    <div class="setting-card">
+
+      <div
+        class="setting-row"
+        onclick="openCategoryManager()"
+      >
+
+        <div class="setting-icon">🏷️</div>
+
+        <div class="setting-main">
+
+          <div class="setting-name">
+            Manage Categories
+          </div>
+
+          <div class="setting-description">
+            Add, rename or delete categories.
+          </div>
+
+        </div>
+
+        <div class="setting-control">
+          ›
+        </div>
+
+      </div>
+
+
+      <div class="setting-row">
+
+        <div class="setting-icon">📦</div>
+
+        <div class="setting-main">
+
+          <div class="setting-name">
+            Quantity display
+          </div>
+
+          <div class="setting-description">
+            Show boxes and units on products.
+          </div>
+
+        </div>
+
+        <button
+          id="quantityToggle"
+          class="toggle"
+          onclick="toggleQuantityMode()"
+        >
+          <span></span>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- SCANNER -->
+
+  <div class="setting-section">
+
+    <div class="setting-section-title">
+      Scanner
+    </div>
+
+    <div class="setting-card">
+
+      <div class="setting-row">
+
+        <div class="setting-icon">📋</div>
+
+        <div class="setting-main">
+
+          <div class="setting-name">
+            Save scan history
+          </div>
+
+          <div class="setting-description">
+            Keep scanned codes for later.
+          </div>
+
+        </div>
+
+        <button
+          id="historyToggle"
+          class="toggle"
+          onclick="toggleHistory()"
+        >
+          <span></span>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- SECURITY -->
+
+  <div class="setting-section">
+
+    <div class="setting-section-title">
+      Security
+    </div>
+
+    <div class="setting-card">
+
+      <div class="setting-row">
+
+        <div class="setting-icon">🔐</div>
+
+        <div class="setting-main">
+
+          <div class="setting-name">
+            Biometric Lock
+          </div>
+
+          <div class="setting-description">
+            Use fingerprint, face or device credentials.
+          </div>
+
+        </div>
+
+        <button
+          id="biometricToggle"
+          class="toggle"
+          onclick="toggleBiometric()"
+        >
+          <span></span>
+        </button>
+
+      </div>
+
+
+      <div
+        class="setting-row"
+        onclick="lockApp()"
+      >
+
+        <div class="setting-icon">
+          🔒
+        </div>
+
+        <div class="setting-main">
+
+          <div class="setting-name">
+            Lock Now
+          </div>
+
+          <div class="setting-description">
+            Lock Stock Lab immediately.
+          </div>
+
+        </div>
+
+        <div class="setting-control">
+          ›
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- DATA -->
+
+  <div class="setting-section">
+
+    <div class="setting-section-title">
+      Data
+    </div>
+
+    <div class="setting-card">
+
+      <div class="setting-row" onclick="backupData()">
+
+        <div class="setting-icon">💾</div>
+
+        <div class="setting-main">
+
+          <div class="setting-name">
+            Backup Inventory
+          </div>
+
+          <div class="setting-description">
+            Export products and images to a backup file.
+          </div>
+
+        </div>
+
+        <div class="setting-control">›</div>
+
+      </div>
+
+
+      <div class="setting-row" onclick="restoreInput.click()">
+
+        <div class="setting-icon">♻️</div>
+
+        <div class="setting-main">
+
+          <div class="setting-name">
+            Restore Inventory
+          </div>
+
+          <div class="setting-description">
+            Import a Stock Lab backup.
+          </div>
+
+        </div>
+
+        <div class="setting-control">›</div>
+
+      </div>
+
+
+      <div
+        class="setting-row"
+        onclick="clearHistory()"
+      >
+
+        <div class="setting-icon">🗑️</div>
+
+        <div class="setting-main">
+
+          <div class="setting-name">
+            Clear Scan History
+          </div>
+
+          <div class="setting-description">
+            Permanently remove scanned codes.
+          </div>
+
+        </div>
+
+        <div class="setting-control">›</div>
 
       </div>
 
@@ -1067,50 +1702,57 @@ button{
 
 
 <!-- ABOUT -->
+
 <section id="aboutPage" class="page hidden">
 
-  <div class="page-title">About</div>
+  <div class="page-title">
+    About Me
+  </div>
 
   <div class="page-subtitle">
-    Simple inventory management.
+    Stock Lab information.
   </div>
 
   <div class="about-card">
 
-    <div class="about-logo">📦</div>
+    <div class="about-logo">
+      📦
+    </div>
 
-    <div class="about-title">Stock Lab</div>
+    <div class="about-title">
+      Stock Lab
+    </div>
 
     <div class="about-version">
-      Version 2.0
+      Version 2.1
     </div>
 
     <div class="about-text">
-      A clean, fast and private inventory manager
-      designed for everyday product management.
-      Your inventory stays locally on your device.
+      A modern local inventory manager designed
+      for fast product management, barcode scanning,
+      backup and private on-device storage.
     </div>
 
     <div class="feature-list">
 
       <div class="feature">
         📦 <b>Inventory</b><br>
-        Add, edit and manage products.
+        Manage products, quantities, categories and photos.
       </div>
 
       <div class="feature">
         📷 <b>Native Scanner</b><br>
-        Fast barcode scanning on Android.
+        Android barcode scanning.
       </div>
 
       <div class="feature">
-        💾 <b>Backup & Restore</b><br>
-        Keep a backup of your inventory.
+        💾 <b>Backup</b><br>
+        Export and restore your inventory.
       </div>
 
       <div class="feature">
-        🔐 <b>Privacy</b><br>
-        Inventory data stays locally on your device.
+        🔐 <b>Security</b><br>
+        Native biometric/device authentication.
       </div>
 
     </div>
@@ -1144,11 +1786,19 @@ button{
   </button>
 
   <button
+    id="navSettings"
+    onclick="showPage('settings')"
+  >
+    <span class="nav-icon">⚙️</span>
+    <span class="nav-label">Settings</span>
+  </button>
+
+  <button
     id="navAbout"
     onclick="showPage('about')"
   >
     <span class="nav-icon">👤</span>
-    <span class="nav-label">About Me</span>
+    <span class="nav-label">About</span>
   </button>
 
 </nav>
@@ -1166,70 +1816,166 @@ button{
         Add Product
       </div>
 
-      <button
-        class="close"
-        onclick="closeProduct()"
-      >
+      <button class="close" onclick="closeProduct()">
         ✕
       </button>
 
     </div>
 
+
     <div class="form">
 
       <div class="field">
+
         <label>PRODUCT NAME</label>
-        <input id="pName" placeholder="Example: Amethyst Bracelet">
+
+        <input
+          id="pName"
+          placeholder="Example: Amethyst Bracelet"
+        >
+
       </div>
+
+
+      <div class="field">
+
+        <label>PRODUCT CODE / BARCODE</label>
+
+        <div class="code-row">
+
+          <input
+            id="pCode"
+            placeholder="Scan or enter code"
+          >
+
+          <button
+            class="scan-code-btn"
+            onclick="scanFromProduct()"
+          >
+            📷
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>CATEGORY</label>
+
+        <div class="category-row">
+
+          <select id="pCategory">
+            <option value="">
+              Select category
+            </option>
+          </select>
+
+          <button
+            class="category-add"
+            onclick="addCategoryPrompt()"
+          >
+            +
+          </button>
+
+        </div>
+
+      </div>
+
 
       <div class="two">
 
         <div class="field">
-          <label>PRODUCT CODE</label>
-          <input id="pCode" placeholder="Barcode / SKU">
-        </div>
 
-        <div class="field">
-          <label>CATEGORY</label>
-          <input id="pCategory" placeholder="Category">
-        </div>
-
-      </div>
-
-      <div class="two">
-
-        <div class="field">
           <label>SIZE</label>
-          <input id="pSize" placeholder="Size">
+
+          <input
+            id="pSize"
+            placeholder="Size"
+          >
+
         </div>
 
         <div class="field">
+
           <label>COLOR</label>
-          <input id="pColor" placeholder="Color">
+
+          <input
+            id="pColor"
+            placeholder="Color"
+          >
+
         </div>
 
       </div>
+
 
       <div class="two">
 
         <div class="field">
-          <label>QUANTITY</label>
-          <input id="pQuantity" type="number" min="0" value="0">
+
+          <label>BOXES</label>
+
+          <input
+            id="pBoxes"
+            type="number"
+            min="0"
+            value="0"
+          >
+
         </div>
 
         <div class="field">
-          <label>LOW STOCK LIMIT</label>
-          <input id="pThreshold" type="number" min="0" value="5">
+
+          <label>UNITS</label>
+
+          <input
+            id="pUnits"
+            type="number"
+            min="0"
+            value="0"
+          >
+
         </div>
 
       </div>
 
-      <div class="field">
-        <label>PRICE (OPTIONAL)</label>
-        <input id="pPrice" type="number" min="0" step="0.01" placeholder="₹">
+
+      <div class="two">
+
+        <div class="field">
+
+          <label>LOW STOCK LIMIT</label>
+
+          <input
+            id="pThreshold"
+            type="number"
+            min="0"
+            value="5"
+          >
+
+        </div>
+
+        <div class="field">
+
+          <label>PRICE</label>
+
+          <input
+            id="pPrice"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="₹"
+          >
+
+        </div>
+
       </div>
 
+
       <div class="field">
+
         <label>PRODUCT PHOTOS</label>
 
         <input
@@ -1241,7 +1987,9 @@ button{
 
       </div>
 
+
       <div id="photoPreview" class="photo-preview"></div>
+
 
       <button
         class="save-btn"
@@ -1257,67 +2005,122 @@ button{
 </div>
 
 
-<!-- LOCK -->
+<!-- CATEGORY MANAGER -->
 
-<div id="lockScreen" class="lock-screen">
+<div id="categoryModal" class="modal">
 
-  <div class="lock-box">
+  <div class="modal-box">
 
-    <div class="lock-logo">🔒</div>
+    <div class="modal-head">
 
-    <div class="lock-title">
-      Stock Lab Locked
+      <div class="modal-title">
+        Categories
+      </div>
+
+      <button
+        class="close"
+        onclick="closeCategoryManager()"
+      >
+        ✕
+      </button>
+
     </div>
 
-    <div class="lock-sub">
-      Enter your PIN to continue.
-    </div>
-
-    <input
-      id="unlockPin"
-      class="pin"
-      type="password"
-      inputmode="numeric"
-      maxlength="8"
-      placeholder="••••"
-    >
+    <div
+      id="categoryList"
+      class="category-list"
+    ></div>
 
     <button
-      class="unlock"
-      onclick="unlockApp()"
+      class="save-btn"
+      onclick="addCategoryPrompt()"
+      style="margin-top:12px"
     >
-      Unlock
+      + Add Category
     </button>
-
-    <div id="lockError" class="lock-error"></div>
 
   </div>
 
 </div>
 
 
+<!-- LOCK -->
+
+<div id="lockScreen" class="lock-screen">
+
+  <div class="lock-box">
+
+    <div class="lock-logo">
+      🔐
+    </div>
+
+    <div class="lock-title">
+      Stock Lab Locked
+    </div>
+
+    <div class="lock-sub">
+      Unlock using your device authentication.
+    </div>
+
+    <button
+      class="biometric-btn"
+      onclick="authenticateUnlock()"
+    >
+      🔓 Unlock Stock Lab
+    </button>
+
+    <div class="lock-fallback">
+      Fingerprint / Face / Device PIN
+    </div>
+
+  </div>
+
+</div>
+
+
+<input
+  id="restoreInput"
+  type="file"
+  accept=".json,application/json"
+  class="hidden"
+>
+
+
 <div id="toast" class="toast"></div>
 
 
-<!-- Native scanner module -->
+<!-- Native modules -->
 
 <script type="module" src="/native-scanner.js"></script>
+<script type="module" src="/biometric-auth.js"></script>
 
 
 <script>
 /* =========================================================
-   STOCK LAB v2
+   STOCK LAB 2.1
    ========================================================= */
 
-const PRODUCTS_KEY = "stock_lab_products_v2";
-const PIN_KEY = "stock_lab_pin_v2";
-const LOCK_KEY = "stock_lab_locked_v2";
+const PRODUCTS_KEY = "stock_lab_products_v21";
+const CATEGORY_KEY = "stock_lab_categories_v21";
+const HISTORY_KEY = "stock_lab_scan_history_v21";
+
+const THEME_KEY = "stock_lab_theme_v21";
+const CARD_KEY = "stock_lab_card_v21";
+const QUANTITY_KEY = "stock_lab_quantity_v21";
+const HISTORY_ENABLED_KEY = "stock_lab_history_enabled_v21";
+const BIOMETRIC_KEY = "stock_lab_biometric_v21";
+const LOCK_KEY = "stock_lab_locked_v21";
 
 let products = [];
+let categories = [];
+let scanHistory = [];
+
 let editingId = null;
-let scannedCode = "";
-let scannedFormat = "";
 let pendingImages = [];
+
+let quantityMode = true;
+let historyEnabled = true;
+let biometricEnabled = false;
 
 
 /* ---------- HELPERS ---------- */
@@ -1340,9 +2143,10 @@ function toast(message){
 
   clearTimeout(window.__toast);
 
-  window.__toast = setTimeout(()=>{
-    el.classList.remove("show");
-  },2200);
+  window.__toast =
+    setTimeout(()=>{
+      el.classList.remove("show");
+    },2200);
 }
 
 function escapeHTML(value){
@@ -1356,62 +2160,219 @@ function escapeHTML(value){
 }
 
 
-/* ---------- STORAGE ---------- */
+/* ---------- LOAD ---------- */
 
-function loadProducts(){
+function loadData(){
 
   try{
 
-    const raw =
-      localStorage.getItem(PRODUCTS_KEY) ||
-      localStorage.getItem("stock_lab_products_v4") ||
-      localStorage.getItem("stock_lab");
+    const old =
+      localStorage.getItem("stock_lab_products_v4");
 
-    if(raw){
+    const current =
+      localStorage.getItem(PRODUCTS_KEY);
 
-      const parsed = JSON.parse(raw);
+    products =
+      current
+        ? JSON.parse(current)
+        : old
+          ? JSON.parse(old)
+          : [];
 
-      if(Array.isArray(parsed)){
-        products = parsed;
-      }
-    }
-
-  }catch(error){
-
-    console.error(error);
-    products = [];
+  }catch{
+    products=[];
   }
 
-  if(!Array.isArray(products)){
-    products = [];
+  try{
+
+    categories =
+      JSON.parse(
+        localStorage.getItem(CATEGORY_KEY) || "[]"
+      );
+
+  }catch{
+    categories=[];
   }
+
+  try{
+
+    scanHistory =
+      JSON.parse(
+        localStorage.getItem(HISTORY_KEY) || "[]"
+      );
+
+  }catch{
+    scanHistory=[];
+  }
+
+  quantityMode =
+    localStorage.getItem(QUANTITY_KEY) !== "0";
+
+  historyEnabled =
+    localStorage.getItem(HISTORY_ENABLED_KEY) !== "0";
+
+  biometricEnabled =
+    localStorage.getItem(BIOMETRIC_KEY) === "1";
+
+  const savedTheme =
+    localStorage.getItem(THEME_KEY);
+
+  if(savedTheme){
+    applyTheme(savedTheme);
+  }
+
+  const savedCard =
+    localStorage.getItem(CARD_KEY) || "standard";
+
+  $("cardStyle").value = savedCard;
+
+  updateToggles();
 }
 
-function saveProducts(){
 
+/* ---------- SAVE ---------- */
+
+function saveProducts(){
   localStorage.setItem(
     PRODUCTS_KEY,
     JSON.stringify(products)
   );
 }
 
+function saveCategories(){
+  localStorage.setItem(
+    CATEGORY_KEY,
+    JSON.stringify(categories)
+  );
+}
+
+function saveHistory(){
+  localStorage.setItem(
+    HISTORY_KEY,
+    JSON.stringify(scanHistory)
+  );
+}
+
+
+/* ---------- THEME ---------- */
+
+function setTheme(color){
+
+  applyTheme(color);
+
+  localStorage.setItem(
+    THEME_KEY,
+    color
+  );
+
+  toast("Theme color changed");
+}
+
+function applyTheme(color){
+
+  document.documentElement.style
+    .setProperty("--accent",color);
+
+  document.documentElement.style
+    .setProperty("--accent2",color);
+
+  document.querySelectorAll(".theme-dot")
+    .forEach(dot=>{
+
+      dot.classList.toggle(
+        "active",
+        dot.dataset.color === color
+      );
+
+    });
+}
+
+
+/* ---------- CARD STYLE ---------- */
+
+function setCardStyle(style){
+
+  localStorage.setItem(
+    CARD_KEY,
+    style
+  );
+
+  renderProducts();
+
+  toast(
+    style === "compact"
+      ? "Compact cards enabled"
+      : "Standard cards enabled"
+  );
+}
+
+
+/* ---------- QUANTITY ---------- */
+
+function toggleQuantityMode(){
+
+  quantityMode = !quantityMode;
+
+  localStorage.setItem(
+    QUANTITY_KEY,
+    quantityMode ? "1" : "0"
+  );
+
+  updateToggles();
+  renderProducts();
+
+  toast(
+    quantityMode
+      ? "Boxes and units enabled"
+      : "Units only"
+  );
+}
+
+
+/* ---------- HISTORY SETTING ---------- */
+
+function toggleHistory(){
+
+  historyEnabled = !historyEnabled;
+
+  localStorage.setItem(
+    HISTORY_ENABLED_KEY,
+    historyEnabled ? "1" : "0"
+  );
+
+  updateToggles();
+
+  toast(
+    historyEnabled
+      ? "Scan history enabled"
+      : "Scan history disabled"
+  );
+}
+
 
 /* ---------- STATUS ---------- */
 
+function totalUnits(product){
+
+  return Number(product.units || 0);
+}
+
 function getStatus(product){
 
-  const qty = Number(product.qty ?? product.quantity ?? 0);
-  const threshold =
-    Number(product.threshold ?? 5);
+  const units =
+    totalUnits(product);
 
-  if(qty <= 0){
+  const threshold =
+    Number(product.threshold || 5);
+
+  if(units <= 0){
     return {
       key:"out",
       text:"OUT OF STOCK"
     };
   }
 
-  if(qty <= threshold){
+  if(units <= threshold){
     return {
       key:"low",
       text:"LOW STOCK"
@@ -1425,68 +2386,282 @@ function getStatus(product){
 }
 
 
-/* ---------- DASHBOARD ---------- */
+/* ---------- STATS ---------- */
 
 function updateStats(){
 
-  let low = 0;
-  let out = 0;
+  let low=0;
+  let out=0;
 
   products.forEach(product=>{
 
-    const status = getStatus(product);
+    const status =
+      getStatus(product);
 
-    if(status.key === "low") low++;
-    if(status.key === "out") out++;
+    if(status.key==="low") low++;
+    if(status.key==="out") out++;
 
   });
 
   $("totalProducts").textContent =
     products.length;
 
-  $("lowStock").textContent = low;
-  $("outStock").textContent = out;
+  $("lowStock").textContent =
+    low;
+
+  $("outStock").textContent =
+    out;
 }
 
 
-/* ---------- FILTERS ---------- */
+/* ---------- CATEGORIES ---------- */
 
-function updateCategories(){
+function normalizeCategories(){
 
-  const select = $("categoryFilter");
-  const current = select.value;
+  const fromProducts =
+    products
+      .map(p=>p.category || "")
+      .filter(Boolean);
 
-  const categories = [
-    ...new Set(
-      products
-        .map(p=>p.category || p.cat || "")
-        .filter(Boolean)
-    )
+  categories = [
+    ...new Set([
+      ...categories,
+      ...fromProducts
+    ])
   ].sort();
 
-  select.innerHTML =
-    `<option value="">All categories</option>` +
-    categories
-      .map(c=>`
-        <option value="${escapeHTML(c)}">
-          ${escapeHTML(c)}
-        </option>
-      `)
-      .join("");
+  saveCategories();
+}
 
-  select.value = current;
+function populateCategories(){
+
+  normalizeCategories();
+
+  const filter =
+    $("categoryFilter");
+
+  const current =
+    filter.value;
+
+  filter.innerHTML =
+    `<option value="">All categories</option>` +
+    categories.map(c=>
+      `<option value="${escapeHTML(c)}">
+        ${escapeHTML(c)}
+      </option>`
+    ).join("");
+
+  filter.value=current;
+
+
+  const productCategory =
+    $("pCategory");
+
+  const selected =
+    productCategory.value;
+
+  productCategory.innerHTML =
+    `<option value="">
+      Select category
+    </option>` +
+    categories.map(c=>
+      `<option value="${escapeHTML(c)}">
+        ${escapeHTML(c)}
+      </option>`
+    ).join("");
+
+  productCategory.value=selected;
 }
 
 
-/* ---------- RENDER ---------- */
+function addCategoryPrompt(){
+
+  const name =
+    prompt("Enter new category:");
+
+  if(!name){
+    return;
+  }
+
+  const clean =
+    name.trim();
+
+  if(!clean){
+    return;
+  }
+
+  if(
+    categories.some(
+      c=>c.toLowerCase() === clean.toLowerCase()
+    )
+  ){
+
+    toast("Category already exists");
+    return;
+  }
+
+  categories.push(clean);
+  categories.sort();
+
+  saveCategories();
+  populateCategories();
+  renderCategoryManager();
+
+  $("pCategory").value=clean;
+
+  toast("Category added");
+}
+
+
+function openCategoryManager(){
+
+  renderCategoryManager();
+
+  $("categoryModal")
+    .classList.add("show");
+}
+
+
+function closeCategoryManager(){
+
+  $("categoryModal")
+    .classList.remove("show");
+}
+
+
+function renderCategoryManager(){
+
+  const list =
+    $("categoryList");
+
+  if(!categories.length){
+
+    list.innerHTML = `
+      <div class="empty">
+        No categories yet.
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML =
+    categories.map((category,index)=>`
+
+      <div class="category-item">
+
+        <span>
+          ${escapeHTML(category)}
+        </span>
+
+        <button
+          class="row-btn"
+          onclick="renameCategory(${index})"
+        >
+          Rename
+        </button>
+
+        <button
+          class="row-btn delete"
+          onclick="deleteCategory(${index})"
+        >
+          Delete
+        </button>
+
+      </div>
+
+    `).join("");
+}
+
+
+function renameCategory(index){
+
+  const old =
+    categories[index];
+
+  const next =
+    prompt(
+      "Rename category:",
+      old
+    );
+
+  if(!next){
+    return;
+  }
+
+  const clean =
+    next.trim();
+
+  if(!clean){
+    return;
+  }
+
+  categories[index]=clean;
+
+  products.forEach(p=>{
+
+    if(p.category===old){
+      p.category=clean;
+    }
+
+  });
+
+  saveCategories();
+  saveProducts();
+
+  populateCategories();
+  renderCategoryManager();
+  renderProducts();
+
+  toast("Category renamed");
+}
+
+
+function deleteCategory(index){
+
+  const category =
+    categories[index];
+
+  if(
+    !confirm(
+      `Delete category "${category}"?`
+    )
+  ){
+    return;
+  }
+
+  categories.splice(index,1);
+
+  products.forEach(p=>{
+
+    if(p.category===category){
+      p.category="";
+    }
+
+  });
+
+  saveCategories();
+  saveProducts();
+
+  populateCategories();
+  renderCategoryManager();
+  renderProducts();
+
+  toast("Category deleted");
+}
+
+
+/* ---------- PRODUCT RENDER ---------- */
 
 function renderProducts(){
 
   updateStats();
-  updateCategories();
+  populateCategories();
 
   const search =
-    $("search").value.trim().toLowerCase();
+    $("search").value
+      .trim()
+      .toLowerCase();
 
   const category =
     $("categoryFilter").value;
@@ -1497,84 +2672,99 @@ function renderProducts(){
   const sort =
     $("sortFilter").value;
 
-  let list = products.filter(product=>{
+  let list =
+    products.filter(product=>{
 
-    const name =
-      String(product.name || "").toLowerCase();
+      const name =
+        String(product.name || "")
+          .toLowerCase();
 
-    const code =
-      String(product.code || "").toLowerCase();
+      const code =
+        String(product.code || "")
+          .toLowerCase();
 
-    const cat =
-      product.category ||
-      product.cat ||
-      "";
+      const cat =
+        String(product.category || "")
+          .toLowerCase();
 
-    const matchesSearch =
-      !search ||
-      name.includes(search) ||
-      code.includes(search) ||
-      String(cat).toLowerCase().includes(search);
+      const matchSearch =
+        !search ||
+        name.includes(search) ||
+        code.includes(search) ||
+        cat.includes(search);
 
-    const matchesCategory =
-      !category || cat === category;
+      const matchCategory =
+        !category ||
+        product.category===category;
 
-    const status =
-      getStatus(product);
+      const status =
+        getStatus(product);
 
-    const matchesStock =
-      !stock || status.key === stock;
+      const matchStock =
+        !stock ||
+        status.key===stock;
 
-    return (
-      matchesSearch &&
-      matchesCategory &&
-      matchesStock
-    );
-  });
+      return (
+        matchSearch &&
+        matchCategory &&
+        matchStock
+      );
+    });
 
 
-  if(sort === "name"){
-
-    list.sort((a,b)=>
-      String(a.name).localeCompare(String(b.name))
-    );
-
-  }else if(sort === "qty"){
+  if(sort==="name"){
 
     list.sort((a,b)=>
-      Number(b.qty ?? b.quantity ?? 0) -
-      Number(a.qty ?? a.quantity ?? 0)
+      String(a.name)
+        .localeCompare(String(b.name))
     );
 
-  }else if(sort === "price"){
+  }else if(sort==="qty"){
 
     list.sort((a,b)=>
-      Number(b.price || 0) -
-      Number(a.price || 0)
+      totalUnits(b)-totalUnits(a)
+    );
+
+  }else if(sort==="price"){
+
+    list.sort((a,b)=>
+      Number(b.price||0) -
+      Number(a.price||0)
     );
 
   }else{
 
     list.sort((a,b)=>
-      Number(b.updated || b.created || 0) -
-      Number(a.updated || a.created || 0)
+      Number(b.updated||b.created||0) -
+      Number(a.updated||a.created||0)
     );
   }
 
 
-  const grid = $("productGrid");
+  const grid =
+    $("productGrid");
+
+  const cardStyle =
+    localStorage.getItem(CARD_KEY) ||
+    "standard";
+
+  grid.parentElement
+    ?.classList
+    .toggle(
+      "compact",
+      cardStyle==="compact"
+    );
+
 
   if(!list.length){
 
-    grid.innerHTML = `
-      <div class="empty" style="grid-column:1/-1">
+    grid.innerHTML=`
+      <div class="empty">
         <div class="empty-icon">📦</div>
         <div class="empty-title">
           No products found
         </div>
-        <div>
-          Add your first product to Stock Lab.
-        </div>
+        Add your first product.
       </div>
     `;
 
@@ -1582,180 +2772,191 @@ function renderProducts(){
   }
 
 
-  grid.innerHTML = list.map(product=>{
+  grid.innerHTML =
+    list.map(product=>{
 
-    const status = getStatus(product);
+      const status =
+        getStatus(product);
 
-    const qty =
-      Number(product.qty ?? product.quantity ?? 0);
+      const image =
+        Array.isArray(product.imgs) &&
+        product.imgs.length
+          ? product.imgs[0]
+          : null;
 
-    const image =
-      Array.isArray(product.imgs) &&
-      product.imgs.length
-        ? product.imgs[0]
-        : null;
+      const price =
+        product.price !== "" &&
+        product.price != null
+          ? `₹${Number(product.price).toLocaleString("en-IN")}`
+          : "";
 
-    const category =
-      product.category ||
-      product.cat ||
-      "";
+      const boxes =
+        Number(product.boxes||0);
 
-    const size =
-      product.size || "";
+      const units =
+        Number(product.units||0);
 
-    const color =
-      product.color || "";
+      return `
 
-    const price =
-      product.price !== undefined &&
-      product.price !== null &&
-      product.price !== ""
-        ? `₹${Number(product.price).toLocaleString("en-IN")}`
-        : "";
+        <article
+          class="product-card"
+          onclick="openProduct('${product.id}')"
+        >
 
+          <div class="product-image">
 
-    return `
-      <article
-        class="product-card"
-        onclick="openProduct('${product.id}')"
-      >
-
-        <div class="product-image">
-
-          ${
-            image
+            ${
+              image
               ? `<img
-                   src="${image}"
-                   alt="${escapeHTML(product.name)}"
-                   loading="lazy"
-                 >`
+                  src="${image}"
+                  alt="${escapeHTML(product.name)}"
+                  loading="lazy"
+                >`
               : `<div class="no-image">📦</div>`
-          }
+            }
 
-          <div class="status ${status.key}">
-            ${status.text}
+            <div class="status ${status.key}">
+              ${status.text}
+            </div>
+
           </div>
 
-        </div>
 
+          <div class="card-body">
 
-        <div class="card-body">
+            <div class="product-name">
+              ${escapeHTML(product.name || "Unnamed")}
+            </div>
 
-          <div class="product-name">
-            ${escapeHTML(product.name || "Unnamed product")}
-          </div>
-
-          ${
-            product.code
+            ${
+              product.code
               ? `<div class="product-code">
                    ${escapeHTML(product.code)}
                  </div>`
               : ""
-          }
-
-
-          <div class="product-meta">
-
-            ${
-              category
-                ? `<span class="meta">
-                     ${escapeHTML(category)}
-                   </span>`
-                : ""
             }
 
-            ${
-              size
+
+            <div class="product-meta">
+
+              ${
+                product.category
                 ? `<span class="meta">
-                     ${escapeHTML(size)}
+                     ${escapeHTML(product.category)}
                    </span>`
                 : ""
-            }
+              }
 
-            ${
-              color
+              ${
+                product.size
                 ? `<span class="meta">
-                     ${escapeHTML(color)}
+                     ${escapeHTML(product.size)}
                    </span>`
                 : ""
-            }
+              }
 
-          </div>
+              ${
+                product.color
+                ? `<span class="meta">
+                     ${escapeHTML(product.color)}
+                   </span>`
+                : ""
+              }
 
-
-          <div class="stock-row">
-
-            <div>
-              <div class="quantity">${qty}</div>
-              <div class="quantity-label">QUANTITY</div>
             </div>
 
-            ${
-              price
-                ? `<div class="price">${price}</div>`
+
+            <div class="stock-row">
+
+              <div>
+
+                <div class="quantity">
+                  ${units}
+                </div>
+
+                <div class="quantity-label">
+                  TOTAL UNITS
+                </div>
+
+                ${
+                  quantityMode
+                  ? `<div class="box-unit">
+                       📦 ${boxes} boxes
+                       · ${units} units
+                     </div>`
+                  : ""
+                }
+
+              </div>
+
+              ${
+                price
+                ? `<div class="price">
+                     ${price}
+                   </div>`
                 : ""
-            }
+              }
+
+            </div>
 
           </div>
 
-        </div>
 
-
-        <div
-          class="card-actions"
-          onclick="event.stopPropagation()"
-        >
-
-          <button
-            onclick="changeQuantity('${product.id}',-1)"
+          <div
+            class="card-actions"
+            onclick="event.stopPropagation()"
           >
-            −
-          </button>
 
-          <button
-            class="primary"
-            onclick="openProduct('${product.id}')"
-          >
-            Edit
-          </button>
+            <button
+              onclick="changeQuantity('${product.id}',-1)"
+            >
+              −
+            </button>
 
-          <button
-            onclick="changeQuantity('${product.id}',1)"
-          >
-            +
-          </button>
+            <button
+              class="primary"
+              onclick="openProduct('${product.id}')"
+            >
+              Edit
+            </button>
 
-        </div>
+            <button
+              onclick="changeQuantity('${product.id}',1)"
+            >
+              +
+            </button>
 
-      </article>
-    `;
+          </div>
 
-  }).join("");
+        </article>
+      `;
+
+    }).join("");
 }
 
 
 /* ---------- QUANTITY ---------- */
 
-function changeQuantity(id, amount){
+function changeQuantity(id,amount){
 
   const product =
-    products.find(p=>p.id === id);
+    products.find(p=>p.id===id);
 
-  if(!product) return;
+  if(!product){
+    return;
+  }
 
-  const current =
-    Number(product.qty ?? product.quantity ?? 0);
+  product.units =
+    Math.max(
+      0,
+      Number(product.units||0)+amount
+    );
 
-  product.qty =
-    Math.max(0,current + amount);
-
-  product.quantity = product.qty;
-
-  product.updated = Date.now();
+  product.updated =
+    Date.now();
 
   saveProducts();
   renderProducts();
-
 }
 
 
@@ -1763,33 +2964,37 @@ function changeQuantity(id, amount){
 
 function resetProductForm(){
 
-  $("pName").value = "";
-  $("pCode").value = "";
-  $("pCategory").value = "";
-  $("pSize").value = "";
-  $("pColor").value = "";
-  $("pQuantity").value = "0";
-  $("pThreshold").value = "5";
-  $("pPrice").value = "";
-  $("pImages").value = "";
+  $("pName").value="";
+  $("pCode").value="";
+  $("pCategory").value="";
+  $("pSize").value="";
+  $("pColor").value="";
+  $("pBoxes").value="0";
+  $("pUnits").value="0";
+  $("pThreshold").value="5";
+  $("pPrice").value="";
+  $("pImages").value="";
 
-  pendingImages = [];
+  pendingImages=[];
 
-  $("photoPreview").innerHTML = "";
+  $("photoPreview").innerHTML="";
 }
+
 
 function openProduct(id=null){
 
-  editingId = id;
+  editingId=id;
 
   resetProductForm();
 
   if(id){
 
     const product =
-      products.find(p=>p.id === id);
+      products.find(p=>p.id===id);
 
-    if(!product) return;
+    if(!product){
+      return;
+    }
 
     $("modalTitle").textContent =
       "Edit Product";
@@ -1801,9 +3006,7 @@ function openProduct(id=null){
       product.code || "";
 
     $("pCategory").value =
-      product.category ||
-      product.cat ||
-      "";
+      product.category || "";
 
     $("pSize").value =
       product.size || "";
@@ -1811,10 +3014,11 @@ function openProduct(id=null){
     $("pColor").value =
       product.color || "";
 
-    $("pQuantity").value =
-      product.qty ??
-      product.quantity ??
-      0;
+    $("pBoxes").value =
+      product.boxes || 0;
+
+    $("pUnits").value =
+      product.units || 0;
 
     $("pThreshold").value =
       product.threshold ?? 5;
@@ -1835,19 +3039,21 @@ function openProduct(id=null){
       "Add Product";
   }
 
-  $("productModal").classList.add("show");
+  $("productModal")
+    .classList.add("show");
 }
+
 
 function closeProduct(){
 
   $("productModal")
     .classList.remove("show");
 
-  editingId = null;
+  editingId=null;
 }
 
 
-/* ---------- IMAGES ---------- */
+/* ---------- IMAGE ---------- */
 
 $("pImages").addEventListener(
   "change",
@@ -1858,14 +3064,16 @@ $("pImages").addEventListener(
 
     for(const file of files){
 
-      if(!file.type.startsWith("image/")){
+      if(
+        !file.type.startsWith("image/")
+      ){
         continue;
       }
 
-      const data =
-        await compressImage(file,1200,.82);
+      const image =
+        await compressImage(file);
 
-      pendingImages.push(data);
+      pendingImages.push(image);
     }
 
     renderPreview();
@@ -1873,65 +3081,62 @@ $("pImages").addEventListener(
 );
 
 
-function compressImage(
-  file,
-  maxSize=1200,
-  quality=.82
-){
+function compressImage(file){
 
   return new Promise(resolve=>{
 
     const reader =
       new FileReader();
 
-    reader.onload = ()=>{
+    reader.onload=()=>{
 
       const img =
         new Image();
 
-      img.onload = ()=>{
+      img.onload=()=>{
 
-        let width = img.width;
-        let height = img.height;
+        const max=1200;
 
-        if(width > maxSize || height > maxSize){
+        let w=img.width;
+        let h=img.height;
+
+        if(w>max || h>max){
 
           const ratio =
             Math.min(
-              maxSize / width,
-              maxSize / height
+              max/w,
+              max/h
             );
 
-          width *= ratio;
-          height *= ratio;
+          w*=ratio;
+          h*=ratio;
         }
 
         const canvas =
           document.createElement("canvas");
 
-        canvas.width = width;
-        canvas.height = height;
+        canvas.width=w;
+        canvas.height=h;
 
-        const ctx =
-          canvas.getContext("2d");
-
-        ctx.drawImage(
-          img,
-          0,
-          0,
-          width,
-          height
-        );
+        canvas
+          .getContext("2d")
+          .drawImage(
+            img,
+            0,
+            0,
+            w,
+            h
+          );
 
         resolve(
           canvas.toDataURL(
             "image/jpeg",
-            quality
+            .82
           )
         );
       };
 
-      img.src = reader.result;
+      img.src=reader.result;
     };
 
     reader.readAsDataURL(file);
@@ -1942,11 +3147,11 @@ function compressImage(
 function renderPreview(){
 
   $("photoPreview").innerHTML =
-    pendingImages.map((img,index)=>`
+    pendingImages.map((image,index)=>`
 
       <div class="preview-item">
 
-        <img src="${img}">
+        <img src="${image}">
 
         <button
           onclick="removeImage(${index})"
@@ -1959,7 +3164,6 @@ function renderPreview(){
             border-radius:6px;
             background:rgba(0,0,0,.7);
             color:white;
-            font-size:10px;
           "
         >
           ×
@@ -1969,6 +3173,7 @@ function renderPreview(){
 
     `).join("");
 }
+
 
 function removeImage(index){
 
@@ -1987,13 +3192,26 @@ function saveProduct(){
 
   if(!name){
 
-    toast("Enter a product name");
+    toast("Enter product name");
     return;
   }
 
-  const now = Date.now();
+  const now =
+    Date.now();
 
-  const data = {
+  const boxes =
+    Math.max(
+      0,
+      Number($("pBoxes").value||0)
+    );
+
+  const units =
+    Math.max(
+      0,
+      Number($("pUnits").value||0)
+    );
+
+  const data={
 
     name,
 
@@ -2001,10 +3219,7 @@ function saveProduct(){
       $("pCode").value.trim(),
 
     category:
-      $("pCategory").value.trim(),
-
-    cat:
-      $("pCategory").value.trim(),
+      $("pCategory").value,
 
     size:
       $("pSize").value.trim(),
@@ -2012,22 +3227,16 @@ function saveProduct(){
     color:
       $("pColor").value.trim(),
 
-    qty:
-      Math.max(
-        0,
-        Number($("pQuantity").value || 0)
-      ),
+    boxes,
 
-    quantity:
-      Math.max(
-        0,
-        Number($("pQuantity").value || 0)
-      ),
+    units,
 
     threshold:
       Math.max(
         0,
-        Number($("pThreshold").value || 5)
+        Number(
+          $("pThreshold").value||5
+        )
       ),
 
     price:
@@ -2035,8 +3244,9 @@ function saveProduct(){
         ? ""
         : Number($("pPrice").value),
 
-    imgs:
-      [...pendingImages],
+    imgs:[
+      ...pendingImages
+    ],
 
     updated:now
   };
@@ -2046,30 +3256,43 @@ function saveProduct(){
 
     const index =
       products.findIndex(
-        p=>p.id === editingId
+        p=>p.id===editingId
       );
 
-    if(index !== -1){
+    if(index!==-1){
 
-      data.id = editingId;
+      data.id=editingId;
 
       data.created =
-        products[index].created || now;
+        products[index].created ||
+        now;
 
-      products[index] = data;
+      products[index]=data;
     }
 
   }else{
 
-    data.id = uid();
-    data.created = now;
+    data.id=uid();
+    data.created=now;
 
     products.unshift(data);
   }
 
 
+  if(
+    data.category &&
+    !categories.includes(data.category)
+  ){
+
+    categories.push(data.category);
+    categories.sort();
+    saveCategories();
+  }
+
   saveProducts();
+
   renderProducts();
+
   closeProduct();
 
   toast(
@@ -2080,33 +3303,6 @@ function saveProduct(){
 }
 
 
-/* ---------- DELETE ---------- */
-
-function deleteProduct(id){
-
-  const product =
-    products.find(p=>p.id === id);
-
-  if(!product) return;
-
-  if(
-    !confirm(
-      `Delete "${product.name}"?`
-    )
-  ){
-    return;
-  }
-
-  products =
-    products.filter(p=>p.id !== id);
-
-  saveProducts();
-  renderProducts();
-
-  toast("Product deleted");
-}
-
-
 /* ---------- SCANNER ---------- */
 
 async function startNativeScan(){
@@ -2114,27 +3310,25 @@ async function startNativeScan(){
   const button =
     $("nativeScanBtn");
 
-  button.disabled = true;
-  button.textContent = "Opening scanner...";
+  button.disabled=true;
+  button.textContent=
+    "Opening scanner...";
 
   try{
 
     if(
-      !window.StockLabNativeScanner ||
-      !window.StockLabNativeScanner.available
+      !window.StockLabNativeScanner
     ){
 
       toast(
-        "Native scanner is not loaded yet"
+        "Native scanner not loaded"
       );
 
       return;
     }
 
-
     const result =
       await window.StockLabNativeScanner.scan();
-
 
     if(
       result &&
@@ -2142,16 +3336,14 @@ async function startNativeScan(){
       result.code
     ){
 
-      showScanResult(
+      handleScannedCode(
         result.code,
         result.format
       );
 
-    }else{
+    }else if(result?.error){
 
-      if(result?.error){
-        toast(result.error);
-      }
+      toast(result.error);
     }
 
   }catch(error){
@@ -2159,72 +3351,281 @@ async function startNativeScan(){
     console.error(error);
 
     toast(
-      "Unable to open scanner"
+      "Could not open scanner"
     );
 
   }finally{
 
-    button.disabled = false;
-    button.textContent = "📷 Scan Barcode";
+    button.disabled=false;
+    button.textContent=
+      "📷 Scan Barcode";
   }
 }
 
 
-function showScanResult(
-  code,
-  format=""
-){
+async function scanFromProduct(){
 
-  scannedCode = code;
-  scannedFormat = format || "";
+  try{
 
-  $("resultCode").textContent =
-    code;
+    if(
+      !window.StockLabNativeScanner
+    ){
 
-  $("resultFormat").textContent =
-    format
-      ? `Format: ${format}`
-      : "Barcode detected";
+      toast(
+        "Native scanner not loaded"
+      );
 
-  $("scanResult")
-    .classList.remove("hidden");
+      return;
+    }
+
+    const result =
+      await window.StockLabNativeScanner.scan();
+
+    if(
+      result &&
+      result.success &&
+      result.code
+    ){
+
+      $("pCode").value =
+        result.code;
+
+      addToHistory(
+        result.code,
+        result.format
+      );
+
+      toast("Barcode added");
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "Scanner could not open"
+    );
+  }
 }
 
 
 function useManualCode(){
 
   const code =
-    $("manualCode").value.trim();
+    $("manualCode")
+      .value
+      .trim();
 
   if(!code){
 
-    toast("Enter a barcode");
+    toast("Enter a code");
     return;
   }
 
-  showScanResult(
+  handleScannedCode(
     code,
     "Manual"
   );
+
+  $("manualCode").value="";
 }
 
 
-function addScannedProduct(){
+function handleScannedCode(
+  code,
+  format=""
+){
 
-  if(!scannedCode){
+  if(historyEnabled){
+
+    addToHistory(
+      code,
+      format
+    );
+  }
+
+  $("manualCode").value=code;
+
+  toast("Barcode scanned");
+}
+
+
+/* ---------- HISTORY ---------- */
+
+function addToHistory(
+  code,
+  format=""
+){
+
+  if(!historyEnabled){
     return;
   }
 
-  showPage("stock");
+  scanHistory.unshift({
 
-  openProduct();
+    id:uid(),
 
-  $("pCode").value =
-    scannedCode;
+    code:String(code),
 
-  toast(
-    "Barcode added to new product"
-  );
+    format:String(format||""),
+
+    time:Date.now()
+  });
+
+  scanHistory =
+    scanHistory.slice(0,100);
+
+  saveHistory();
+
+  renderHistory();
+}
+
+
+function renderHistory(){
+
+  const list =
+    $("historyList");
+
+  if(!scanHistory.length){
+
+    list.innerHTML=`
+      <div
+        style="
+          padding:20px;
+          text-align:center;
+          color:#7f8795;
+          font-size:10px;
+        "
+      >
+        No scanned codes yet.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  list.innerHTML =
+    scanHistory.map(item=>`
+
+      <div class="scan-row">
+
+        <div class="scan-code">
+
+          ${escapeHTML(item.code)}
+
+          ${
+            item.format
+            ? `<div class="scan-format">
+                 ${escapeHTML(item.format)}
+               </div>`
+            : ""
+          }
+
+        </div>
+
+        <button
+          class="row-btn"
+          onclick="copyCode('${escapeHTML(item.code)}')"
+        >
+          Copy
+        </button>
+
+        <button
+          class="row-btn delete"
+          onclick="deleteScan('${item.id}')"
+        >
+          Delete
+        </button>
+
+      </div>
+
+    `).join("");
+}
+
+
+async function copyCode(code){
+
+  try{
+
+    await navigator.clipboard.writeText(
+      code
+    );
+
+    toast("Code copied");
+
+  }catch{
+
+    toast("Copy failed");
+  }
+}
+
+
+async function copyAllHistory(){
+
+  if(!scanHistory.length){
+
+    toast("No scan history");
+    return;
+  }
+
+  const text =
+    scanHistory
+      .map(item=>item.code)
+      .join("\n");
+
+  try{
+
+    await navigator.clipboard.writeText(
+      text
+    );
+
+    toast("All codes copied");
+
+  }catch{
+
+    toast("Copy failed");
+  }
+}
+
+
+function deleteScan(id){
+
+  scanHistory =
+    scanHistory.filter(
+      item=>item.id!==id
+    );
+
+  saveHistory();
+  renderHistory();
+
+  toast("Scan deleted");
+}
+
+
+function clearHistory(){
+
+  if(!scanHistory.length){
+
+    toast("History already empty");
+    return;
+  }
+
+  if(
+    !confirm(
+      "Clear all scanned codes?"
+    )
+  ){
+    return;
+  }
+
+  scanHistory=[];
+
+  saveHistory();
+  renderHistory();
+
+  toast("Scan history cleared");
 }
 
 
@@ -2232,17 +3633,20 @@ function addScannedProduct(){
 
 function backupData(){
 
-  const backup = {
+  const backup={
 
     app:"Stock Lab",
 
-    version:"2.0",
+    version:"2.1",
 
     exportedAt:
       new Date().toISOString(),
 
-    products
+    products,
 
+    categories,
+
+    scanHistory
   };
 
 
@@ -2264,30 +3668,30 @@ function backupData(){
   const url =
     URL.createObjectURL(blob);
 
-  const a =
+  const link =
     document.createElement("a");
 
-  a.href = url;
+  link.href=url;
 
-  a.download =
+  link.download=
     "stock-lab-backup-" +
     new Date()
       .toISOString()
       .slice(0,10) +
     ".json";
 
-  document.body.appendChild(a);
+  document.body.appendChild(link);
 
-  a.click();
+  link.click();
 
-  a.remove();
+  link.remove();
 
   setTimeout(
     ()=>URL.revokeObjectURL(url),
     1000
   );
 
-  toast("Backup created");
+  toast("Backup file created");
 }
 
 
@@ -2306,80 +3710,64 @@ $("restoreInput").addEventListener(
 
     try{
 
-      const text =
-        await file.text();
-
       const data =
-        JSON.parse(text);
-
+        JSON.parse(
+          await file.text()
+        );
 
       const imported =
         Array.isArray(data)
           ? data
           : data.products;
 
-
       if(!Array.isArray(imported)){
 
         toast(
-          "Invalid Stock Lab backup"
+          "Invalid backup file"
         );
 
         return;
       }
 
 
-      const replace =
-        confirm(
-          "Replace current inventory with this backup?\n\n" +
-          "Choose Cancel to merge instead."
-        );
-
-
-      if(replace){
-
-        products =
-          imported;
-
-      }else{
-
-        const existingIds =
-          new Set(
-            products.map(p=>p.id)
-          );
-
-        imported.forEach(product=>{
-
-          if(
-            product.id &&
-            existingIds.has(product.id)
-          ){
-
-            const index =
-              products.findIndex(
-                p=>p.id === product.id
-              );
-
-            products[index] =
-              product;
-
-          }else{
-
-            product.id =
-              product.id || uid();
-
-            products.push(product);
-          }
-
-        });
+      if(
+        !confirm(
+          `Restore ${imported.length} products?\n\n` +
+          `This will replace the current inventory.`
+        )
+      ){
+        return;
       }
 
 
+      products =
+        imported;
+
+      if(
+        Array.isArray(data.categories)
+      ){
+
+        categories =
+          data.categories;
+      }
+
+      if(
+        Array.isArray(data.scanHistory)
+      ){
+
+        scanHistory =
+          data.scanHistory;
+      }
+
       saveProducts();
+      saveCategories();
+      saveHistory();
+
       renderProducts();
+      renderHistory();
 
       toast(
-        `${imported.length} products restored`
+        `${products.length} products restored`
       );
 
     }catch(error){
@@ -2392,136 +3780,117 @@ $("restoreInput").addEventListener(
 
     }finally{
 
-      event.target.value = "";
+      event.target.value="";
     }
   }
 );
 
 
-/* ---------- PAGES ---------- */
+/* ---------- SECURITY ---------- */
 
-function showPage(page){
-
-  $("stockPage")
-    .classList.toggle(
-      "hidden",
-      page !== "stock"
-    );
-
-  $("scannerPage")
-    .classList.toggle(
-      "hidden",
-      page !== "scanner"
-    );
-
-  $("aboutPage")
-    .classList.toggle(
-      "hidden",
-      page !== "about"
-    );
-
-
-  $("navStock")
-    .classList.toggle(
-      "active",
-      page === "stock"
-    );
-
-  $("navScanner")
-    .classList.toggle(
-      "active",
-      page === "scanner"
-    );
-
-  $("navAbout")
-    .classList.toggle(
-      "active",
-      page === "about"
-    );
-}
-
-
-/* ---------- PIN SECURITY ---------- */
-
-function setupPin(){
-
-  const existing =
-    localStorage.getItem(PIN_KEY);
-
-  if(existing){
-    return;
-  }
-
-  const pin =
-    prompt(
-      "Create a Stock Lab PIN.\n\n" +
-      "Leave empty if you don't want an app PIN."
-    );
-
-  if(pin && pin.trim()){
-
-    localStorage.setItem(
-      PIN_KEY,
-      pin.trim()
-    );
-
-    toast("PIN protection enabled");
-  }
-}
-
-
-function lockApp(){
-
-  const pin =
-    localStorage.getItem(PIN_KEY);
-
-  if(!pin){
-
-    const newPin =
-      prompt(
-        "Create a PIN for Stock Lab:"
-      );
-
-    if(
-      newPin &&
-      newPin.trim()
-    ){
-
-      localStorage.setItem(
-        PIN_KEY,
-        newPin.trim()
-      );
-
-      toast("PIN created");
-    }
-
-    return;
-  }
-
-
-  localStorage.setItem(
-    LOCK_KEY,
-    "1"
-  );
-
-  $("lockScreen")
-    .classList.add("show");
-
-  $("unlockPin").value = "";
-}
-
-
-function unlockApp(){
-
-  const saved =
-    localStorage.getItem(PIN_KEY);
-
-  const entered =
-    $("unlockPin").value;
+async function toggleBiometric(){
 
   if(
-    saved &&
-    entered === saved
+    !window.StockLabBiometric
+  ){
+
+    toast(
+      "Biometric module not loaded"
+    );
+
+    return;
+  }
+
+
+  if(!biometricEnabled){
+
+    try{
+
+      const info =
+        await window.StockLabBiometric.check();
+
+      if(
+        !info ||
+        info.isAvailable===false
+      ){
+
+        toast(
+          "Biometric authentication is unavailable"
+        );
+
+        return;
+      }
+
+
+      const result =
+        await window.StockLabBiometric.authenticate();
+
+      if(
+        result &&
+        result.success
+      ){
+
+        biometricEnabled=true;
+
+        localStorage.setItem(
+          BIOMETRIC_KEY,
+          "1"
+        );
+
+        updateToggles();
+
+        toast(
+          "Biometric lock enabled"
+        );
+
+      }
+
+    }catch(error){
+
+      console.error(error);
+
+      toast(
+        "Biometric setup failed"
+      );
+    }
+
+  }else{
+
+    biometricEnabled=false;
+
+    localStorage.setItem(
+      BIOMETRIC_KEY,
+      "0"
+    );
+
+    updateToggles();
+
+    toast(
+      "Biometric lock disabled"
+    );
+  }
+}
+
+
+async function authenticateUnlock(){
+
+  if(
+    !window.StockLabBiometric
+  ){
+
+    toast(
+      "Biometric module not loaded"
+    );
+
+    return;
+  }
+
+  const result =
+    await window.StockLabBiometric.authenticate();
+
+  if(
+    result &&
+    result.success
   ){
 
     localStorage.removeItem(
@@ -2531,30 +3900,202 @@ function unlockApp(){
     $("lockScreen")
       .classList.remove("show");
 
-    $("lockError").textContent = "";
+    toast("Unlocked");
 
   }else{
 
-    $("lockError").textContent =
-      "Incorrect PIN";
+    toast(
+      "Authentication cancelled"
+    );
   }
+}
+
+
+function lockApp(){
+
+  if(!biometricEnabled){
+
+    toast(
+      "Enable Biometric Lock in Settings first"
+    );
+
+    return;
+  }
+
+  localStorage.setItem(
+    LOCK_KEY,
+    "1"
+  );
+
+  $("lockScreen")
+    .classList.add("show");
 }
 
 
 function checkLock(){
 
-  const pin =
-    localStorage.getItem(PIN_KEY);
-
-  const locked =
-    localStorage.getItem(LOCK_KEY);
-
-  if(pin && locked === "1"){
+  if(
+    biometricEnabled &&
+    localStorage.getItem(LOCK_KEY)==="1"
+  ){
 
     $("lockScreen")
       .classList.add("show");
   }
 }
+
+
+/* ---------- TOGGLES ---------- */
+
+function updateToggles(){
+
+  $("quantityToggle")
+    .classList.toggle(
+      "on",
+      quantityMode
+    );
+
+  $("historyToggle")
+    .classList.toggle(
+      "on",
+      historyEnabled
+    );
+
+  $("biometricToggle")
+    .classList.toggle(
+      "on",
+      biometricEnabled
+    );
+}
+
+
+/* ---------- PAGES ---------- */
+
+function showPage(page){
+
+  $("stockPage")
+    .classList.toggle(
+      "hidden",
+      page!=="stock"
+    );
+
+  $("scannerPage")
+    .classList.toggle(
+      "hidden",
+      page!=="scanner"
+    );
+
+  $("settingsPage")
+    .classList.toggle(
+      "hidden",
+      page!=="settings"
+    );
+
+  $("aboutPage")
+    .classList.toggle(
+      "hidden",
+      page!=="about"
+    );
+
+
+  $("navStock")
+    .classList.toggle(
+      "active",
+      page==="stock"
+    );
+
+  $("navScanner")
+    .classList.toggle(
+      "active",
+      page==="scanner"
+    );
+
+  $("navSettings")
+    .classList.toggle(
+      "active",
+      page==="settings"
+    );
+
+  $("navAbout")
+    .classList.toggle(
+      "active",
+      page==="about"
+    );
+}65
+
+
+/* ---------- MODALS ---------- */
+
+function closeCategoryManager(){
+
+  $("categoryModal")
+    .classList.remove("show");
+}
+
+
+/* ---------- CATEGORY ---------- */
+
+function populateCategorySelect(){
+
+  const select =
+    $("pCategory");
+
+  const current =
+    select.value;
+
+  select.innerHTML =
+    `<option value="">
+      Select category
+    </option>` +
+
+    categories.map(c=>
+      `<option value="${escapeHTML(c)}">
+        ${escapeHTML(c)}
+      </option>`
+    ).join("");
+
+  select.value=current;
+}
+
+
+/* ---------- AUTO LOCK ---------- */
+
+let lastActivity=Date.now();
+
+document.addEventListener(
+  "click",
+  ()=>{
+    lastActivity=Date.now();
+  }
+);
+
+document.addEventListener(
+  "touchstart",
+  ()=>{
+    lastActivity=Date.now();
+  },
+  {passive:true}
+);
+
+setInterval(()=>{
+
+  if(
+    biometricEnabled &&
+    Date.now()-lastActivity >
+    10*60*1000
+  ){
+
+    if(
+      !document
+        .getElementById("lockScreen")
+        .classList.contains("show")
+    ){
+
+      lockApp();
+    }
+  }
+
+},30000);
 
 
 /* ---------- EVENTS ---------- */
@@ -2580,63 +4121,15 @@ $("sortFilter").addEventListener(
 );
 
 
-/* ---------- AUTO LOCK ---------- */
-
-let lastActivity =
-  Date.now();
-
-document.addEventListener(
-  "touchstart",
-  ()=>{
-    lastActivity = Date.now();
-  },
-  {passive:true}
-);
-
-document.addEventListener(
-  "click",
-  ()=>{
-    lastActivity = Date.now();
-  }
-);
-
-
-/*
-  Auto-lock after 10 minutes if
-  PIN protection has been enabled.
-*/
-
-setInterval(()=>{
-
-  const pin =
-    localStorage.getItem(PIN_KEY);
-
-  if(!pin) return;
-
-  if(
-    Date.now() - lastActivity >
-    10 * 60 * 1000
-  ){
-
-    localStorage.setItem(
-      LOCK_KEY,
-      "1"
-    );
-
-    $("lockScreen")
-      .classList.add("show");
-  }
-
-},30000);
-
-
 /* ---------- START ---------- */
 
-loadProducts();
+loadData();
+normalizeCategories();
+populateCategories();
 renderProducts();
-checkLock();
+renderHistory();
 
 </script>
 
 </body>
-        </html>
+      </html>
