@@ -3,13 +3,12 @@
   "version": "2.0.0",
   "private": true,
   "scripts": {
-    "build": "vite build --outDir www" 
+    "build": "vite build --outDir www"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.2",
     "@capacitor/barcode-scanner": "^3.1.2",
-    "@capacitor/core": "^8.5.2",
-    "@capacitor/filesystem": "^8.5.2"
+    "@capacitor/core": "^8.5.2"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.2",
