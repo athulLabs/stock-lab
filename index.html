@@ -21,6 +21,7 @@
   --yellow:#f6c85f;
   --red:#ff5c6c;
   --blue:#4ca6ff;
+  --screenTint:#080a0f;
   --radius:20px;
 }
 
@@ -65,7 +66,7 @@ button:disabled{
   top:0;
   z-index:50;
   padding:calc(13px + env(safe-area-inset-top)) 15px 13px;
-  background:rgba(8,10,15,.94);
+  background:color-mix(in srgb,var(--bg) 94%,transparent);
   backdrop-filter:blur(20px);
   border-bottom:1px solid var(--line);
 }
@@ -120,7 +121,7 @@ button:disabled{
   z-index:100;
   display:flex;
   padding:7px 5px calc(7px + env(safe-area-inset-bottom));
-  background:rgba(12,14,20,.97);
+  background:color-mix(in srgb,var(--bg) 97%,transparent);
   border-top:1px solid var(--line);
   backdrop-filter:blur(20px);
 }
@@ -180,7 +181,7 @@ button:disabled{
 
 .stat{
   padding:13px 10px;
-  background:linear-gradient(145deg,#141821,#0d1016);
+  background:linear-gradient(145deg,var(--panel2),var(--panel));
   border:1px solid var(--line);
   border-radius:17px;
 }
@@ -208,7 +209,7 @@ button:disabled{
   gap:11px;
   padding:14px;
   margin-bottom:16px;
-  background:linear-gradient(145deg,#111720,#0c1016);
+  background:linear-gradient(145deg,var(--panel2),var(--panel));
   border:1px solid var(--line);
   border-radius:18px;
 }
@@ -326,7 +327,7 @@ button:disabled{
 
 .product-card{
   overflow:hidden;
-  background:linear-gradient(145deg,#151922,#0e1117);
+  background:linear-gradient(145deg,var(--panel2),var(--card));
   border:1px solid #282e39;
   border-radius:20px;
   box-shadow:0 10px 28px rgba(0,0,0,.2);
@@ -448,6 +449,8 @@ button:disabled{
   font-weight:750;
 }
 
+/* QUANTITY CONTROLS */
+
 .card-actions{
   display:flex;
   gap:5px;
@@ -455,7 +458,6 @@ button:disabled{
 }
 
 .card-actions button{
-  flex:1;
   height:32px;
   border-radius:9px;
   background:#1a1e27;
@@ -464,11 +466,64 @@ button:disabled{
 }
 
 .card-actions .primary{
+  flex:1;
   background:color-mix(in srgb,var(--accent) 25%,#181c25);
   color:var(--accent2);
 }
 
-/* COMPACT CARD */
+.qty-panel{
+  margin:0 10px 8px;
+  padding:8px;
+  background:#0c1016;
+  border:1px solid #222832;
+  border-radius:12px;
+}
+
+.qty-line{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:6px;
+}
+
+.qty-line:last-child{
+  margin-bottom:0;
+}
+
+.qty-title{
+  width:52px;
+  color:#9ba4b3;
+  font-size:8px;
+  font-weight:800;
+}
+
+.qty-number{
+  flex:1;
+  text-align:center;
+  font-size:11px;
+  font-weight:800;
+}
+
+.qty-btn{
+  width:29px;
+  height:27px;
+  border-radius:7px;
+  background:#191e27;
+  color:#fff;
+}
+
+.clear-qty{
+  width:100%;
+  height:27px;
+  margin-top:7px;
+  border-radius:7px;
+  background:#24171a;
+  color:#ff7884;
+  font-size:8px;
+  font-weight:700;
+}
+
+/* COMPACT */
 
 .compact .product-card{
   display:grid;
@@ -485,7 +540,8 @@ button:disabled{
   padding:10px;
 }
 
-.compact .card-actions{
+.compact .card-actions,
+.compact .qty-panel{
   grid-column:1/-1;
 }
 
@@ -517,7 +573,7 @@ button:disabled{
 /* SCANNER */
 
 .scanner-box{
-  background:linear-gradient(145deg,#12161e,#0c1016);
+  background:linear-gradient(145deg,var(--panel2),var(--panel));
   border:1px solid var(--line);
   border-radius:22px;
   overflow:hidden;
@@ -579,7 +635,7 @@ button:disabled{
   color:white;
 }
 
-/* SCAN HISTORY */
+/* HISTORY */
 
 .history{
   margin-top:15px;
@@ -663,7 +719,7 @@ button:disabled{
 
 .setting-card{
   overflow:hidden;
-  background:linear-gradient(145deg,#12161e,#0d1016);
+  background:linear-gradient(145deg,var(--panel2),var(--panel));
   border:1px solid var(--line);
   border-radius:17px;
 }
@@ -709,31 +765,44 @@ button:disabled{
   font-size:10px;
 }
 
-.theme-grid{
+.theme-grid,
+.screen-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:8px;
   margin-top:10px;
 }
 
-.theme-dot{
+.theme-dot,
+.screen-dot{
   height:39px;
   border-radius:11px;
   border:2px solid transparent;
   position:relative;
 }
 
-.theme-dot.active{
+.theme-dot.active,
+.screen-dot.active{
   border-color:white;
 }
 
-.theme-dot span{
+.theme-dot span,
+.screen-dot span{
   position:absolute;
   inset:0;
   display:grid;
   place-items:center;
   color:white;
   font-size:13px;
+}
+
+.custom-color{
+  width:100%;
+  height:38px;
+  margin-top:9px;
+  border:1px solid #2b313c;
+  border-radius:10px;
+  background:#10131a;
 }
 
 /* TOGGLE */
@@ -769,7 +838,7 @@ button:disabled{
 .about-card{
   text-align:center;
   padding:25px 18px;
-  background:linear-gradient(145deg,#151922,#0d1016);
+  background:linear-gradient(145deg,var(--panel2),var(--panel));
   border:1px solid var(--line);
   border-radius:22px;
 }
@@ -818,7 +887,7 @@ button:disabled{
   font-size:10px;
 }
 
-/* MODAL */
+/* MODALS */
 
 .modal{
   position:fixed;
@@ -900,12 +969,14 @@ button:disabled{
   gap:8px;
 }
 
-.code-row{
+.code-row,
+.category-row{
   display:flex;
   gap:7px;
 }
 
-.code-row input{
+.code-row input,
+.category-row select{
   flex:1;
 }
 
@@ -916,15 +987,6 @@ button:disabled{
   background:color-mix(in srgb,var(--accent) 30%,#171b24);
   color:var(--accent2);
   font-size:18px;
-}
-
-.category-row{
-  display:flex;
-  gap:7px;
-}
-
-.category-row select{
-  flex:1;
 }
 
 .category-add{
@@ -967,7 +1029,7 @@ button:disabled{
   font-weight:800;
 }
 
-/* CATEGORY MODAL */
+/* CATEGORY */
 
 .category-list{
   display:grid;
@@ -986,6 +1048,56 @@ button:disabled{
 
 .category-item span{
   flex:1;
+}
+
+/* CALCULATOR */
+
+.calculator{
+  background:#0b0f15;
+  border:1px solid #252b36;
+  border-radius:18px;
+  padding:12px;
+}
+
+.calc-display{
+  width:100%;
+  height:65px;
+  padding:8px 12px;
+  margin-bottom:10px;
+  border:1px solid #252b36;
+  border-radius:12px;
+  background:#080a0f;
+  color:#fff;
+  font-size:27px;
+  text-align:right;
+  outline:none;
+}
+
+.calc-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+}
+
+.calc-grid button{
+  height:53px;
+  border-radius:12px;
+  background:#181d26;
+  color:#fff;
+  font-size:17px;
+}
+
+.calc-grid button.operator{
+  background:color-mix(in srgb,var(--accent) 28%,#181d26);
+  color:var(--accent2);
+}
+
+.calc-grid button.equal{
+  background:linear-gradient(135deg,var(--accent),#573dd1);
+}
+
+.calc-grid button.clear{
+  color:#ff7884;
 }
 
 /* LOCK */
@@ -1085,11 +1197,14 @@ button:disabled{
   <div class="header-row">
 
     <div class="brand">
+
       <div class="brand-icon">📦</div>
+
       <div>
         <div class="brand-title">Stock Lab</div>
         <div class="brand-sub">Inventory Manager</div>
       </div>
+
     </div>
 
     <button class="lock-top" onclick="lockApp()">🔒</button>
@@ -1101,19 +1216,21 @@ button:disabled{
 <main>
 
 <!-- STOCK -->
-
 <section id="stockPage" class="page">
 
   <div class="page-title">Inventory</div>
+
   <div class="page-subtitle">
     Manage your products quickly and simply.
   </div>
+
 
   <div class="storage">
 
     <div class="storage-icon">✓</div>
 
     <div class="storage-info">
+
       <div class="storage-title">
         Local app storage
       </div>
@@ -1121,19 +1238,26 @@ button:disabled{
       <div class="storage-sub">
         Products remain stored on this device.
       </div>
+
     </div>
 
     <div class="storage-actions">
+
       <button class="small-btn" onclick="backupData()">
         Backup
       </button>
 
-      <button class="small-btn" onclick="restoreInput.click()">
+      <button
+        class="small-btn"
+        onclick="document.getElementById('restoreInput').click()"
+      >
         Restore
       </button>
+
     </div>
 
   </div>
+
 
   <input
     id="restoreInput"
@@ -1141,6 +1265,7 @@ button:disabled{
     accept=".json,application/json"
     class="hidden"
   >
+
 
   <div class="stats">
 
@@ -1168,15 +1293,21 @@ button:disabled{
   <div class="toolbar">
 
     <div class="search">
+
       <span class="search-icon">⌕</span>
+
       <input
         id="search"
         type="search"
         placeholder="Search products..."
       >
+
     </div>
 
-    <button class="add-btn" onclick="openProduct()">
+    <button
+      class="add-btn"
+      onclick="openProduct()"
+    >
       +
     </button>
 
@@ -1190,29 +1321,35 @@ button:disabled{
     </select>
 
     <select id="stockFilter">
+
       <option value="">All stock</option>
       <option value="in">In stock</option>
       <option value="low">Low stock</option>
       <option value="out">Out of stock</option>
+
     </select>
 
     <select id="sortFilter">
+
       <option value="new">Newest</option>
       <option value="name">Name</option>
       <option value="qty">Quantity</option>
       <option value="price">Price</option>
+
     </select>
 
   </div>
 
 
-  <div id="productGrid" class="product-grid"></div>
+  <div
+    id="productGrid"
+    class="product-grid"
+  ></div>
 
 </section>
 
 
 <!-- SCANNER -->
-
 <section id="scannerPage" class="page hidden">
 
   <div class="page-title">Scanner</div>
@@ -1220,6 +1357,7 @@ button:disabled{
   <div class="page-subtitle">
     Scan and manage product codes.
   </div>
+
 
   <div class="scanner-box">
 
@@ -1232,8 +1370,7 @@ button:disabled{
       </div>
 
       <div class="scanner-desc">
-        Use the native Android camera scanner for
-        fast and reliable barcode detection.
+        Use the native Android camera scanner for fast and reliable barcode detection.
       </div>
 
       <button
@@ -1243,6 +1380,7 @@ button:disabled{
       >
         📷 Scan Barcode
       </button>
+
 
       <div class="manual">
 
@@ -1290,7 +1428,11 @@ button:disabled{
 
     </div>
 
-    <div id="historyList" class="history-list"></div>
+
+    <div
+      id="historyList"
+      class="history-list"
+    ></div>
 
   </div>
 
@@ -1298,10 +1440,11 @@ button:disabled{
 
 
 <!-- SETTINGS -->
-
 <section id="settingsPage" class="page hidden">
 
-  <div class="page-title">Settings</div>
+  <div class="page-title">
+    Settings
+  </div>
 
   <div class="page-subtitle">
     Customize Stock Lab.
@@ -1316,13 +1459,20 @@ button:disabled{
       Appearance
     </div>
 
+
     <div class="setting-card">
+
+
+      <!-- THEME -->
 
       <div class="setting-row">
 
-        <div class="setting-icon">🎨</div>
+        <div class="setting-icon">
+          🎨
+        </div>
 
         <div class="setting-main">
+
           <div class="setting-name">
             Theme color
           </div>
@@ -1331,6 +1481,7 @@ button:disabled{
             Change Stock Lab accent color.
           </div>
 
+
           <div class="theme-grid">
 
             <button
@@ -1338,56 +1489,72 @@ button:disabled{
               data-color="#7c5cff"
               style="background:#7c5cff"
               onclick="setTheme('#7c5cff')"
-            ><span>✓</span></button>
+            >
+              <span>✓</span>
+            </button>
 
             <button
               class="theme-dot"
               data-color="#4ca6ff"
               style="background:#4ca6ff"
               onclick="setTheme('#4ca6ff')"
-            ><span>✓</span></button>
+            >
+              <span>✓</span>
+            </button>
 
             <button
               class="theme-dot"
               data-color="#39d98a"
               style="background:#39d98a"
               onclick="setTheme('#39d98a')"
-            ><span>✓</span></button>
+            >
+              <span>✓</span>
+            </button>
 
             <button
               class="theme-dot"
               data-color="#ff8a3d"
               style="background:#ff8a3d"
               onclick="setTheme('#ff8a3d')"
-            ><span>✓</span></button>
+            >
+              <span>✓</span>
+            </button>
 
             <button
               class="theme-dot"
               data-color="#ff5c6c"
               style="background:#ff5c6c"
               onclick="setTheme('#ff5c6c')"
-            ><span>✓</span></button>
+            >
+              <span>✓</span>
+            </button>
 
             <button
               class="theme-dot"
               data-color="#ff5ebc"
               style="background:#ff5ebc"
               onclick="setTheme('#ff5ebc')"
-            ><span>✓</span></button>
+            >
+              <span>✓</span>
+            </button>
 
             <button
               class="theme-dot"
               data-color="#e4b84d"
               style="background:#e4b84d"
               onclick="setTheme('#e4b84d')"
-            ><span>✓</span></button>
+            >
+              <span>✓</span>
+            </button>
 
             <button
               class="theme-dot"
               data-color="#d8dbe2"
               style="background:#d8dbe2"
               onclick="setTheme('#d8dbe2')"
-            ><span style="color:#111">✓</span></button>
+            >
+              <span style="color:#111">✓</span>
+            </button>
 
           </div>
 
@@ -1396,9 +1563,122 @@ button:disabled{
       </div>
 
 
+      <!-- SCREEN COLOR -->
+
       <div class="setting-row">
 
-        <div class="setting-icon">🃏</div>
+        <div class="setting-icon">
+          🌈
+        </div>
+
+        <div class="setting-main">
+
+          <div class="setting-name">
+            Screen color
+          </div>
+
+          <div class="setting-description">
+            Change the background color of Stock Lab.
+          </div>
+
+
+          <div class="screen-grid">
+
+            <button
+              class="screen-dot"
+              data-screen="#080a0f"
+              style="background:#080a0f"
+              onclick="setScreenColor('#080a0f')"
+            >
+              <span>✓</span>
+            </button>
+
+            <button
+              class="screen-dot"
+              data-screen="#0b0b12"
+              style="background:#0b0b12"
+              onclick="setScreenColor('#0b0b12')"
+            >
+              <span>✓</span>
+            </button>
+
+            <button
+              class="screen-dot"
+              data-screen="#07100d"
+              style="background:#07100d"
+              onclick="setScreenColor('#07100d')"
+            >
+              <span>✓</span>
+            </button>
+
+            <button
+              class="screen-dot"
+              data-screen="#07101a"
+              style="background:#07101a"
+              onclick="setScreenColor('#07101a')"
+            >
+              <span>✓</span>
+            </button>
+
+            <button
+              class="screen-dot"
+              data-screen="#120b08"
+              style="background:#120b08"
+              onclick="setScreenColor('#120b08')"
+            >
+              <span>✓</span>
+            </button>
+
+            <button
+              class="screen-dot"
+              data-screen="#12080e"
+              style="background:#12080e"
+              onclick="setScreenColor('#12080e')"
+            >
+              <span>✓</span>
+            </button>
+
+            <button
+              class="screen-dot"
+              data-screen="#101010"
+              style="background:#101010"
+              onclick="setScreenColor('#101010')"
+            >
+              <span>✓</span>
+            </button>
+
+            <button
+              class="screen-dot"
+              data-screen="#151515"
+              style="background:#151515"
+              onclick="setScreenColor('#151515')"
+            >
+              <span>✓</span>
+            </button>
+
+          </div>
+
+
+          <input
+            id="customScreenColor"
+            class="custom-color"
+            type="color"
+            value="#080a0f"
+            onchange="setScreenColor(this.value)"
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- CARD STYLE -->
+
+      <div class="setting-row">
+
+        <div class="setting-icon">
+          🃏
+        </div>
 
         <div class="setting-main">
 
@@ -1411,6 +1691,7 @@ button:disabled{
           </div>
 
         </div>
+
 
         <select
           id="cardStyle"
@@ -1442,6 +1723,49 @@ button:disabled{
   </div>
 
 
+  <!-- TOOLS -->
+
+  <div class="setting-section">
+
+    <div class="setting-section-title">
+      Tools
+    </div>
+
+
+    <div class="setting-card">
+
+      <div
+        class="setting-row"
+        onclick="openCalculator()"
+      >
+
+        <div class="setting-icon">
+          🧮
+        </div>
+
+        <div class="setting-main">
+
+          <div class="setting-name">
+            Calculator
+          </div>
+
+          <div class="setting-description">
+            Open a calculator inside Stock Lab.
+          </div>
+
+        </div>
+
+        <div class="setting-control">
+          ›
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
   <!-- INVENTORY -->
 
   <div class="setting-section">
@@ -1450,6 +1774,7 @@ button:disabled{
       Inventory
     </div>
 
+
     <div class="setting-card">
 
       <div
@@ -1457,7 +1782,9 @@ button:disabled{
         onclick="openCategoryManager()"
       >
 
-        <div class="setting-icon">🏷️</div>
+        <div class="setting-icon">
+          🏷️
+        </div>
 
         <div class="setting-main">
 
@@ -1480,7 +1807,9 @@ button:disabled{
 
       <div class="setting-row">
 
-        <div class="setting-icon">📦</div>
+        <div class="setting-icon">
+          📦
+        </div>
 
         <div class="setting-main">
 
@@ -1517,11 +1846,14 @@ button:disabled{
       Scanner
     </div>
 
+
     <div class="setting-card">
 
       <div class="setting-row">
 
-        <div class="setting-icon">📋</div>
+        <div class="setting-icon">
+          📋
+        </div>
 
         <div class="setting-main">
 
@@ -1558,11 +1890,14 @@ button:disabled{
       Security
     </div>
 
+
     <div class="setting-card">
 
       <div class="setting-row">
 
-        <div class="setting-icon">🔐</div>
+        <div class="setting-icon">
+          🔐
+        </div>
 
         <div class="setting-main">
 
@@ -1627,11 +1962,17 @@ button:disabled{
       Data
     </div>
 
+
     <div class="setting-card">
 
-      <div class="setting-row" onclick="backupData()">
+      <div
+        class="setting-row"
+        onclick="backupData()"
+      >
 
-        <div class="setting-icon">💾</div>
+        <div class="setting-icon">
+          💾
+        </div>
 
         <div class="setting-main">
 
@@ -1645,14 +1986,21 @@ button:disabled{
 
         </div>
 
-        <div class="setting-control">›</div>
+        <div class="setting-control">
+          ›
+        </div>
 
       </div>
 
 
-      <div class="setting-row" onclick="restoreInput.click()">
+      <div
+        class="setting-row"
+        onclick="document.getElementById('restoreInput').click()"
+      >
 
-        <div class="setting-icon">♻️</div>
+        <div class="setting-icon">
+          ♻️
+        </div>
 
         <div class="setting-main">
 
@@ -1666,7 +2014,9 @@ button:disabled{
 
         </div>
 
-        <div class="setting-control">›</div>
+        <div class="setting-control">
+          ›
+        </div>
 
       </div>
 
@@ -1676,7 +2026,9 @@ button:disabled{
         onclick="clearHistory()"
       >
 
-        <div class="setting-icon">🗑️</div>
+        <div class="setting-icon">
+          🗑️
+        </div>
 
         <div class="setting-main">
 
@@ -1690,7 +2042,9 @@ button:disabled{
 
         </div>
 
-        <div class="setting-control">›</div>
+        <div class="setting-control">
+          ›
+        </div>
 
       </div>
 
@@ -1713,6 +2067,7 @@ button:disabled{
     Stock Lab information.
   </div>
 
+
   <div class="about-card">
 
     <div class="about-logo">
@@ -1724,7 +2079,7 @@ button:disabled{
     </div>
 
     <div class="about-version">
-      Version 2.1
+      Version 2.2
     </div>
 
     <div class="about-text">
@@ -1732,6 +2087,7 @@ button:disabled{
       for fast product management, barcode scanning,
       backup and private on-device storage.
     </div>
+
 
     <div class="feature-list">
 
@@ -1743,6 +2099,11 @@ button:disabled{
       <div class="feature">
         📷 <b>Native Scanner</b><br>
         Android barcode scanning.
+      </div>
+
+      <div class="feature">
+        🧮 <b>Calculator</b><br>
+        Built-in inventory calculator.
       </div>
 
       <div class="feature">
@@ -1777,6 +2138,7 @@ button:disabled{
     <span class="nav-label">Stock Lab</span>
   </button>
 
+
   <button
     id="navScanner"
     onclick="showPage('scanner')"
@@ -1785,6 +2147,7 @@ button:disabled{
     <span class="nav-label">Scanner</span>
   </button>
 
+
   <button
     id="navSettings"
     onclick="showPage('settings')"
@@ -1792,6 +2155,7 @@ button:disabled{
     <span class="nav-icon">⚙️</span>
     <span class="nav-label">Settings</span>
   </button>
+
 
   <button
     id="navAbout"
@@ -1806,17 +2170,26 @@ button:disabled{
 
 <!-- PRODUCT MODAL -->
 
-<div id="productModal" class="modal">
+<div
+  id="productModal"
+  class="modal"
+>
 
   <div class="modal-box">
 
     <div class="modal-head">
 
-      <div id="modalTitle" class="modal-title">
+      <div
+        id="modalTitle"
+        class="modal-title"
+      >
         Add Product
       </div>
 
-      <button class="close" onclick="closeProduct()">
+      <button
+        class="close"
+        onclick="closeProduct()"
+      >
         ✕
       </button>
 
@@ -1827,7 +2200,9 @@ button:disabled{
 
       <div class="field">
 
-        <label>PRODUCT NAME</label>
+        <label>
+          PRODUCT NAME
+        </label>
 
         <input
           id="pName"
@@ -1839,7 +2214,10 @@ button:disabled{
 
       <div class="field">
 
-        <label>PRODUCT CODE / BARCODE</label>
+        <label>
+          PRODUCT CODE / BARCODE
+        </label>
+
 
         <div class="code-row">
 
@@ -1862,15 +2240,21 @@ button:disabled{
 
       <div class="field">
 
-        <label>CATEGORY</label>
+        <label>
+          CATEGORY
+        </label>
+
 
         <div class="category-row">
 
           <select id="pCategory">
+
             <option value="">
               Select category
             </option>
+
           </select>
+
 
           <button
             class="category-add"
@@ -1888,7 +2272,9 @@ button:disabled{
 
         <div class="field">
 
-          <label>SIZE</label>
+          <label>
+            SIZE
+          </label>
 
           <input
             id="pSize"
@@ -1897,9 +2283,12 @@ button:disabled{
 
         </div>
 
+
         <div class="field">
 
-          <label>COLOR</label>
+          <label>
+            COLOR
+          </label>
 
           <input
             id="pColor"
@@ -1915,7 +2304,9 @@ button:disabled{
 
         <div class="field">
 
-          <label>BOXES</label>
+          <label>
+            BOXES
+          </label>
 
           <input
             id="pBoxes"
@@ -1926,9 +2317,12 @@ button:disabled{
 
         </div>
 
+
         <div class="field">
 
-          <label>UNITS</label>
+          <label>
+            UNITS
+          </label>
 
           <input
             id="pUnits"
@@ -1946,7 +2340,9 @@ button:disabled{
 
         <div class="field">
 
-          <label>LOW STOCK LIMIT</label>
+          <label>
+            LOW STOCK LIMIT
+          </label>
 
           <input
             id="pThreshold"
@@ -1957,9 +2353,12 @@ button:disabled{
 
         </div>
 
+
         <div class="field">
 
-          <label>PRICE</label>
+          <label>
+            PRICE
+          </label>
 
           <input
             id="pPrice"
@@ -1976,7 +2375,9 @@ button:disabled{
 
       <div class="field">
 
-        <label>PRODUCT PHOTOS</label>
+        <label>
+          PRODUCT PHOTOS
+        </label>
 
         <input
           id="pImages"
@@ -1988,7 +2389,10 @@ button:disabled{
       </div>
 
 
-      <div id="photoPreview" class="photo-preview"></div>
+      <div
+        id="photoPreview"
+        class="photo-preview"
+      ></div>
 
 
       <button
@@ -2007,7 +2411,10 @@ button:disabled{
 
 <!-- CATEGORY MANAGER -->
 
-<div id="categoryModal" class="modal">
+<div
+  id="categoryModal"
+  class="modal"
+>
 
   <div class="modal-box">
 
@@ -2026,10 +2433,12 @@ button:disabled{
 
     </div>
 
+
     <div
       id="categoryList"
       class="category-list"
     ></div>
+
 
     <button
       class="save-btn"
@@ -2044,9 +2453,160 @@ button:disabled{
 </div>
 
 
+<!-- CALCULATOR -->
+
+<div
+  id="calculatorModal"
+  class="modal"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <div class="modal-title">
+        Calculator
+      </div>
+
+      <button
+        class="close"
+        onclick="closeCalculator()"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <div class="calculator">
+
+      <input
+        id="calcDisplay"
+        class="calc-display"
+        value="0"
+        readonly
+      >
+
+
+      <div class="calc-grid">
+
+        <button
+          class="clear"
+          onclick="calcClear()"
+        >
+          AC
+        </button>
+
+        <button onclick="calcBack()">
+          ⌫
+        </button>
+
+        <button
+          class="operator"
+          onclick="calcInput('%')"
+        >
+          %
+        </button>
+
+        <button
+          class="operator"
+          onclick="calcInput('/')"
+        >
+          ÷
+        </button>
+
+
+        <button onclick="calcInput('7')">
+          7
+        </button>
+
+        <button onclick="calcInput('8')">
+          8
+        </button>
+
+        <button onclick="calcInput('9')">
+          9
+        </button>
+
+        <button
+          class="operator"
+          onclick="calcInput('*')"
+        >
+          ×
+        </button>
+
+
+        <button onclick="calcInput('4')">
+          4
+        </button>
+
+        <button onclick="calcInput('5')">
+          5
+        </button>
+
+        <button onclick="calcInput('6')">
+          6
+        </button>
+
+        <button
+          class="operator"
+          onclick="calcInput('-')"
+        >
+          −
+        </button>
+
+
+        <button onclick="calcInput('1')">
+          1
+        </button>
+
+        <button onclick="calcInput('2')">
+          2
+        </button>
+
+        <button onclick="calcInput('3')">
+          3
+        </button>
+
+        <button
+          class="operator"
+          onclick="calcInput('+')"
+        >
+          +
+        </button>
+
+
+        <button onclick="calcInput('0')">
+          0
+        </button>
+
+        <button onclick="calcInput('.')">
+          .
+        </button>
+
+        <button
+          class="equal"
+          style="grid-column:span 2"
+          onclick="calcEqual()"
+        >
+          =
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
 <!-- LOCK -->
 
-<div id="lockScreen" class="lock-screen">
+<div
+  id="lockScreen"
+  class="lock-screen"
+>
 
   <div class="lock-box">
 
@@ -2078,183 +2638,244 @@ button:disabled{
 </div>
 
 
-<input
-  id="restoreInput"
-  type="file"
-  accept=".json,application/json"
-  class="hidden"
->
+<div
+  id="toast"
+  class="toast"
+></div>
 
 
-<div id="toast" class="toast"></div>
+<!-- NATIVE MODULES -->
 
+<script
+  type="module"
+  src="/native-scanner.js"
+></script>
 
-<!-- Native modules -->
-
-<script type="module" src="/native-scanner.js"></script>
-<script type="module" src="/biometric-auth.js"></script>
+<script
+  type="module"
+  src="/biometric-auth.js"
+></script>
 
 
 <script>
+
 /* =========================================================
-   STOCK LAB 2.1
+   STOCK LAB 2.2
    ========================================================= */
 
-const PRODUCTS_KEY = "stock_lab_products_v21";
-const CATEGORY_KEY = "stock_lab_categories_v21";
-const HISTORY_KEY = "stock_lab_scan_history_v21";
+const PRODUCTS_KEY="stock_lab_products_v21";
+const CATEGORY_KEY="stock_lab_categories_v21";
+const HISTORY_KEY="stock_lab_scan_history_v21";
 
-const THEME_KEY = "stock_lab_theme_v21";
-const CARD_KEY = "stock_lab_card_v21";
-const QUANTITY_KEY = "stock_lab_quantity_v21";
-const HISTORY_ENABLED_KEY = "stock_lab_history_enabled_v21";
-const BIOMETRIC_KEY = "stock_lab_biometric_v21";
-const LOCK_KEY = "stock_lab_locked_v21";
-
-let products = [];
-let categories = [];
-let scanHistory = [];
-
-let editingId = null;
-let pendingImages = [];
-
-let quantityMode = true;
-let historyEnabled = true;
-let biometricEnabled = false;
+const THEME_KEY="stock_lab_theme_v21";
+const SCREEN_KEY="stock_lab_screen_v22";
+const CARD_KEY="stock_lab_card_v21";
+const QUANTITY_KEY="stock_lab_quantity_v21";
+const HISTORY_ENABLED_KEY="stock_lab_history_enabled_v21";
+const BIOMETRIC_KEY="stock_lab_biometric_v21";
+const LOCK_KEY="stock_lab_locked_v21";
 
 
-/* ---------- HELPERS ---------- */
+let products=[];
+let categories=[];
+let scanHistory=[];
+
+let editingId=null;
+let pendingImages=[];
+
+let quantityMode=true;
+let historyEnabled=true;
+let biometricEnabled=false;
+
+let calcExpression="";
+
+
+/* HELPERS */
 
 function $(id){
   return document.getElementById(id);
 }
 
+
 function uid(){
-  return Date.now().toString(36) +
+
+  return Date.now().toString(36)+
     Math.random().toString(36).slice(2,8);
+
 }
+
 
 function toast(message){
 
-  const el = $("toast");
+  const el=$("toast");
 
-  el.textContent = message;
+  el.textContent=message;
+
   el.classList.add("show");
 
   clearTimeout(window.__toast);
 
-  window.__toast =
-    setTimeout(()=>{
-      el.classList.remove("show");
-    },2200);
+  window.__toast=setTimeout(()=>{
+    el.classList.remove("show");
+  },2200);
+
 }
+
 
 function escapeHTML(value){
 
-  return String(value ?? "")
+  return String(value??"")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
+
 }
 
 
-/* ---------- LOAD ---------- */
+/* LOAD */
 
 function loadData(){
 
   try{
 
-    const old =
-      localStorage.getItem("stock_lab_products_v4");
+    const old=
+      localStorage.getItem(
+        "stock_lab_products_v4"
+      );
 
-    const current =
-      localStorage.getItem(PRODUCTS_KEY);
+    const current=
+      localStorage.getItem(
+        PRODUCTS_KEY
+      );
 
-    products =
+    products=
       current
-        ? JSON.parse(current)
-        : old
-          ? JSON.parse(old)
-          : [];
+        ?JSON.parse(current)
+        :old
+          ?JSON.parse(old)
+          :[];
 
   }catch{
+
     products=[];
+
   }
+
 
   try{
 
-    categories =
+    categories=
       JSON.parse(
-        localStorage.getItem(CATEGORY_KEY) || "[]"
+        localStorage.getItem(
+          CATEGORY_KEY
+        )||"[]"
       );
 
   }catch{
+
     categories=[];
+
   }
+
 
   try{
 
-    scanHistory =
+    scanHistory=
       JSON.parse(
-        localStorage.getItem(HISTORY_KEY) || "[]"
+        localStorage.getItem(
+          HISTORY_KEY
+        )||"[]"
       );
 
   }catch{
+
     scanHistory=[];
+
   }
 
-  quantityMode =
-    localStorage.getItem(QUANTITY_KEY) !== "0";
 
-  historyEnabled =
-    localStorage.getItem(HISTORY_ENABLED_KEY) !== "0";
+  quantityMode=
+    localStorage.getItem(
+      QUANTITY_KEY
+    )!=="0";
 
-  biometricEnabled =
-    localStorage.getItem(BIOMETRIC_KEY) === "1";
 
-  const savedTheme =
-    localStorage.getItem(THEME_KEY);
+  historyEnabled=
+    localStorage.getItem(
+      HISTORY_ENABLED_KEY
+    )!=="0";
+
+
+  biometricEnabled=
+    localStorage.getItem(
+      BIOMETRIC_KEY
+    )==="1";
+
+
+  const savedTheme=
+    localStorage.getItem(
+      THEME_KEY
+    );
 
   if(savedTheme){
     applyTheme(savedTheme);
   }
 
-  const savedCard =
-    localStorage.getItem(CARD_KEY) || "standard";
 
-  $("cardStyle").value = savedCard;
+  const savedScreen=
+    localStorage.getItem(
+      SCREEN_KEY
+    )||"#080a0f";
+
+  applyScreenColor(savedScreen);
+
+
+  $("cardStyle").value=
+    localStorage.getItem(
+      CARD_KEY
+    )||"standard";
+
 
   updateToggles();
+
 }
 
 
-/* ---------- SAVE ---------- */
+/* SAVE */
 
 function saveProducts(){
+
   localStorage.setItem(
     PRODUCTS_KEY,
     JSON.stringify(products)
   );
+
 }
 
+
 function saveCategories(){
+
   localStorage.setItem(
     CATEGORY_KEY,
     JSON.stringify(categories)
   );
+
 }
 
+
 function saveHistory(){
+
   localStorage.setItem(
     HISTORY_KEY,
     JSON.stringify(scanHistory)
   );
+
 }
 
 
-/* ---------- THEME ---------- */
+/* THEME */
 
 function setTheme(color){
 
@@ -2266,29 +2887,88 @@ function setTheme(color){
   );
 
   toast("Theme color changed");
+
 }
+
 
 function applyTheme(color){
 
   document.documentElement.style
-    .setProperty("--accent",color);
+    .setProperty(
+      "--accent",
+      color
+    );
 
   document.documentElement.style
-    .setProperty("--accent2",color);
+    .setProperty(
+      "--accent2",
+      color
+    );
 
-  document.querySelectorAll(".theme-dot")
+
+  document
+    .querySelectorAll(".theme-dot")
     .forEach(dot=>{
 
       dot.classList.toggle(
         "active",
-        dot.dataset.color === color
+        dot.dataset.color===color
       );
 
     });
+
 }
 
 
-/* ---------- CARD STYLE ---------- */
+/* SCREEN COLOR */
+
+function setScreenColor(color){
+
+  applyScreenColor(color);
+
+  localStorage.setItem(
+    SCREEN_KEY,
+    color
+  );
+
+  $("customScreenColor").value=
+    color;
+
+  toast("Screen color changed");
+
+}
+
+
+function applyScreenColor(color){
+
+  document.documentElement.style
+    .setProperty(
+      "--bg",
+      color
+    );
+
+  document.documentElement.style
+    .setProperty(
+      "--screenTint",
+      color
+    );
+
+
+  document
+    .querySelectorAll(".screen-dot")
+    .forEach(dot=>{
+
+      dot.classList.toggle(
+        "active",
+        dot.dataset.screen===color
+      );
+
+    });
+
+}
+
+
+/* CARD STYLE */
 
 function setCardStyle(style){
 
@@ -2300,216 +2980,276 @@ function setCardStyle(style){
   renderProducts();
 
   toast(
-    style === "compact"
-      ? "Compact cards enabled"
-      : "Standard cards enabled"
+    style==="compact"
+      ?"Compact cards enabled"
+      :"Standard cards enabled"
   );
+
 }
 
 
-/* ---------- QUANTITY ---------- */
+/* QUANTITY DISPLAY */
 
 function toggleQuantityMode(){
 
-  quantityMode = !quantityMode;
+  quantityMode=!quantityMode;
 
   localStorage.setItem(
     QUANTITY_KEY,
-    quantityMode ? "1" : "0"
+    quantityMode
+      ?"1"
+      :"0"
   );
 
   updateToggles();
+
   renderProducts();
 
   toast(
     quantityMode
-      ? "Boxes and units enabled"
-      : "Units only"
+      ?"Boxes and units enabled"
+      :"Units only"
   );
+
 }
 
 
-/* ---------- HISTORY SETTING ---------- */
+/* HISTORY */
 
 function toggleHistory(){
 
-  historyEnabled = !historyEnabled;
+  historyEnabled=!historyEnabled;
 
   localStorage.setItem(
     HISTORY_ENABLED_KEY,
-    historyEnabled ? "1" : "0"
+    historyEnabled
+      ?"1"
+      :"0"
   );
 
   updateToggles();
 
   toast(
     historyEnabled
-      ? "Scan history enabled"
-      : "Scan history disabled"
+      ?"Scan history enabled"
+      :"Scan history disabled"
   );
+
 }
 
 
-/* ---------- STATUS ---------- */
+/* STATUS */
 
 function totalUnits(product){
 
-  return Number(product.units || 0);
+  return Number(
+    product.units||0
+  );
+
 }
+
 
 function getStatus(product){
 
-  const units =
+  const units=
     totalUnits(product);
 
-  const threshold =
-    Number(product.threshold || 5);
+  const threshold=
+    Number(
+      product.threshold||5
+    );
 
-  if(units <= 0){
-    return {
+
+  if(units<=0){
+
+    return{
       key:"out",
       text:"OUT OF STOCK"
     };
+
   }
 
-  if(units <= threshold){
-    return {
+
+  if(units<=threshold){
+
+    return{
       key:"low",
       text:"LOW STOCK"
     };
+
   }
 
-  return {
+
+  return{
     key:"in",
     text:"IN STOCK"
   };
+
 }
 
 
-/* ---------- STATS ---------- */
+/* STATS */
 
 function updateStats(){
 
   let low=0;
   let out=0;
 
+
   products.forEach(product=>{
 
-    const status =
+    const status=
       getStatus(product);
 
-    if(status.key==="low") low++;
-    if(status.key==="out") out++;
+    if(status.key==="low"){
+      low++;
+    }
+
+    if(status.key==="out"){
+      out++;
+    }
 
   });
 
-  $("totalProducts").textContent =
+
+  $("totalProducts").textContent=
     products.length;
 
-  $("lowStock").textContent =
+  $("lowStock").textContent=
     low;
 
-  $("outStock").textContent =
+  $("outStock").textContent=
     out;
+
 }
 
 
-/* ---------- CATEGORIES ---------- */
+/* CATEGORIES */
 
 function normalizeCategories(){
 
-  const fromProducts =
+  const fromProducts=
     products
-      .map(p=>p.category || "")
+      .map(p=>p.category||"")
       .filter(Boolean);
 
-  categories = [
+
+  categories=[
     ...new Set([
       ...categories,
       ...fromProducts
     ])
   ].sort();
 
+
   saveCategories();
+
 }
+
 
 function populateCategories(){
 
   normalizeCategories();
 
-  const filter =
+
+  const filter=
     $("categoryFilter");
 
-  const current =
+  const current=
     filter.value;
 
-  filter.innerHTML =
-    `<option value="">All categories</option>` +
+
+  filter.innerHTML=
+    `<option value="">All categories</option>`+
     categories.map(c=>
       `<option value="${escapeHTML(c)}">
         ${escapeHTML(c)}
       </option>`
     ).join("");
+
 
   filter.value=current;
 
 
-  const productCategory =
+  const productCategory=
     $("pCategory");
 
-  const selected =
+  const selected=
     productCategory.value;
 
-  productCategory.innerHTML =
+
+  productCategory.innerHTML=
     `<option value="">
       Select category
-    </option>` +
+    </option>`+
     categories.map(c=>
       `<option value="${escapeHTML(c)}">
         ${escapeHTML(c)}
       </option>`
     ).join("");
 
-  productCategory.value=selected;
+
+  productCategory.value=
+    selected;
+
 }
 
 
 function addCategoryPrompt(){
 
-  const name =
-    prompt("Enter new category:");
+  const name=
+    prompt(
+      "Enter new category:"
+    );
+
 
   if(!name){
     return;
   }
 
-  const clean =
+
+  const clean=
     name.trim();
+
 
   if(!clean){
     return;
   }
 
+
   if(
     categories.some(
-      c=>c.toLowerCase() === clean.toLowerCase()
+      c=>
+        c.toLowerCase()===
+        clean.toLowerCase()
     )
   ){
 
-    toast("Category already exists");
+    toast(
+      "Category already exists"
+    );
+
     return;
   }
 
+
   categories.push(clean);
+
   categories.sort();
 
   saveCategories();
+
   populateCategories();
+
   renderCategoryManager();
 
-  $("pCategory").value=clean;
+  $("pCategory").value=
+    clean;
 
-  toast("Category added");
+  toast(
+    "Category added"
+  );
+
 }
 
 
@@ -2519,6 +3259,7 @@ function openCategoryManager(){
 
   $("categoryModal")
     .classList.add("show");
+
 }
 
 
@@ -2526,17 +3267,19 @@ function closeCategoryManager(){
 
   $("categoryModal")
     .classList.remove("show");
+
 }
 
 
 function renderCategoryManager(){
 
-  const list =
+  const list=
     $("categoryList");
+
 
   if(!categories.length){
 
-    list.innerHTML = `
+    list.innerHTML=`
       <div class="empty">
         No categories yet.
       </div>
@@ -2545,58 +3288,71 @@ function renderCategoryManager(){
     return;
   }
 
-  list.innerHTML =
-    categories.map((category,index)=>`
 
-      <div class="category-item">
+  list.innerHTML=
+    categories
+      .map(
+        (category,index)=>`
 
-        <span>
-          ${escapeHTML(category)}
-        </span>
+        <div class="category-item">
 
-        <button
-          class="row-btn"
-          onclick="renameCategory(${index})"
-        >
-          Rename
-        </button>
+          <span>
+            ${escapeHTML(category)}
+          </span>
 
-        <button
-          class="row-btn delete"
-          onclick="deleteCategory(${index})"
-        >
-          Delete
-        </button>
+          <button
+            class="row-btn"
+            onclick="renameCategory(${index})"
+          >
+            Rename
+          </button>
 
-      </div>
+          <button
+            class="row-btn delete"
+            onclick="deleteCategory(${index})"
+          >
+            Delete
+          </button>
 
-    `).join("");
+        </div>
+
+      `
+      )
+      .join("");
+
 }
 
 
 function renameCategory(index){
 
-  const old =
+  const old=
     categories[index];
 
-  const next =
+
+  const next=
     prompt(
       "Rename category:",
       old
     );
 
+
   if(!next){
     return;
   }
 
-  const clean =
+
+  const clean=
     next.trim();
+
 
   if(!clean){
     return;
   }
 
-  categories[index]=clean;
+
+  categories[index]=
+    clean;
+
 
   products.forEach(p=>{
 
@@ -2606,31 +3362,46 @@ function renameCategory(index){
 
   });
 
+
   saveCategories();
+
   saveProducts();
 
   populateCategories();
+
   renderCategoryManager();
+
   renderProducts();
 
-  toast("Category renamed");
+  toast(
+    "Category renamed"
+  );
+
 }
 
 
 function deleteCategory(index){
 
-  const category =
+  const category=
     categories[index];
+
 
   if(
     !confirm(
       `Delete category "${category}"?`
     )
   ){
+
     return;
+
   }
 
-  categories.splice(index,1);
+
+  categories.splice(
+    index,
+    1
+  );
+
 
   products.forEach(p=>{
 
@@ -2640,113 +3411,155 @@ function deleteCategory(index){
 
   });
 
+
   saveCategories();
+
   saveProducts();
 
   populateCategories();
+
   renderCategoryManager();
+
   renderProducts();
 
-  toast("Category deleted");
+  toast(
+    "Category deleted"
+  );
+
 }
 
 
-/* ---------- PRODUCT RENDER ---------- */
+/* PRODUCT RENDER */
 
 function renderProducts(){
 
   updateStats();
+
   populateCategories();
 
-  const search =
-    $("search").value
+
+  const search=
+    $("search")
+      .value
       .trim()
       .toLowerCase();
 
-  const category =
+
+  const category=
     $("categoryFilter").value;
 
-  const stock =
+  const stock=
     $("stockFilter").value;
 
-  const sort =
+  const sort=
     $("sortFilter").value;
 
-  let list =
+
+  let list=
     products.filter(product=>{
 
-      const name =
-        String(product.name || "")
-          .toLowerCase();
+      const name=
+        String(
+          product.name||""
+        ).toLowerCase();
 
-      const code =
-        String(product.code || "")
-          .toLowerCase();
 
-      const cat =
-        String(product.category || "")
-          .toLowerCase();
+      const code=
+        String(
+          product.code||""
+        ).toLowerCase();
 
-      const matchSearch =
-        !search ||
-        name.includes(search) ||
-        code.includes(search) ||
+
+      const cat=
+        String(
+          product.category||""
+        ).toLowerCase();
+
+
+      const matchSearch=
+        !search||
+        name.includes(search)||
+        code.includes(search)||
         cat.includes(search);
 
-      const matchCategory =
-        !category ||
+
+      const matchCategory=
+        !category||
         product.category===category;
 
-      const status =
+
+      const status=
         getStatus(product);
 
-      const matchStock =
-        !stock ||
+
+      const matchStock=
+        !stock||
         status.key===stock;
 
-      return (
-        matchSearch &&
-        matchCategory &&
+
+      return(
+        matchSearch&&
+        matchCategory&&
         matchStock
       );
+
     });
 
 
   if(sort==="name"){
 
-    list.sort((a,b)=>
-      String(a.name)
-        .localeCompare(String(b.name))
+    list.sort(
+      (a,b)=>
+        String(a.name)
+          .localeCompare(
+            String(b.name)
+          )
     );
 
   }else if(sort==="qty"){
 
-    list.sort((a,b)=>
-      totalUnits(b)-totalUnits(a)
+    list.sort(
+      (a,b)=>
+        totalUnits(b)-
+        totalUnits(a)
     );
 
   }else if(sort==="price"){
 
-    list.sort((a,b)=>
-      Number(b.price||0) -
-      Number(a.price||0)
+    list.sort(
+      (a,b)=>
+        Number(b.price||0)-
+        Number(a.price||0)
     );
 
   }else{
 
-    list.sort((a,b)=>
-      Number(b.updated||b.created||0) -
-      Number(a.updated||a.created||0)
+    list.sort(
+      (a,b)=>
+        Number(
+          b.updated||
+          b.created||
+          0
+        )-
+        Number(
+          a.updated||
+          a.created||
+          0
+        )
     );
+
   }
 
 
-  const grid =
+  const grid=
     $("productGrid");
 
-  const cardStyle =
-    localStorage.getItem(CARD_KEY) ||
-    "standard";
+
+  const cardStyle=
+    localStorage.getItem(
+      CARD_KEY
+    )||"standard";
+
 
   grid.parentElement
     ?.classList
@@ -2760,207 +3573,433 @@ function renderProducts(){
 
     grid.innerHTML=`
       <div class="empty">
-        <div class="empty-icon">📦</div>
+
+        <div class="empty-icon">
+          📦
+        </div>
+
         <div class="empty-title">
           No products found
         </div>
+
         Add your first product.
+
       </div>
     `;
 
     return;
+
   }
 
 
-  grid.innerHTML =
-    list.map(product=>{
+  grid.innerHTML=
+    list
+      .map(product=>{
 
-      const status =
-        getStatus(product);
-
-      const image =
-        Array.isArray(product.imgs) &&
-        product.imgs.length
-          ? product.imgs[0]
-          : null;
-
-      const price =
-        product.price !== "" &&
-        product.price != null
-          ? `₹${Number(product.price).toLocaleString("en-IN")}`
-          : "";
-
-      const boxes =
-        Number(product.boxes||0);
-
-      const units =
-        Number(product.units||0);
-
-      return `
-
-        <article
-          class="product-card"
-          onclick="openProduct('${product.id}')"
-        >
-
-          <div class="product-image">
-
-            ${
-              image
-              ? `<img
-                  src="${image}"
-                  alt="${escapeHTML(product.name)}"
-                  loading="lazy"
-                >`
-              : `<div class="no-image">📦</div>`
-            }
-
-            <div class="status ${status.key}">
-              ${status.text}
-            </div>
-
-          </div>
+        const status=
+          getStatus(product);
 
 
-          <div class="card-body">
-
-            <div class="product-name">
-              ${escapeHTML(product.name || "Unnamed")}
-            </div>
-
-            ${
-              product.code
-              ? `<div class="product-code">
-                   ${escapeHTML(product.code)}
-                 </div>`
-              : ""
-            }
+        const image=
+          Array.isArray(product.imgs)&&
+          product.imgs.length
+            ?product.imgs[0]
+            :null;
 
 
-            <div class="product-meta">
+        const price=
+          product.price!==""&&
+          product.price!=null
+            ?`₹${Number(
+                product.price
+              ).toLocaleString(
+                "en-IN"
+              )}`
+            :"";
+
+
+        const boxes=
+          Number(
+            product.boxes||0
+          );
+
+
+        const units=
+          Number(
+            product.units||0
+          );
+
+
+        return`
+
+          <article
+            class="product-card"
+            onclick="openProduct('${product.id}')"
+          >
+
+
+            <div class="product-image">
 
               ${
-                product.category
-                ? `<span class="meta">
-                     ${escapeHTML(product.category)}
-                   </span>`
-                : ""
+                image
+                  ?`
+                    <img
+                      src="${image}"
+                      alt="${escapeHTML(product.name)}"
+                      loading="lazy"
+                    >
+                  `
+                  :`
+                    <div class="no-image">
+                      📦
+                    </div>
+                  `
               }
 
-              ${
-                product.size
-                ? `<span class="meta">
-                     ${escapeHTML(product.size)}
-                   </span>`
-                : ""
-              }
 
-              ${
-                product.color
-                ? `<span class="meta">
-                     ${escapeHTML(product.color)}
-                   </span>`
-                : ""
-              }
+              <div
+                class="status ${status.key}"
+              >
+                ${status.text}
+              </div>
 
             </div>
 
 
-            <div class="stock-row">
+            <div class="card-body">
 
-              <div>
+              <div class="product-name">
+                ${escapeHTML(
+                  product.name||
+                  "Unnamed"
+                )}
+              </div>
 
-                <div class="quantity">
-                  ${units}
-                </div>
 
-                <div class="quantity-label">
-                  TOTAL UNITS
-                </div>
+              ${
+                product.code
+                  ?`
+                    <div class="product-code">
+                      ${escapeHTML(
+                        product.code
+                      )}
+                    </div>
+                  `
+                  :""
+              }
+
+
+              <div class="product-meta">
 
                 ${
-                  quantityMode
-                  ? `<div class="box-unit">
-                       📦 ${boxes} boxes
-                       · ${units} units
-                     </div>`
-                  : ""
+                  product.category
+                    ?`
+                      <span class="meta">
+                        ${escapeHTML(
+                          product.category
+                        )}
+                      </span>
+                    `
+                    :""
+                }
+
+
+                ${
+                  product.size
+                    ?`
+                      <span class="meta">
+                        ${escapeHTML(
+                          product.size
+                        )}
+                      </span>
+                    `
+                    :""
+                }
+
+
+                ${
+                  product.color
+                    ?`
+                      <span class="meta">
+                        ${escapeHTML(
+                          product.color
+                        )}
+                      </span>
+                    `
+                    :""
                 }
 
               </div>
 
-              ${
-                price
-                ? `<div class="price">
-                     ${price}
-                   </div>`
-                : ""
-              }
+
+              <div class="stock-row">
+
+                <div>
+
+                  <div class="quantity">
+                    ${units}
+                  </div>
+
+                  <div class="quantity-label">
+                    TOTAL UNITS
+                  </div>
+
+
+                  ${
+                    quantityMode
+                      ?`
+                        <div class="box-unit">
+                          📦 ${boxes} boxes
+                          · ${units} units
+                        </div>
+                      `
+                      :""
+                  }
+
+                </div>
+
+
+                ${
+                  price
+                    ?`
+                      <div class="price">
+                        ${price}
+                      </div>
+                    `
+                    :""
+                }
+
+              </div>
 
             </div>
 
-          </div>
+
+            ${
+              quantityMode
+                ?`
+
+                  <div
+                    class="qty-panel"
+                    onclick="event.stopPropagation()"
+                  >
 
 
-          <div
-            class="card-actions"
-            onclick="event.stopPropagation()"
-          >
+                    <div class="qty-line">
 
-            <button
-              onclick="changeQuantity('${product.id}',-1)"
+                      <div class="qty-title">
+                        BOXES
+                      </div>
+
+
+                      <button
+                        class="qty-btn"
+                        onclick="
+                          changeQuantity(
+                            '${product.id}',
+                            'boxes',
+                            -1
+                          )
+                        "
+                      >
+                        −
+                      </button>
+
+
+                      <div class="qty-number">
+                        ${boxes}
+                      </div>
+
+
+                      <button
+                        class="qty-btn"
+                        onclick="
+                          changeQuantity(
+                            '${product.id}',
+                            'boxes',
+                            1
+                          )
+                        "
+                      >
+                        +
+                      </button>
+
+                    </div>
+
+
+                    <div class="qty-line">
+
+                      <div class="qty-title">
+                        UNITS
+                      </div>
+
+
+                      <button
+                        class="qty-btn"
+                        onclick="
+                          changeQuantity(
+                            '${product.id}',
+                            'units',
+                            -1
+                          )
+                        "
+                      >
+                        −
+                      </button>
+
+
+                      <div class="qty-number">
+                        ${units}
+                      </div>
+
+
+                      <button
+                        class="qty-btn"
+                        onclick="
+                          changeQuantity(
+                            '${product.id}',
+                            'units',
+                            1
+                          )
+                        "
+                      >
+                        +
+                      </button>
+
+                    </div>
+
+
+                    <button
+                      class="clear-qty"
+                      onclick="
+                        clearQuantity(
+                          '${product.id}'
+                        )
+                      "
+                    >
+                      CLEAR QUANTITY
+                    </button>
+
+
+                  </div>
+
+                `
+                :""
+            }
+
+
+            <div
+              class="card-actions"
+              onclick="event.stopPropagation()"
             >
-              −
-            </button>
 
-            <button
-              class="primary"
-              onclick="openProduct('${product.id}')"
-            >
-              Edit
-            </button>
+              <button
+                class="primary"
+                onclick="
+                  openProduct(
+                    '${product.id}'
+                  )
+                "
+              >
+                Edit
+              </button>
 
-            <button
-              onclick="changeQuantity('${product.id}',1)"
-            >
-              +
-            </button>
+            </div>
 
-          </div>
 
-        </article>
-      `;
+          </article>
 
-    }).join("");
+        `;
+
+      })
+      .join("");
+
 }
 
 
-/* ---------- QUANTITY ---------- */
+/* INDEPENDENT QUANTITY */
 
-function changeQuantity(id,amount){
+function changeQuantity(
+  id,
+  type,
+  amount
+){
 
-  const product =
-    products.find(p=>p.id===id);
+  const product=
+    products.find(
+      p=>p.id===id
+    );
+
 
   if(!product){
     return;
   }
 
-  product.units =
-    Math.max(
-      0,
-      Number(product.units||0)+amount
-    );
 
-  product.updated =
+  if(type==="boxes"){
+
+    product.boxes=
+      Math.max(
+        0,
+        Number(
+          product.boxes||0
+        )+amount
+      );
+
+  }else{
+
+    product.units=
+      Math.max(
+        0,
+        Number(
+          product.units||0
+        )+amount
+      );
+
+  }
+
+
+  product.updated=
     Date.now();
 
+
   saveProducts();
+
   renderProducts();
+
 }
 
 
-/* ---------- PRODUCT MODAL ---------- */
+function clearQuantity(id){
+
+  const product=
+    products.find(
+      p=>p.id===id
+    );
+
+
+  if(!product){
+    return;
+  }
+
+
+  product.boxes=0;
+  product.units=0;
+  product.updated=
+    Date.now();
+
+
+  saveProducts();
+
+  renderProducts();
+
+  toast(
+    "Quantity cleared"
+  );
+
+}
+
+
+/* PRODUCT MODAL */
 
 function resetProductForm(){
 
@@ -2978,6 +4017,7 @@ function resetProductForm(){
   pendingImages=[];
 
   $("photoPreview").innerHTML="";
+
 }
 
 
@@ -2987,60 +4027,81 @@ function openProduct(id=null){
 
   resetProductForm();
 
+
   if(id){
 
-    const product =
-      products.find(p=>p.id===id);
+    const product=
+      products.find(
+        p=>p.id===id
+      );
+
 
     if(!product){
       return;
     }
 
-    $("modalTitle").textContent =
+
+    $("modalTitle").textContent=
       "Edit Product";
 
-    $("pName").value =
-      product.name || "";
 
-    $("pCode").value =
-      product.code || "";
+    $("pName").value=
+      product.name||"";
 
-    $("pCategory").value =
-      product.category || "";
 
-    $("pSize").value =
-      product.size || "";
+    $("pCode").value=
+      product.code||"";
 
-    $("pColor").value =
-      product.color || "";
 
-    $("pBoxes").value =
-      product.boxes || 0;
+    $("pCategory").value=
+      product.category||"";
 
-    $("pUnits").value =
-      product.units || 0;
 
-    $("pThreshold").value =
-      product.threshold ?? 5;
+    $("pSize").value=
+      product.size||"";
 
-    $("pPrice").value =
-      product.price ?? "";
 
-    pendingImages =
-      Array.isArray(product.imgs)
-        ? [...product.imgs]
-        : [];
+    $("pColor").value=
+      product.color||"";
+
+
+    $("pBoxes").value=
+      product.boxes||0;
+
+
+    $("pUnits").value=
+      product.units||0;
+
+
+    $("pThreshold").value=
+      product.threshold??5;
+
+
+    $("pPrice").value=
+      product.price??"";
+
+
+    pendingImages=
+      Array.isArray(
+        product.imgs
+      )
+        ?[...product.imgs]
+        :[];
+
 
     renderPreview();
 
   }else{
 
-    $("modalTitle").textContent =
+    $("modalTitle").textContent=
       "Add Product";
+
   }
+
 
   $("productModal")
     .classList.add("show");
+
 }
 
 
@@ -3050,182 +4111,265 @@ function closeProduct(){
     .classList.remove("show");
 
   editingId=null;
+
 }
 
 
-/* ---------- IMAGE ---------- */
+/* IMAGES */
 
 $("pImages").addEventListener(
   "change",
   async event=>{
 
-    const files =
+    const files=
       [...event.target.files];
 
-    for(const file of files){
+
+    for(
+      const file
+      of files
+    ){
 
       if(
-        !file.type.startsWith("image/")
+        !file.type.startsWith(
+          "image/"
+        )
       ){
+
         continue;
+
       }
 
-      const image =
-        await compressImage(file);
 
-      pendingImages.push(image);
+      const image=
+        await compressImage(
+          file
+        );
+
+
+      pendingImages.push(
+        image
+      );
+
     }
 
+
     renderPreview();
+
   }
 );
 
 
 function compressImage(file){
 
-  return new Promise(resolve=>{
+  return new Promise(
+    resolve=>{
 
-    const reader =
-      new FileReader();
+      const reader=
+        new FileReader();
 
-    reader.onload=()=>{
 
-      const img =
-        new Image();
+      reader.onload=()=>{
 
-      img.onload=()=>{
+        const img=
+          new Image();
 
-        const max=1200;
 
-        let w=img.width;
-        let h=img.height;
+        img.onload=()=>{
 
-        if(w>max || h>max){
+          const max=1200;
 
-          const ratio =
-            Math.min(
-              max/w,
-              max/h
+          let w=img.width;
+          let h=img.height;
+
+
+          if(
+            w>max||
+            h>max
+          ){
+
+            const ratio=
+              Math.min(
+                max/w,
+                max/h
+              );
+
+
+            w*=ratio;
+            h*=ratio;
+
+          }
+
+
+          const canvas=
+            document.createElement(
+              "canvas"
             );
 
-          w*=ratio;
-          h*=ratio;
-        }
 
-        const canvas =
-          document.createElement("canvas");
+          canvas.width=w;
+          canvas.height=h;
 
-        canvas.width=w;
-        canvas.height=h;
 
-        canvas
-          .getContext("2d")
-          .drawImage(
-            img,
-            0,
-            0,
-            w,
-            h
+          canvas
+            .getContext("2d")
+            .drawImage(
+              img,
+              0,
+              0,
+              w,
+              h
+            );
+
+
+          resolve(
+            canvas.toDataURL(
+              "image/jpeg",
+              .82
+            )
           );
 
-        resolve(
-          canvas.toDataURL(
-            "image/jpeg",
-            .82
-          )
-        );
+        };
+
+
+        img.src=
+          reader.result;
+
       };
 
-      img.src=reader.result;
-    };
 
-    reader.readAsDataURL(file);
-  });
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
 }
 
 
 function renderPreview(){
 
-  $("photoPreview").innerHTML =
-    pendingImages.map((image,index)=>`
+  $("photoPreview")
+    .innerHTML=
+      pendingImages
+        .map(
+          (image,index)=>`
 
-      <div class="preview-item">
+            <div class="preview-item">
 
-        <img src="${image}">
+              <img
+                src="${image}"
+              >
 
-        <button
-          onclick="removeImage(${index})"
-          style="
-            position:absolute;
-            right:3px;
-            top:3px;
-            width:20px;
-            height:20px;
-            border-radius:6px;
-            background:rgba(0,0,0,.7);
-            color:white;
-          "
-        >
-          ×
-        </button>
+              <button
+                onclick="
+                  removeImage(
+                    ${index}
+                  )
+                "
+                style="
+                  position:absolute;
+                  right:3px;
+                  top:3px;
+                  width:20px;
+                  height:20px;
+                  border-radius:6px;
+                  background:rgba(0,0,0,.7);
+                  color:white;
+                "
+              >
+                ×
+              </button>
 
-      </div>
+            </div>
 
-    `).join("");
+          `
+        )
+        .join("");
+
 }
 
 
 function removeImage(index){
 
-  pendingImages.splice(index,1);
+  pendingImages.splice(
+    index,
+    1
+  );
 
   renderPreview();
+
 }
 
 
-/* ---------- SAVE PRODUCT ---------- */
+/* SAVE PRODUCT */
 
 function saveProduct(){
 
-  const name =
-    $("pName").value.trim();
+  const name=
+    $("pName")
+      .value
+      .trim();
+
 
   if(!name){
 
-    toast("Enter product name");
+    toast(
+      "Enter product name"
+    );
+
     return;
+
   }
 
-  const now =
+
+  const now=
     Date.now();
 
-  const boxes =
+
+  const boxes=
     Math.max(
       0,
-      Number($("pBoxes").value||0)
+      Number(
+        $("pBoxes")
+          .value||0
+      )
     );
 
-  const units =
+
+  const units=
     Math.max(
       0,
-      Number($("pUnits").value||0)
+      Number(
+        $("pUnits")
+          .value||0
+      )
     );
+
 
   const data={
 
     name,
 
     code:
-      $("pCode").value.trim(),
+      $("pCode")
+        .value
+        .trim(),
 
     category:
-      $("pCategory").value,
+      $("pCategory")
+        .value,
 
     size:
-      $("pSize").value.trim(),
+      $("pSize")
+        .value
+        .trim(),
 
     color:
-      $("pColor").value.trim(),
+      $("pColor")
+        .value
+        .trim(),
 
     boxes,
 
@@ -3235,84 +4379,122 @@ function saveProduct(){
       Math.max(
         0,
         Number(
-          $("pThreshold").value||5
+          $("pThreshold")
+            .value||5
         )
       ),
 
     price:
-      $("pPrice").value === ""
-        ? ""
-        : Number($("pPrice").value),
+      $("pPrice")
+        .value===""
+          ?""
+          :Number(
+            $("pPrice")
+              .value
+          ),
 
     imgs:[
       ...pendingImages
     ],
 
-    updated:now
+    updated:
+      now
+
   };
 
 
   if(editingId){
 
-    const index =
+    const index=
       products.findIndex(
         p=>p.id===editingId
       );
 
+
     if(index!==-1){
 
-      data.id=editingId;
+      data.id=
+        editingId;
 
-      data.created =
-        products[index].created ||
+
+      data.created=
+        products[index]
+          .created||
         now;
 
-      products[index]=data;
+
+      products[index]=
+        data;
+
     }
 
   }else{
 
     data.id=uid();
+
     data.created=now;
 
-    products.unshift(data);
+    products.unshift(
+      data
+    );
+
   }
 
 
   if(
-    data.category &&
-    !categories.includes(data.category)
+    data.category&&
+    !categories.includes(
+      data.category
+    )
   ){
 
-    categories.push(data.category);
+    categories.push(
+      data.category
+    );
+
     categories.sort();
+
     saveCategories();
+
   }
+
 
   saveProducts();
 
   renderProducts();
 
+
+  const wasEditing=
+    Boolean(
+      editingId
+    );
+
+
   closeProduct();
 
+
   toast(
-    editingId
-      ? "Product updated"
-      : "Product added"
+    wasEditing
+      ?"Product updated"
+      :"Product added"
   );
+
 }
 
 
-/* ---------- SCANNER ---------- */
+/* SCANNER */
 
 async function startNativeScan(){
 
-  const button =
+  const button=
     $("nativeScanBtn");
 
+
   button.disabled=true;
+
   button.textContent=
     "Opening scanner...";
+
 
   try{
 
@@ -3325,14 +4507,19 @@ async function startNativeScan(){
       );
 
       return;
+
     }
 
-    const result =
-      await window.StockLabNativeScanner.scan();
+
+    const result=
+      await window
+        .StockLabNativeScanner
+        .scan();
+
 
     if(
-      result &&
-      result.success &&
+      result&&
+      result.success&&
       result.code
     ){
 
@@ -3341,14 +4528,21 @@ async function startNativeScan(){
         result.format
       );
 
-    }else if(result?.error){
+    }else if(
+      result?.error
+    ){
 
-      toast(result.error);
+      toast(
+        result.error
+      );
+
     }
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
 
     toast(
       "Could not open scanner"
@@ -3357,9 +4551,12 @@ async function startNativeScan(){
   }finally{
 
     button.disabled=false;
+
     button.textContent=
       "📷 Scan Barcode";
+
   }
+
 }
 
 
@@ -3376,59 +4573,81 @@ async function scanFromProduct(){
       );
 
       return;
+
     }
 
-    const result =
-      await window.StockLabNativeScanner.scan();
+
+    const result=
+      await window
+        .StockLabNativeScanner
+        .scan();
+
 
     if(
-      result &&
-      result.success &&
+      result&&
+      result.success&&
       result.code
     ){
 
-      $("pCode").value =
+      $("pCode").value=
         result.code;
+
 
       addToHistory(
         result.code,
         result.format
       );
 
-      toast("Barcode added");
+
+      toast(
+        "Barcode added"
+      );
 
     }
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
 
     toast(
       "Scanner could not open"
     );
+
   }
+
 }
 
 
 function useManualCode(){
 
-  const code =
+  const code=
     $("manualCode")
       .value
       .trim();
 
+
   if(!code){
 
-    toast("Enter a code");
+    toast(
+      "Enter a code"
+    );
+
     return;
+
   }
+
 
   handleScannedCode(
     code,
     "Manual"
   );
 
-  $("manualCode").value="";
+
+  $("manualCode")
+    .value="";
+
 }
 
 
@@ -3443,15 +4662,22 @@ function handleScannedCode(
       code,
       format
     );
+
   }
 
-  $("manualCode").value=code;
 
-  toast("Barcode scanned");
+  $("manualCode")
+    .value=code;
+
+
+  toast(
+    "Barcode scanned"
+  );
+
 }
 
 
-/* ---------- HISTORY ---------- */
+/* HISTORY */
 
 function addToHistory(
   code,
@@ -3462,34 +4688,51 @@ function addToHistory(
     return;
   }
 
+
   scanHistory.unshift({
 
     id:uid(),
 
-    code:String(code),
+    code:String(
+      code
+    ),
 
-    format:String(format||""),
+    format:String(
+      format||""
+    ),
 
-    time:Date.now()
+    time:
+      Date.now()
+
   });
 
-  scanHistory =
-    scanHistory.slice(0,100);
+
+  scanHistory=
+    scanHistory.slice(
+      0,
+      100
+    );
+
 
   saveHistory();
 
   renderHistory();
+
 }
 
 
 function renderHistory(){
 
-  const list =
+  const list=
     $("historyList");
 
-  if(!scanHistory.length){
+
+  if(
+    !scanHistory.length
+  ){
 
     list.innerHTML=`
+
       <div
         style="
           padding:20px;
@@ -3500,48 +4743,74 @@ function renderHistory(){
       >
         No scanned codes yet.
       </div>
+
     `;
 
     return;
+
   }
 
 
-  list.innerHTML =
-    scanHistory.map(item=>`
+  list.innerHTML=
+    scanHistory
+      .map(
+        item=>`
 
-      <div class="scan-row">
+          <div class="scan-row">
 
-        <div class="scan-code">
+            <div class="scan-code">
 
-          ${escapeHTML(item.code)}
+              ${escapeHTML(
+                item.code
+              )}
 
-          ${
-            item.format
-            ? `<div class="scan-format">
-                 ${escapeHTML(item.format)}
-               </div>`
-            : ""
-          }
 
-        </div>
+              ${
+                item.format
+                  ?`
+                    <div class="scan-format">
+                      ${escapeHTML(
+                        item.format
+                      )}
+                    </div>
+                  `
+                  :""
+              }
 
-        <button
-          class="row-btn"
-          onclick="copyCode('${escapeHTML(item.code)}')"
-        >
-          Copy
-        </button>
+            </div>
 
-        <button
-          class="row-btn delete"
-          onclick="deleteScan('${item.id}')"
-        >
-          Delete
-        </button>
 
-      </div>
+            <button
+              class="row-btn"
+              onclick="
+                copyCode(
+                  '${escapeHTML(
+                    item.code
+                  )}'
+                )
+              "
+            >
+              Copy
+            </button>
 
-    `).join("");
+
+            <button
+              class="row-btn delete"
+              onclick="
+                deleteScan(
+                  '${item.id}'
+                )
+              "
+            >
+              Delete
+            </button>
+
+          </div>
+
+        `
+      )
+      .join("");
+
 }
 
 
@@ -3549,16 +4818,24 @@ async function copyCode(code){
 
   try{
 
-    await navigator.clipboard.writeText(
-      code
-    );
+    await navigator
+      .clipboard
+      .writeText(
+        code
+      );
 
-    toast("Code copied");
+    toast(
+      "Code copied"
+    );
 
   }catch{
 
-    toast("Copy failed");
+    toast(
+      "Copy failed"
+    );
+
   }
+
 }
 
 
@@ -3566,41 +4843,63 @@ async function copyAllHistory(){
 
   if(!scanHistory.length){
 
-    toast("No scan history");
+    toast(
+      "No scan history"
+    );
+
     return;
+
   }
 
-  const text =
+
+  const text=
     scanHistory
-      .map(item=>item.code)
+      .map(
+        item=>item.code
+      )
       .join("\n");
+
 
   try{
 
-    await navigator.clipboard.writeText(
-      text
-    );
+    await navigator
+      .clipboard
+      .writeText(
+        text
+      );
 
-    toast("All codes copied");
+    toast(
+      "All codes copied"
+    );
 
   }catch{
 
-    toast("Copy failed");
+    toast(
+      "Copy failed"
+    );
+
   }
+
 }
 
 
 function deleteScan(id){
 
-  scanHistory =
+  scanHistory=
     scanHistory.filter(
-      item=>item.id!==id
+      item=>
+        item.id!==id
     );
 
+
   saveHistory();
+
   renderHistory();
 
-  toast("Scan deleted");
+  toast(
+    "Scan deleted"
+  );
+
 }
 
 
@@ -3608,28 +4907,40 @@ function clearHistory(){
 
   if(!scanHistory.length){
 
-    toast("History already empty");
+    toast(
+      "History already empty"
+    );
+
     return;
+
   }
+
 
   if(
     !confirm(
       "Clear all scanned codes?"
     )
   ){
+
     return;
+
   }
+
 
   scanHistory=[];
 
   saveHistory();
+
   renderHistory();
 
-  toast("Scan history cleared");
+  toast(
+    "Scan history cleared"
+  );
+
 }
 
 
-/* ---------- BACKUP ---------- */
+/* BACKUP */
 
 function backupData(){
 
@@ -3637,20 +4948,22 @@ function backupData(){
 
     app:"Stock Lab",
 
-    version:"2.1",
+    version:"2.2",
 
     exportedAt:
-      new Date().toISOString(),
+      new Date()
+        .toISOString(),
 
     products,
 
     categories,
 
     scanHistory
+
   };
 
 
-  const blob =
+  const blob=
     new Blob(
       [
         JSON.stringify(
@@ -3660,133 +4973,190 @@ function backupData(){
         )
       ],
       {
-        type:"application/json"
+        type:
+          "application/json"
       }
     );
 
 
-  const url =
-    URL.createObjectURL(blob);
+  const url=
+    URL.createObjectURL(
+      blob
+    );
 
-  const link =
-    document.createElement("a");
+
+  const link=
+    document.createElement(
+      "a"
+    );
+
 
   link.href=url;
 
+
   link.download=
-    "stock-lab-backup-" +
+    "stock-lab-backup-"+
     new Date()
       .toISOString()
-      .slice(0,10) +
+      .slice(
+        0,
+        10
+      )+
     ".json";
 
-  document.body.appendChild(link);
+
+  document.body.appendChild(
+    link
+  );
+
 
   link.click();
 
+
   link.remove();
 
+
   setTimeout(
-    ()=>URL.revokeObjectURL(url),
+    ()=>{
+      URL.revokeObjectURL(
+        url
+      );
+    },
     1000
   );
 
-  toast("Backup file created");
+
+  toast(
+    "Backup file created"
+  );
+
 }
 
 
-/* ---------- RESTORE ---------- */
+/* RESTORE */
 
-$("restoreInput").addEventListener(
-  "change",
-  async event=>{
+$("restoreInput")
+  .addEventListener(
+    "change",
+    async event=>{
 
-    const file =
-      event.target.files[0];
+      const file=
+        event.target
+          .files[0];
 
-    if(!file){
-      return;
-    }
 
-    try{
+      if(!file){
+        return;
+      }
 
-      const data =
-        JSON.parse(
-          await file.text()
-        );
 
-      const imported =
-        Array.isArray(data)
-          ? data
-          : data.products;
+      try{
 
-      if(!Array.isArray(imported)){
+        const data=
+          JSON.parse(
+            await file.text()
+          );
+
+
+        const imported=
+          Array.isArray(data)
+            ?data
+            :data.products;
+
+
+        if(
+          !Array.isArray(
+            imported
+          )
+        ){
+
+          toast(
+            "Invalid backup file"
+          );
+
+          return;
+
+        }
+
+
+        if(
+          !confirm(
+            `Restore ${imported.length} products?\n\n`+
+            `This will replace the current inventory.`
+          )
+        ){
+
+          return;
+
+        }
+
+
+        products=
+          imported;
+
+
+        if(
+          Array.isArray(
+            data.categories
+          )
+        ){
+
+          categories=
+            data.categories;
+
+        }
+
+
+        if(
+          Array.isArray(
+            data.scanHistory
+          )
+        ){
+
+          scanHistory=
+            data.scanHistory;
+
+        }
+
+
+        saveProducts();
+
+        saveCategories();
+
+        saveHistory();
+
+        renderProducts();
+
+        renderHistory();
+
 
         toast(
-          "Invalid backup file"
+          `${products.length} products restored`
         );
 
-        return;
+
+      }catch(error){
+
+        console.error(
+          error
+        );
+
+        toast(
+          "Could not restore backup"
+        );
+
+
+      }finally{
+
+        event.target.value="";
+
       }
 
-
-      if(
-        !confirm(
-          `Restore ${imported.length} products?\n\n` +
-          `This will replace the current inventory.`
-        )
-      ){
-        return;
-      }
-
-
-      products =
-        imported;
-
-      if(
-        Array.isArray(data.categories)
-      ){
-
-        categories =
-          data.categories;
-      }
-
-      if(
-        Array.isArray(data.scanHistory)
-      ){
-
-        scanHistory =
-          data.scanHistory;
-      }
-
-      saveProducts();
-      saveCategories();
-      saveHistory();
-
-      renderProducts();
-      renderHistory();
-
-      toast(
-        `${products.length} products restored`
-      );
-
-    }catch(error){
-
-      console.error(error);
-
-      toast(
-        "Could not restore backup"
-      );
-
-    }finally{
-
-      event.target.value="";
     }
-  }
-);
+  );
 
 
-/* ---------- SECURITY ---------- */
+/* SECURITY */
 
 async function toggleBiometric(){
 
@@ -3799,6 +5169,7 @@ async function toggleBiometric(){
     );
 
     return;
+
   }
 
 
@@ -3806,11 +5177,14 @@ async function toggleBiometric(){
 
     try{
 
-      const info =
-        await window.StockLabBiometric.check();
+      const info=
+        await window
+          .StockLabBiometric
+          .check();
+
 
       if(
-        !info ||
+        !info||
         info.isAvailable===false
       ){
 
@@ -3819,25 +5193,32 @@ async function toggleBiometric(){
         );
 
         return;
+
       }
 
 
-      const result =
-        await window.StockLabBiometric.authenticate();
+      const result=
+        await window
+          .StockLabBiometric
+          .authenticate();
+
 
       if(
-        result &&
+        result&&
         result.success
       ){
 
         biometricEnabled=true;
+
 
         localStorage.setItem(
           BIOMETRIC_KEY,
           "1"
         );
 
+
         updateToggles();
+
 
         toast(
           "Biometric lock enabled"
@@ -3845,30 +5226,44 @@ async function toggleBiometric(){
 
       }
 
+
     }catch(error){
 
-      console.error(error);
+      console.error(
+        error
+      );
 
       toast(
         "Biometric setup failed"
       );
+
     }
 
   }else{
 
     biometricEnabled=false;
 
+
     localStorage.setItem(
       BIOMETRIC_KEY,
       "0"
     );
 
+
+    localStorage.removeItem(
+      LOCK_KEY
+    );
+
+
     updateToggles();
+
 
     toast(
       "Biometric lock disabled"
     );
+
   }
+
 }
 
 
@@ -3883,13 +5278,18 @@ async function authenticateUnlock(){
     );
 
     return;
+
   }
 
-  const result =
-    await window.StockLabBiometric.authenticate();
+
+  const result=
+    await window
+      .StockLabBiometric
+      .authenticate();
+
 
   if(
-    result &&
+    result&&
     result.success
   ){
 
@@ -3897,17 +5297,25 @@ async function authenticateUnlock(){
       LOCK_KEY
     );
 
-    $("lockScreen")
-      .classList.remove("show");
 
-    toast("Unlocked");
+    $("lockScreen")
+      .classList
+      .remove("show");
+
+
+    toast(
+      "Unlocked"
+    );
+
 
   }else{
 
     toast(
       "Authentication cancelled"
     );
+
   }
+
 }
 
 
@@ -3920,216 +5328,463 @@ function lockApp(){
     );
 
     return;
+
   }
+
 
   localStorage.setItem(
     LOCK_KEY,
     "1"
   );
 
+
   $("lockScreen")
-    .classList.add("show");
+    .classList
+    .add("show");
+
 }
 
 
-function checkLock(){
+/*
+  IMPORTANT:
+  Biometric Lock is now a real launch/resume lock.
+*/
 
-  if(
-    biometricEnabled &&
-    localStorage.getItem(LOCK_KEY)==="1"
-  ){
+function lockOnLaunch(){
 
-    $("lockScreen")
-      .classList.add("show");
+  if(!biometricEnabled){
+    return;
   }
+
+
+  localStorage.setItem(
+    LOCK_KEY,
+    "1"
+  );
+
+
+  $("lockScreen")
+    .classList
+    .add("show");
+
 }
 
 
-/* ---------- TOGGLES ---------- */
+/* TOGGLES */
 
 function updateToggles(){
 
   $("quantityToggle")
-    .classList.toggle(
+    .classList
+    .toggle(
       "on",
       quantityMode
     );
 
+
   $("historyToggle")
-    .classList.toggle(
+    .classList
+    .toggle(
       "on",
       historyEnabled
     );
 
+
   $("biometricToggle")
-    .classList.toggle(
+    .classList
+    .toggle(
       "on",
       biometricEnabled
     );
+
 }
 
 
-/* ---------- PAGES ---------- */
+/* CALCULATOR */
+
+function openCalculator(){
+
+  calcExpression="";
+
+  $("calcDisplay")
+    .value="0";
+
+  $("calculatorModal")
+    .classList
+    .add("show");
+
+}
+
+
+function closeCalculator(){
+
+  $("calculatorModal")
+    .classList
+    .remove("show");
+
+}
+
+
+function calcInput(value){
+
+  if(
+    calcExpression==="ERROR"
+  ){
+
+    calcExpression="";
+
+  }
+
+
+  calcExpression+=value;
+
+
+  $("calcDisplay")
+    .value=
+      calcExpression
+        .replace(
+          /\*/g,
+          "×"
+        )
+        .replace(
+          /\//g,
+          "÷"
+        );
+
+}
+
+
+function calcClear(){
+
+  calcExpression="";
+
+  $("calcDisplay")
+    .value="0";
+
+}
+
+
+function calcBack(){
+
+  calcExpression=
+    calcExpression
+      .slice(
+        0,
+        -1
+      );
+
+
+  $("calcDisplay")
+    .value=
+      calcExpression
+        ?calcExpression
+          .replace(
+            /\*/g,
+            "×"
+          )
+          .replace(
+            /\//g,
+            "÷"
+          )
+        :"0";
+
+}
+
+
+function calcEqual(){
+
+  if(!calcExpression){
+    return;
+  }
+
+
+  try{
+
+    let expression=
+      calcExpression;
+
+
+    expression=
+      expression.replace(
+        /(\d+(?:\.\d+)?)%/g,
+        "($1/100)"
+      );
+
+
+    if(
+      !/^[0-9+\-*/().\s]+$/
+        .test(expression)
+    ){
+
+      throw new Error(
+        "Invalid"
+      );
+
+    }
+
+
+    const result=
+      Function(
+        `"use strict";return (${expression})`
+      )();
+
+
+    if(
+      !Number.isFinite(
+        result
+      )
+    ){
+
+      throw new Error(
+        "Invalid"
+      );
+
+    }
+
+
+    calcExpression=
+      String(
+        Math.round(
+          (
+            result+
+            Number.EPSILON
+          )*
+          1e10
+        )/1e10
+      );
+
+
+    $("calcDisplay")
+      .value=
+        calcExpression;
+
+
+  }catch{
+
+    calcExpression=
+      "ERROR";
+
+    $("calcDisplay")
+      .value=
+        "ERROR";
+
+  }
+
+}
+
+
+/* PAGES */
 
 function showPage(page){
 
   $("stockPage")
-    .classList.toggle(
+    .classList
+    .toggle(
       "hidden",
       page!=="stock"
     );
 
+
   $("scannerPage")
-    .classList.toggle(
+    .classList
+    .toggle(
       "hidden",
       page!=="scanner"
     );
 
+
   $("settingsPage")
-    .classList.toggle(
+    .classList
+    .toggle(
       "hidden",
       page!=="settings"
     );
 
+
   $("aboutPage")
-    .classList.toggle(
+    .classList
+    .toggle(
       "hidden",
       page!=="about"
     );
 
 
   $("navStock")
-    .classList.toggle(
+    .classList
+    .toggle(
       "active",
       page==="stock"
     );
 
+
   $("navScanner")
-    .classList.toggle(
+    .classList
+    .toggle(
       "active",
       page==="scanner"
     );
 
+
   $("navSettings")
-    .classList.toggle(
+    .classList
+    .toggle(
       "active",
       page==="settings"
     );
 
+
   $("navAbout")
-    .classList.toggle(
+    .classList
+    .toggle(
       "active",
       page==="about"
     );
-}65
 
-
-/* ---------- MODALS ---------- */
-
-function closeCategoryManager(){
-
-  $("categoryModal")
-    .classList.remove("show");
 }
 
 
-/* ---------- CATEGORY ---------- */
+/* AUTO LOCK */
 
-function populateCategorySelect(){
+let lastActivity=
+  Date.now();
 
-  const select =
-    $("pCategory");
-
-  const current =
-    select.value;
-
-  select.innerHTML =
-    `<option value="">
-      Select category
-    </option>` +
-
-    categories.map(c=>
-      `<option value="${escapeHTML(c)}">
-        ${escapeHTML(c)}
-      </option>`
-    ).join("");
-
-  select.value=current;
-}
-
-
-/* ---------- AUTO LOCK ---------- */
-
-let lastActivity=Date.now();
 
 document.addEventListener(
   "click",
   ()=>{
-    lastActivity=Date.now();
+    lastActivity=
+      Date.now();
   }
 );
+
 
 document.addEventListener(
   "touchstart",
   ()=>{
-    lastActivity=Date.now();
+    lastActivity=
+      Date.now();
   },
-  {passive:true}
+  {
+    passive:true
+  }
 );
+
 
 setInterval(()=>{
 
   if(
-    biometricEnabled &&
-    Date.now()-lastActivity >
-    10*60*1000
+    biometricEnabled&&
+    Date.now()-
+      lastActivity>
+      10*60*1000
   ){
 
     if(
-      !document
-        .getElementById("lockScreen")
-        .classList.contains("show")
+      !$("lockScreen")
+        .classList
+        .contains("show")
     ){
 
       lockApp();
+
     }
+
   }
 
 },30000);
 
 
-/* ---------- EVENTS ---------- */
+/*
+  LOCK WHEN APP RETURNS FROM BACKGROUND
+*/
 
-$("search").addEventListener(
-  "input",
-  renderProducts
+let appWasHidden=false;
+
+
+document.addEventListener(
+  "visibilitychange",
+  ()=>{
+
+    if(
+      document.hidden
+    ){
+
+      appWasHidden=true;
+
+      return;
+
+    }
+
+
+    if(
+      appWasHidden&&
+      biometricEnabled
+    ){
+
+      appWasHidden=false;
+
+      lockOnLaunch();
+
+    }
+
+  }
 );
 
-$("categoryFilter").addEventListener(
-  "change",
-  renderProducts
-);
 
-$("stockFilter").addEventListener(
-  "change",
-  renderProducts
-);
+/* EVENTS */
 
-$("sortFilter").addEventListener(
-  "change",
-  renderProducts
-);
+$("search")
+  .addEventListener(
+    "input",
+    renderProducts
+  );
 
 
-/* ---------- START ---------- */
+$("categoryFilter")
+  .addEventListener(
+    "change",
+    renderProducts
+  );
+
+
+$("stockFilter")
+  .addEventListener(
+    "change",
+    renderProducts
+  );
+
+
+$("sortFilter")
+  .addEventListener(
+    "change",
+    renderProducts
+  );
+
+
+/*
+  STARTUP
+*/
 
 loadData();
+
 normalizeCategories();
+
 populateCategories();
+
 renderProducts();
+
 renderHistory();
+
+/*
+  FIX:
+  If biometric lock is enabled,
+  Stock Lab locks every time the app
+  starts/reopens.
+*/
+
+lockOnLaunch();
 
 </script>
 
 </body>
-      </html>
+  </html>
