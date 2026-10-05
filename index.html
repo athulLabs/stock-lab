@@ -2,622 +2,1115 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#070b16">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<meta name="theme-color" content="#080a0f">
+
 <title>Stock Lab</title>
 
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0;background:#070b16;color:#f4f7ff;font-family:Arial,sans-serif}
-body{min-height:100vh}
-button,input,select{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
-
 :root{
---bg:#070b16;
---panel:#0e1627;
---panel2:#121d31;
---panel3:#182640;
---line:#22304a;
---text:#f4f7ff;
---muted:#8995ad;
---accent:#6475ff;
---accent2:#7c88ff;
---green:#35d39b;
---yellow:#ffc857;
---red:#ff6877
+  --bg:#080a0f;
+  --panel:#10131a;
+  --panel2:#151922;
+  --card:#11151d;
+  --line:#242a35;
+  --text:#f4f6fa;
+  --muted:#8c95a5;
+  --accent:#7c5cff;
+  --accent2:#9b86ff;
+  --green:#39d98a;
+  --yellow:#f6c85f;
+  --red:#ff5c6c;
+  --blue:#4ca6ff;
+  --radius:20px;
 }
 
-.app{min-height:100vh;padding-bottom:30px}
-
-header{
-position:sticky;top:0;z-index:20;
-height:64px;padding:0 16px;
-display:flex;align-items:center;justify-content:space-between;
-background:rgba(7,11,22,.94);
-backdrop-filter:blur(18px);
-border-bottom:1px solid var(--line)
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-.brand{display:flex;align-items:center;gap:10px}
-.logo{
-width:38px;height:38px;border-radius:12px;
-display:grid;place-items:center;
-background:linear-gradient(135deg,#6475ff,#8d72ff);
-font-size:20px
-}
-.brandText strong{display:block;font-size:17px}
-.brandText span{font-size:11px;color:var(--muted)}
-
-.topBtn{
-border:1px solid var(--line);
-background:var(--panel2);
-color:var(--text);
-padding:9px 12px;border-radius:11px
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:
+    Inter,system-ui,-apple-system,BlinkMacSystemFont,
+    "Segoe UI",sans-serif;
 }
 
-nav{
-display:flex;gap:7px;padding:10px 14px;
-background:#090e1b;
-border-bottom:1px solid var(--line);
-position:sticky;top:64px;z-index:15
-}
-.navBtn{
-flex:1;border:1px solid transparent;
-background:transparent;color:var(--muted);
-padding:10px 7px;border-radius:10px;font-size:13px
-}
-.navBtn.active{
-background:var(--panel2);
-border-color:var(--line);
-color:white
+body{
+  padding-bottom:88px;
 }
 
-main{max-width:1100px;margin:auto;padding:16px}
-
-.view{display:none}
-.view.active{display:block}
-
-.storage{
-padding:14px;background:var(--panel);
-border:1px solid var(--line);
-border-radius:16px;margin-bottom:16px
+button,input,select,textarea{
+  font:inherit;
 }
-.storageTop{display:flex;justify-content:space-between;gap:12px;align-items:center}
-.storageTitle{font-weight:bold}
-.storageStatus{font-size:12px;color:var(--muted);margin-top:4px}
-.storageStatus.ok{color:var(--green)}
-.folderBtn{
-border:0;background:var(--accent);color:#fff;
-padding:10px 13px;border-radius:10px;font-weight:bold
+
+button{
+  border:0;
+  cursor:pointer;
 }
+
+.hidden{
+  display:none!important;
+}
+
+/* ---------- HEADER ---------- */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  padding:
+    calc(14px + env(safe-area-inset-top))
+    16px 14px;
+  background:rgba(8,10,15,.94);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+
+.header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.brand-icon{
+  width:43px;
+  height:43px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:linear-gradient(135deg,#7c5cff,#4b36b8);
+  box-shadow:0 8px 25px rgba(124,92,255,.25);
+  font-size:21px;
+}
+
+.brand-title{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:-.5px;
+}
+
+.brand-sub{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:1px;
+}
+
+/* ---------- NAV ---------- */
+
+.nav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:100;
+  display:flex;
+  justify-content:space-around;
+  padding:
+    8px 8px
+    calc(8px + env(safe-area-inset-bottom));
+  background:rgba(12,14,20,.97);
+  border-top:1px solid var(--line);
+  backdrop-filter:blur(20px);
+}
+
+.nav button{
+  flex:1;
+  max-width:130px;
+  background:none;
+  color:var(--muted);
+  padding:8px 4px;
+  border-radius:14px;
+}
+
+.nav button.active{
+  color:white;
+  background:#191c26;
+}
+
+.nav-icon{
+  display:block;
+  font-size:20px;
+  line-height:22px;
+}
+
+.nav-label{
+  display:block;
+  font-size:10px;
+  margin-top:3px;
+}
+
+/* ---------- PAGE ---------- */
+
+.page{
+  max-width:1100px;
+  margin:auto;
+  padding:18px 14px 35px;
+}
+
+.page-title{
+  font-size:26px;
+  font-weight:850;
+  letter-spacing:-.8px;
+  margin:4px 0 5px;
+}
+
+.page-subtitle{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:20px;
+}
+
+/* ---------- DASHBOARD ---------- */
 
 .stats{
-display:grid;grid-template-columns:repeat(3,1fr);
-gap:10px;margin-bottom:16px
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  margin-bottom:18px;
 }
+
 .stat{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:15px;padding:15px
+  background:linear-gradient(145deg,#121620,#0e1118);
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:14px 10px;
+  min-width:0;
 }
-.stat span{font-size:12px;color:var(--muted)}
-.stat strong{display:block;font-size:25px;margin-top:5px}
+
+.stat-icon{
+  font-size:18px;
+}
+
+.stat-value{
+  font-size:23px;
+  font-weight:850;
+  margin-top:8px;
+}
+
+.stat-name{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:2px;
+}
+
+/* ---------- TOOLBAR ---------- */
 
 .toolbar{
-display:flex;gap:9px;flex-wrap:wrap;margin-bottom:16px
-}
-.input,.select{
-background:var(--panel);
-border:1px solid var(--line);
-color:var(--text);
-padding:11px 12px;border-radius:11px;
-outline:none
-}
-.input:focus,.select:focus{border-color:var(--accent)}
-.search{flex:1;min-width:180px}
-
-.products{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:12px
+  display:flex;
+  gap:8px;
+  margin-bottom:14px;
 }
 
-.card{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:16px;
-overflow:hidden;
-position:relative
-}
-.cardImage{
-height:170px;background:#080d18;
-position:relative;
-display:grid;place-items:center
-}
-.cardImage img{
-width:100%;height:100%;object-fit:contain
-}
-.noImage{color:#59657d;font-size:13px}
-
-.cardBody{padding:13px}
-.cardName{
-font-weight:bold;font-size:15px;
-white-space:nowrap;overflow:hidden;text-overflow:ellipsis
-}
-.cardMeta{color:var(--muted);font-size:12px;margin-top:5px}
-.badge{
-display:inline-block;margin-top:9px;
-padding:5px 8px;border-radius:7px;
-font-size:11px;font-weight:bold
-}
-.badge.good{background:rgba(53,211,155,.12);color:var(--green)}
-.badge.warn{background:rgba(255,200,87,.12);color:var(--yellow)}
-.badge.bad{background:rgba(255,104,119,.12);color:var(--red)}
-
-.cardActions{
-display:flex;gap:7px;margin-top:12px
-}
-.smallBtn{
-flex:1;padding:8px;border-radius:9px;
-background:var(--panel2);border:1px solid var(--line);
-color:white
-}
-.smallBtn.delete{color:#ff8b98}
-
-.addBtn{
-position:fixed;right:18px;bottom:20px;
-width:56px;height:56px;border-radius:50%;
-border:0;background:var(--accent);color:#fff;
-font-size:25px;box-shadow:0 10px 30px rgba(0,0,0,.4);
-z-index:30
+.search{
+  flex:1;
+  position:relative;
 }
 
-.empty{
-padding:45px 15px;text-align:center;
-border:1px dashed var(--line);
-border-radius:16px;color:var(--muted)
+.search input{
+  width:100%;
+  height:47px;
+  padding:0 15px 0 43px;
+  border-radius:15px;
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:white;
+  outline:none;
 }
 
-/* scanner */
-
-.scannerBox{
-background:#050812;
-border:1px solid var(--line);
-border-radius:18px;
-overflow:hidden;
-position:relative
+.search input:focus{
+  border-color:var(--accent);
 }
 
-.videoWrap{
-position:relative;
-width:100%;
-background:#000;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-min-height:300px
+.search-icon{
+  position:absolute;
+  left:15px;
+  top:13px;
+  color:var(--muted);
 }
 
-#video{
-display:block;
-width:100%;
-height:auto;
-max-height:70vh;
-background:#000;
-object-fit:contain;
+.add-btn{
+  width:48px;
+  height:47px;
+  border-radius:15px;
+  color:white;
+  background:linear-gradient(135deg,#7c5cff,#573dd1);
+  font-size:25px;
+  box-shadow:0 7px 20px rgba(124,92,255,.22);
 }
 
-.scanFrame{
-position:absolute;
-left:12%;
-right:12%;
-top:30%;
-height:40%;
-border:2px solid rgba(124,136,255,.95);
-border-radius:15px;
-pointer-events:none;
-box-shadow:0 0 0 9999px rgba(0,0,0,.16)
+/* ---------- FILTERS ---------- */
+
+.filters{
+  display:flex;
+  gap:7px;
+  overflow:auto;
+  padding-bottom:4px;
+  margin-bottom:16px;
 }
 
-.scanLine{
-position:absolute;
-left:12%;
-right:12%;
-height:2px;
-top:30%;
-background:#7c88ff;
-box-shadow:0 0 12px #7c88ff;
-animation:scanline 2s linear infinite;
-pointer-events:none
+.filters select{
+  flex:none;
+  color:#dce0e8;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:9px 11px;
+  outline:none;
 }
 
-@keyframes scanline{
-0%{top:30%}
-50%{top:70%}
-100%{top:30%}
-}
+/* ---------- PRODUCTS ---------- */
 
-.cameraMessage{
-padding:12px;text-align:center;
-color:var(--muted);font-size:13px
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
 }
-
-.controls{
-display:flex;gap:8px;flex-wrap:wrap;
-padding:12px;background:var(--panel)
-}
-.controlBtn{
-background:var(--panel2);
-color:white;border:1px solid var(--line);
-padding:10px 12px;border-radius:10px
-}
-.controlBtn.primary{background:var(--accent);border-color:var(--accent)}
-
-.cameraInfo{
-display:grid;grid-template-columns:1fr 1fr;
-gap:8px;padding:12px
-}
-.infoBox{
-background:var(--panel);
-border:1px solid var(--line);
-padding:10px;border-radius:10px
-}
-.infoBox span{display:block;color:var(--muted);font-size:10px}
-.infoBox strong{font-size:12px;display:block;margin-top:3px}
-
-.sliderBox{
-padding:12px;
-background:var(--panel);
-border-top:1px solid var(--line)
-}
-.sliderBox label{
-display:flex;justify-content:space-between;
-font-size:12px;color:var(--muted);margin-bottom:6px
-}
-input[type=range]{width:100%}
-
-.manual{
-display:flex;gap:8px;margin-top:12px
-}
-.manual input{flex:1}
-
-.scanResult{
-margin-top:12px;
-padding:14px;background:var(--panel);
-border:1px solid var(--line);
-border-radius:14px
-}
-.scanResult strong{font-size:18px}
-.scanResult small{color:var(--muted)}
-
-.history{
-margin-top:16px
-}
-.history h3{font-size:14px}
-.historyItem{
-padding:11px 12px;
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:10px;
-margin-top:7px;
-display:flex;justify-content:space-between;
-gap:10px
-}
-.historyItem span{font-size:13px}
-.historyItem small{color:var(--muted)}
-
-.about{
-max-width:650px;margin:auto
-}
-.aboutHero{
-padding:30px 20px;text-align:center;
-background:linear-gradient(145deg,#101a31,#0d1424);
-border:1px solid var(--line);
-border-radius:20px
-}
-.avatar{
-width:78px;height:78px;border-radius:50%;
-margin:auto;display:grid;place-items:center;
-background:linear-gradient(135deg,#6475ff,#8d72ff);
-font-size:30px
-}
-.about h1{margin:14px 0 5px}
-.about p{color:var(--muted);line-height:1.6}
-.aboutStats{
-display:grid;grid-template-columns:repeat(3,1fr);
-gap:9px;margin-top:18px
-}
-.aboutStat{
-background:var(--panel);
-border:1px solid var(--line);
-padding:13px;border-radius:12px
-}
-.aboutStat strong{display:block;font-size:20px}
-.aboutStat span{font-size:10px;color:var(--muted)}
-
-.modal{
-position:fixed;inset:0;
-background:rgba(0,0,0,.72);
-display:none;align-items:flex-end;
-z-index:100
-}
-.modal.show{display:flex}
-.modalBox{
-width:100%;max-height:92vh;overflow:auto;
-background:var(--panel);
-border-radius:22px 22px 0 0;
-border:1px solid var(--line);
-padding:18px
-}
-.modalTitle{
-display:flex;justify-content:space-between;
-align-items:center;margin-bottom:15px
-}
-.close{
-border:0;background:var(--panel2);
-color:white;width:35px;height:35px;border-radius:10px
-}
-.formGrid{
-display:grid;grid-template-columns:1fr 1fr;gap:10px
-}
-.field{display:flex;flex-direction:column;gap:5px}
-.field.full{grid-column:1/-1}
-.field label{font-size:11px;color:var(--muted)}
-.formInput{
-background:var(--panel2);
-border:1px solid var(--line);
-color:white;border-radius:10px;padding:11px
-}
-.photoPreview{
-display:flex;gap:8px;overflow:auto;margin-top:8px
-}
-.photoPreview img{
-width:75px;height:75px;object-fit:cover;
-border-radius:10px;border:1px solid var(--line)
-}
-.modalActions{
-display:flex;gap:8px;margin-top:17px
-}
-.modalActions button{
-flex:1;padding:12px;border-radius:11px;
-border:1px solid var(--line)
-}
-.save{background:var(--accent);color:#fff;border-color:var(--accent)!important}
-.cancel{background:var(--panel2);color:white}
-
-.toast{
-position:fixed;left:50%;bottom:85px;
-transform:translateX(-50%) translateY(15px);
-background:#18243a;color:#fff;
-border:1px solid var(--line);
-padding:11px 15px;border-radius:11px;
-opacity:0;pointer-events:none;
-transition:.25s;z-index:200;
-font-size:13px
-}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 @media(min-width:700px){
-.products{grid-template-columns:repeat(3,minmax(0,1fr))}
-.videoWrap{max-height:650px}
+  .product-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
 }
 
-@media(max-width:480px){
-main{padding:12px}
-header{padding:0 12px}
-.stats{gap:7px}
-.stat{padding:12px}
-.stat strong{font-size:21px}
-.cardImage{height:150px}
-.formGrid{grid-template-columns:1fr}
-.field.full{grid-column:auto}
+.product-card{
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(145deg,#151922,#0e1117);
+  border:1px solid #252b36;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,.22);
+  transition:.18s ease;
+}
+
+.product-card:active{
+  transform:scale(.985);
+}
+
+.product-image{
+  position:relative;
+  aspect-ratio:1/1;
+  background:#090b10;
+  overflow:hidden;
+}
+
+.product-image img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+
+.no-image{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  color:#555d6b;
+  font-size:38px;
+  background:
+    radial-gradient(circle at center,#202532 0,#0b0e14 65%);
+}
+
+.status{
+  position:absolute;
+  left:9px;
+  top:9px;
+  padding:5px 8px;
+  border-radius:9px;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.3px;
+  backdrop-filter:blur(10px);
+}
+
+.status.in{
+  background:rgba(30,180,110,.88);
+  color:#07160e;
+}
+
+.status.low{
+  background:rgba(246,200,95,.93);
+  color:#241a05;
+}
+
+.status.out{
+  background:rgba(255,92,108,.9);
+  color:white;
+}
+
+.card-body{
+  padding:12px;
+}
+
+.product-name{
+  font-size:14px;
+  font-weight:750;
+  line-height:1.25;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.product-code{
+  color:#737c8c;
+  font-size:9px;
+  margin-top:4px;
+}
+
+.product-meta{
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+  margin-top:9px;
+}
+
+.meta{
+  padding:5px 7px;
+  border-radius:8px;
+  background:#1a1e28;
+  color:#aeb6c5;
+  font-size:9px;
+}
+
+.stock-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin-top:12px;
+}
+
+.quantity{
+  font-size:20px;
+  font-weight:850;
+}
+
+.quantity-label{
+  color:var(--muted);
+  font-size:9px;
+}
+
+.price{
+  font-size:12px;
+  font-weight:700;
+}
+
+.card-actions{
+  display:flex;
+  gap:6px;
+  padding:0 12px 12px;
+}
+
+.card-actions button{
+  flex:1;
+  height:34px;
+  border-radius:10px;
+  background:#1a1e27;
+  color:#dce1e9;
+  font-size:11px;
+}
+
+.card-actions button.primary{
+  background:#27203e;
+  color:#b9aaff;
+}
+
+.card-actions button.danger{
+  color:#ff7a87;
+}
+
+/* ---------- EMPTY ---------- */
+
+.empty{
+  text-align:center;
+  padding:55px 20px;
+  border:1px dashed #2b313c;
+  border-radius:20px;
+  color:var(--muted);
+}
+
+.empty-icon{
+  font-size:40px;
+  margin-bottom:10px;
+}
+
+.empty-title{
+  color:#e8ebf1;
+  font-weight:750;
+  margin-bottom:5px;
+}
+
+/* ---------- STORAGE ---------- */
+
+.storage{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px;
+  margin-bottom:18px;
+  background:linear-gradient(145deg,#111720,#0d1117);
+  border:1px solid var(--line);
+  border-radius:18px;
+}
+
+.storage-icon{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:#17251e;
+  color:var(--green);
+}
+
+.storage-info{
+  flex:1;
+}
+
+.storage-title{
+  font-size:13px;
+  font-weight:750;
+}
+
+.storage-sub{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.storage-actions{
+  display:flex;
+  gap:6px;
+}
+
+.small-btn{
+  padding:8px 10px;
+  border-radius:10px;
+  background:#1b2029;
+  color:#dce1e9;
+  font-size:10px;
+}
+
+/* ---------- SCANNER ---------- */
+
+.scanner-box{
+  border:1px solid var(--line);
+  border-radius:22px;
+  overflow:hidden;
+  background:#0b0d12;
+}
+
+.scanner-hero{
+  padding:20px;
+  text-align:center;
+}
+
+.scanner-icon{
+  font-size:45px;
+}
+
+.scanner-title{
+  font-size:22px;
+  font-weight:850;
+  margin-top:7px;
+}
+
+.scanner-desc{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+  margin:6px auto 18px;
+  max-width:350px;
+}
+
+.scan-main{
+  width:100%;
+  height:54px;
+  border-radius:15px;
+  color:white;
+  font-weight:800;
+  background:linear-gradient(135deg,#7c5cff,#573dd1);
+  box-shadow:0 8px 25px rgba(124,92,255,.2);
+}
+
+.manual{
+  margin-top:12px;
+}
+
+.manual input{
+  width:100%;
+  height:46px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:#11151c;
+  color:white;
+  padding:0 13px;
+  outline:none;
+}
+
+.manual button{
+  width:100%;
+  height:43px;
+  margin-top:7px;
+  border-radius:12px;
+  background:#1b2029;
+  color:white;
+}
+
+.scan-result{
+  margin-top:15px;
+  padding:14px;
+  border-radius:15px;
+  background:#121721;
+  border:1px solid var(--line);
+}
+
+.result-code{
+  font-size:17px;
+  font-weight:800;
+  word-break:break-all;
+}
+
+.result-format{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:5px;
+}
+
+/* ---------- ABOUT ---------- */
+
+.about-card{
+  background:linear-gradient(145deg,#151922,#0e1117);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:24px;
+  text-align:center;
+}
+
+.about-logo{
+  width:78px;
+  height:78px;
+  margin:auto;
+  display:grid;
+  place-items:center;
+  border-radius:24px;
+  background:linear-gradient(135deg,#7c5cff,#4b36b8);
+  font-size:38px;
+  box-shadow:0 12px 35px rgba(124,92,255,.25);
+}
+
+.about-title{
+  font-size:25px;
+  font-weight:850;
+  margin-top:15px;
+}
+
+.about-version{
+  color:#8f97a7;
+  font-size:11px;
+  margin-top:4px;
+}
+
+.about-text{
+  color:#9da5b3;
+  line-height:1.65;
+  font-size:12px;
+  margin:18px auto;
+  max-width:500px;
+}
+
+.feature-list{
+  display:grid;
+  gap:8px;
+  text-align:left;
+}
+
+.feature{
+  padding:12px;
+  background:#12161e;
+  border:1px solid #202631;
+  border-radius:13px;
+  font-size:11px;
+}
+
+/* ---------- MODAL ---------- */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  display:none;
+  align-items:flex-end;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(7px);
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:100%;
+  max-height:92vh;
+  overflow:auto;
+  background:#10131a;
+  border:1px solid #282e38;
+  border-radius:24px 24px 0 0;
+  padding:18px;
+  padding-bottom:calc(22px + env(safe-area-inset-bottom));
+}
+
+.modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:16px;
+}
+
+.modal-title{
+  font-size:19px;
+  font-weight:850;
+}
+
+.close{
+  width:36px;
+  height:36px;
+  border-radius:11px;
+  background:#1d222c;
+  color:#aaa;
+}
+
+.form{
+  display:grid;
+  gap:11px;
+}
+
+.field label{
+  display:block;
+  color:#929aaa;
+  font-size:10px;
+  margin:0 0 6px 3px;
+}
+
+.field input,
+.field select{
+  width:100%;
+  height:45px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#0c0f15;
+  color:white;
+  padding:0 12px;
+  outline:none;
+}
+
+.field input:focus{
+  border-color:var(--accent);
+}
+
+.two{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.photo-preview{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+}
+
+.preview-item{
+  flex:none;
+  width:72px;
+  height:72px;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  position:relative;
+}
+
+.preview-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.save-btn{
+  height:50px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#7c5cff,#573dd1);
+  color:white;
+  font-weight:800;
+  margin-top:5px;
+}
+
+/* ---------- LOCK ---------- */
+
+.lock-screen{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:#080a0f;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+}
+
+.lock-screen.show{
+  display:flex;
+}
+
+.lock-box{
+  width:100%;
+  max-width:350px;
+  text-align:center;
+}
+
+.lock-logo{
+  width:75px;
+  height:75px;
+  margin:auto;
+  display:grid;
+  place-items:center;
+  border-radius:23px;
+  background:linear-gradient(135deg,#7c5cff,#4b36b8);
+  font-size:34px;
+}
+
+.lock-title{
+  font-size:25px;
+  font-weight:850;
+  margin-top:18px;
+}
+
+.lock-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin:7px 0 20px;
+}
+
+.pin{
+  width:100%;
+  height:52px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:#11151c;
+  color:white;
+  text-align:center;
+  letter-spacing:8px;
+  font-size:20px;
+  outline:none;
+}
+
+.unlock{
+  width:100%;
+  height:50px;
+  margin-top:10px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#7c5cff,#573dd1);
+  color:white;
+  font-weight:800;
+}
+
+.lock-error{
+  color:#ff7180;
+  font-size:11px;
+  margin-top:9px;
+}
+
+/* ---------- TOAST ---------- */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:90px;
+  z-index:500;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  background:#202631;
+  border:1px solid #343b48;
+  color:white;
+  padding:11px 15px;
+  border-radius:13px;
+  font-size:11px;
+  transition:.25s;
+  white-space:nowrap;
+  max-width:90%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media(max-width:360px){
+  .product-grid{
+    gap:8px;
+  }
+
+  .card-body{
+    padding:10px;
+  }
+
+  .card-actions{
+    padding:0 10px 10px;
+  }
+
+  .stats{
+    gap:6px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
-
-<header>
-  <div class="brand">
-    <div class="logo">📦</div>
-    <div class="brandText">
-      <strong>Stock Lab</strong>
-      <span>Inventory Manager</span>
+<header class="header">
+  <div class="header-row">
+    <div class="brand">
+      <div class="brand-icon">📦</div>
+      <div>
+        <div class="brand-title">Stock Lab</div>
+        <div class="brand-sub">Inventory Manager</div>
+      </div>
     </div>
-  </div>
-  <button class="topBtn" id="folderBtn">📁 Folder</button>
-</header>
 
-<nav>
-  <button class="navBtn active" data-view="stockView">📦 Stock Lab</button>
-  <button class="navBtn" data-view="scannerView">📷 Scanner</button>
-  <button class="navBtn" data-view="aboutView">👤 About Me</button>
-</nav>
+    <button class="small-btn" onclick="lockApp()">🔒</button>
+  </div>
+</header>
 
 <main>
 
 <!-- STOCK -->
-<section id="stockView" class="view active">
+<section id="stockPage" class="page">
+
+  <div class="page-title">Inventory</div>
+  <div class="page-subtitle">
+    Manage your products quickly and simply.
+  </div>
 
   <div class="storage">
-    <div class="storageTop">
-      <div>
-        <div class="storageTitle">Storage</div>
-        <div id="storageStatus" class="storageStatus">
-          Browser storage active
-        </div>
+    <div class="storage-icon">✓</div>
+
+    <div class="storage-info">
+      <div class="storage-title">Local app storage</div>
+      <div class="storage-sub">
+        Your products stay inside Stock Lab.
       </div>
-      <button class="folderBtn" id="chooseFolderBtn">Choose Folder</button>
+    </div>
+
+    <div class="storage-actions">
+      <button class="small-btn" onclick="backupData()">Backup</button>
+      <button class="small-btn" onclick="restoreInput.click()">Restore</button>
     </div>
   </div>
 
+  <input
+    id="restoreInput"
+    type="file"
+    accept=".json,application/json"
+    class="hidden"
+  >
+
   <div class="stats">
+
     <div class="stat">
-      <span>Total Products</span>
-      <strong id="totalStat">0</strong>
+      <div class="stat-icon">📦</div>
+      <div id="totalProducts" class="stat-value">0</div>
+      <div class="stat-name">PRODUCTS</div>
     </div>
+
     <div class="stat">
-      <span>Low Stock</span>
-      <strong id="lowStat">0</strong>
+      <div class="stat-icon">⚠️</div>
+      <div id="lowStock" class="stat-value">0</div>
+      <div class="stat-name">LOW STOCK</div>
     </div>
+
     <div class="stat">
-      <span>Out of Stock</span>
-      <strong id="outStat">0</strong>
+      <div class="stat-icon">⭕</div>
+      <div id="outStock" class="stat-value">0</div>
+      <div class="stat-name">OUT OF STOCK</div>
     </div>
+
   </div>
 
   <div class="toolbar">
-    <input id="searchInput" class="input search"
-      placeholder="Search product, size, code...">
 
-    <select id="categoryFilter" class="select">
+    <div class="search">
+      <span class="search-icon">⌕</span>
+      <input
+        id="search"
+        type="search"
+        placeholder="Search products..."
+      >
+    </div>
+
+    <button class="add-btn" onclick="openProduct()">+</button>
+
+  </div>
+
+  <div class="filters">
+
+    <select id="categoryFilter">
       <option value="">All categories</option>
     </select>
 
-    <select id="stockFilter" class="select">
-      <option value="all">All stock</option>
-      <option value="in">In Stock</option>
-      <option value="low">Low Stock</option>
-      <option value="out">Out of Stock</option>
+    <select id="stockFilter">
+      <option value="">All stock</option>
+      <option value="in">In stock</option>
+      <option value="low">Low stock</option>
+      <option value="out">Out of stock</option>
     </select>
 
-    <select id="sortSelect" class="select">
-      <option value="newest">Newest</option>
+    <select id="sortFilter">
+      <option value="new">Newest</option>
       <option value="name">Name</option>
-      <option value="quantity">Quantity</option>
+      <option value="qty">Quantity</option>
+      <option value="price">Price</option>
     </select>
+
   </div>
 
-  <div id="products" class="products"></div>
+  <div id="productGrid" class="product-grid"></div>
 
 </section>
+
 
 <!-- SCANNER -->
-<section id="scannerView" class="view">
+<section id="scannerPage" class="page hidden">
 
-  <div class="scannerBox">
+  <div class="page-title">Scanner</div>
 
-    <div class="videoWrap" id="videoWrap">
-
-      <video id="video"
-        autoplay
-        playsinline
-        muted></video>
-
-      <div class="scanFrame"></div>
-      <div class="scanLine"></div>
-
-    </div>
-
-    <div id="cameraMessage" class="cameraMessage">
-      Press Start Camera. Allow camera permission when Android asks.
-    </div>
-
-    <div class="controls">
-      <button id="startCamera" class="controlBtn primary">
-        ▶ Start Camera
-      </button>
-
-      <button id="stopCamera" class="controlBtn">
-        ■ Stop
-      </button>
-
-      <button id="focusBtn" class="controlBtn">
-        🎯 Focus
-      </button>
-
-      <button id="torchBtn" class="controlBtn">
-        🔦 Torch
-      </button>
-    </div>
-
-    <div class="cameraInfo">
-
-      <div class="infoBox">
-        <span>Actual Camera Resolution</span>
-        <strong id="resolutionInfo">—</strong>
-      </div>
-
-      <div class="infoBox">
-        <span>Focus</span>
-        <strong id="focusInfo">—</strong>
-      </div>
-
-      <div class="infoBox">
-        <span>Zoom</span>
-        <strong id="zoomInfo">—</strong>
-      </div>
-
-      <div class="infoBox">
-        <span>Barcode Engine</span>
-        <strong id="formatInfo">Checking...</strong>
-      </div>
-
-    </div>
-
-    <div class="sliderBox">
-      <label>
-        <span>Zoom</span>
-        <span id="zoomValue">1×</span>
-      </label>
-      <input id="zoomSlider" type="range" min="1" max="1" step=".1" value="1">
-    </div>
-
+  <div class="page-subtitle">
+    Scan product barcodes with your phone camera.
   </div>
 
-  <div class="manual">
-    <input id="manualCode"
-      class="input"
-      placeholder="Enter barcode manually">
-    <button id="manualScan" class="controlBtn primary">
-      Scan
-    </button>
-  </div>
+  <div class="scanner-box">
 
-  <div id="scanResult" class="scanResult hidden"></div>
+    <div class="scanner-hero">
 
-  <div class="history">
-    <h3>Recent Scans</h3>
-    <div id="historyList"></div>
+      <div class="scanner-icon">📷</div>
+
+      <div class="scanner-title">
+        Native Barcode Scanner
+      </div>
+
+      <div class="scanner-desc">
+        Stock Lab uses the Android camera scanner for
+        faster and more reliable barcode detection.
+      </div>
+
+      <button
+        id="nativeScanBtn"
+        class="scan-main"
+        onclick="startNativeScan()"
+      >
+        📷 Scan Barcode
+      </button>
+
+      <div class="manual">
+
+        <input
+          id="manualCode"
+          placeholder="Or enter barcode manually"
+        >
+
+        <button onclick="useManualCode()">
+          Use Code
+        </button>
+
+      </div>
+
+      <div id="scanResult" class="scan-result hidden">
+
+        <div id="resultCode" class="result-code"></div>
+
+        <div id="resultFormat" class="result-format"></div>
+
+        <button
+          class="save-btn"
+          style="margin-top:12px;width:100%;"
+          onclick="addScannedProduct()"
+        >
+          + Add Product With This Code
+        </button>
+
+      </div>
+
+    </div>
+
   </div>
 
 </section>
 
+
 <!-- ABOUT -->
-<section id="aboutView" class="view">
+<section id="aboutPage" class="page hidden">
 
-  <div class="about">
+  <div class="page-title">About</div>
 
-    <div class="aboutHero">
+  <div class="page-subtitle">
+    Simple inventory management.
+  </div>
 
-      <div class="avatar">⚡</div>
+  <div class="about-card">
 
-      <h1>@xprocket</h1>
+    <div class="about-logo">📦</div>
 
-      <p>
-        Building simple, useful and offline-first tools.
-        Stock Lab is designed to keep inventory management
-        fast and practical directly from your phone.
-      </p>
+    <div class="about-title">Stock Lab</div>
 
-      <div class="aboutStats">
-        <div class="aboutStat">
-          <strong>15+</strong>
-          <span>Projects</span>
-        </div>
-        <div class="aboutStat">
-          <strong>100%</strong>
-          <span>Offline Focus</span>
-        </div>
-        <div class="aboutStat">
-          <strong>∞</strong>
-          <span>Ideas</span>
-        </div>
+    <div class="about-version">
+      Version 2.0
+    </div>
+
+    <div class="about-text">
+      A clean, fast and private inventory manager
+      designed for everyday product management.
+      Your inventory stays locally on your device.
+    </div>
+
+    <div class="feature-list">
+
+      <div class="feature">
+        📦 <b>Inventory</b><br>
+        Add, edit and manage products.
+      </div>
+
+      <div class="feature">
+        📷 <b>Native Scanner</b><br>
+        Fast barcode scanning on Android.
+      </div>
+
+      <div class="feature">
+        💾 <b>Backup & Restore</b><br>
+        Keep a backup of your inventory.
+      </div>
+
+      <div class="feature">
+        🔐 <b>Privacy</b><br>
+        Inventory data stays locally on your device.
       </div>
 
     </div>
@@ -628,906 +1121,1445 @@ header{padding:0 12px}
 
 </main>
 
-<button id="addBtn" class="addBtn">+</button>
 
-</div>
+<!-- NAV -->
+
+<nav class="nav">
+
+  <button
+    id="navStock"
+    class="active"
+    onclick="showPage('stock')"
+  >
+    <span class="nav-icon">📦</span>
+    <span class="nav-label">Stock Lab</span>
+  </button>
+
+  <button
+    id="navScanner"
+    onclick="showPage('scanner')"
+  >
+    <span class="nav-icon">📷</span>
+    <span class="nav-label">Scanner</span>
+  </button>
+
+  <button
+    id="navAbout"
+    onclick="showPage('about')"
+  >
+    <span class="nav-icon">👤</span>
+    <span class="nav-label">About Me</span>
+  </button>
+
+</nav>
+
 
 <!-- PRODUCT MODAL -->
+
 <div id="productModal" class="modal">
 
-  <div class="modalBox">
+  <div class="modal-box">
 
-    <div class="modalTitle">
-      <strong id="modalTitle">Add Product</strong>
-      <button class="close" id="closeModal">×</button>
+    <div class="modal-head">
+
+      <div id="modalTitle" class="modal-title">
+        Add Product
+      </div>
+
+      <button
+        class="close"
+        onclick="closeProduct()"
+      >
+        ✕
+      </button>
+
     </div>
 
-    <div class="formGrid">
+    <div class="form">
 
-      <div class="field full">
-        <label>Product Name *</label>
-        <input id="pName" class="formInput">
+      <div class="field">
+        <label>PRODUCT NAME</label>
+        <input id="pName" placeholder="Example: Amethyst Bracelet">
+      </div>
+
+      <div class="two">
+
+        <div class="field">
+          <label>PRODUCT CODE</label>
+          <input id="pCode" placeholder="Barcode / SKU">
+        </div>
+
+        <div class="field">
+          <label>CATEGORY</label>
+          <input id="pCategory" placeholder="Category">
+        </div>
+
+      </div>
+
+      <div class="two">
+
+        <div class="field">
+          <label>SIZE</label>
+          <input id="pSize" placeholder="Size">
+        </div>
+
+        <div class="field">
+          <label>COLOR</label>
+          <input id="pColor" placeholder="Color">
+        </div>
+
+      </div>
+
+      <div class="two">
+
+        <div class="field">
+          <label>QUANTITY</label>
+          <input id="pQuantity" type="number" min="0" value="0">
+        </div>
+
+        <div class="field">
+          <label>LOW STOCK LIMIT</label>
+          <input id="pThreshold" type="number" min="0" value="5">
+        </div>
+
       </div>
 
       <div class="field">
-        <label>Code / SKU / Barcode</label>
-        <input id="pCode" class="formInput">
+        <label>PRICE (OPTIONAL)</label>
+        <input id="pPrice" type="number" min="0" step="0.01" placeholder="₹">
       </div>
 
       <div class="field">
-        <label>Category</label>
-        <input id="pCat" class="formInput">
-      </div>
+        <label>PRODUCT PHOTOS</label>
 
-      <div class="field">
-        <label>Size / Variant</label>
-        <input id="pSize" class="formInput">
-      </div>
-
-      <div class="field">
-        <label>Color</label>
-        <input id="pColor" class="formInput">
-      </div>
-
-      <div class="field">
-        <label>Price</label>
-        <input id="pPrice" class="formInput" type="number">
-      </div>
-
-      <div class="field">
-        <label>Boxes</label>
-        <input id="pBoxes" class="formInput" type="number" min="0">
-      </div>
-
-      <div class="field">
-        <label>Units</label>
-        <input id="pUnits" class="formInput" type="number" min="0">
-      </div>
-
-      <div class="field">
-        <label>Low Stock Threshold</label>
-        <input id="pThreshold" class="formInput" type="number" min="1" value="5">
-      </div>
-
-      <div class="field full">
-        <label>Product Photos</label>
-        <input id="pPhotos" class="formInput"
+        <input
+          id="pImages"
           type="file"
           accept="image/*"
-          multiple>
-        <div id="photoPreview" class="photoPreview"></div>
+          multiple
+        >
+
       </div>
 
-    </div>
+      <div id="photoPreview" class="photo-preview"></div>
 
-    <div class="modalActions">
-      <button class="cancel" id="cancelModal">Cancel</button>
-      <button class="save" id="saveProduct">Save Product</button>
+      <button
+        class="save-btn"
+        onclick="saveProduct()"
+      >
+        Save Product
+      </button>
+
     </div>
 
   </div>
 
 </div>
 
+
+<!-- LOCK -->
+
+<div id="lockScreen" class="lock-screen">
+
+  <div class="lock-box">
+
+    <div class="lock-logo">🔒</div>
+
+    <div class="lock-title">
+      Stock Lab Locked
+    </div>
+
+    <div class="lock-sub">
+      Enter your PIN to continue.
+    </div>
+
+    <input
+      id="unlockPin"
+      class="pin"
+      type="password"
+      inputmode="numeric"
+      maxlength="8"
+      placeholder="••••"
+    >
+
+    <button
+      class="unlock"
+      onclick="unlockApp()"
+    >
+      Unlock
+    </button>
+
+    <div id="lockError" class="lock-error"></div>
+
+  </div>
+
+</div>
+
+
 <div id="toast" class="toast"></div>
+
+
+<!-- Native scanner module -->
+
+<script type="module" src="/native-scanner.js"></script>
+
 
 <script>
 /* =========================================================
-   STOCK LAB
-   Offline inventory + file storage + adaptive camera
-========================================================= */
+   STOCK LAB v2
+   ========================================================= */
 
-const LS_PRODUCTS = "stock_lab_products_v4";
-const LS_CATS = "stock_lab_categories_v4";
-const LS_HISTORY = "stock_lab_scan_history_v4";
+const PRODUCTS_KEY = "stock_lab_products_v2";
+const PIN_KEY = "stock_lab_pin_v2";
+const LOCK_KEY = "stock_lab_locked_v2";
 
 let products = [];
-let categories = [];
-let scanHistory = [];
 let editingId = null;
-let selectedImages = [];
+let scannedCode = "";
+let scannedFormat = "";
+let pendingImages = [];
 
-let folderHandle = null;
-let stream = null;
-let videoTrack = null;
-let detector = null;
-let scanning = false;
-let scanBusy = false;
-let lastCode = "";
-let lastScanTime = 0;
-let cameraCapabilities = {};
-let cameraSettings = {};
 
-/* =========================================================
-   BASIC HELPERS
-========================================================= */
+/* ---------- HELPERS ---------- */
 
-const $ = id => document.getElementById(id);
-
-function toast(message){
-  const el = $("toast");
-  el.textContent = message;
-  el.classList.add("show");
-
-  clearTimeout(window.__toastTimer);
-  window.__toastTimer = setTimeout(()=>{
-    el.classList.remove("show");
-  },2500);
-}
-
-function safeJSON(key,fallback){
-  try{
-    const value = localStorage.getItem(key);
-    return value ? JSON.parse(value) : fallback;
-  }catch{
-    return fallback;
-  }
-}
-
-function saveLocal(){
-  localStorage.setItem(LS_PRODUCTS,JSON.stringify(products));
-  localStorage.setItem(LS_CATS,JSON.stringify(categories));
-  localStorage.setItem(LS_HISTORY,JSON.stringify(scanHistory));
+function $(id){
+  return document.getElementById(id);
 }
 
 function uid(){
-  return Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,9);
+  return Date.now().toString(36) +
+    Math.random().toString(36).slice(2,8);
+}
+
+function toast(message){
+
+  const el = $("toast");
+
+  el.textContent = message;
+  el.classList.add("show");
+
+  clearTimeout(window.__toast);
+
+  window.__toast = setTimeout(()=>{
+    el.classList.remove("show");
+  },2200);
 }
 
 function escapeHTML(value){
+
   return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
-function totalUnits(p){
-  return Number(p.boxes||0) + Number(p.units||0);
-}
 
-function stockState(p){
-  const q = totalUnits(p);
-  const t = Number(p.threshold||5);
+/* ---------- STORAGE ---------- */
 
-  if(q <= 0) return "out";
-  if(q <= t) return "low";
-  return "good";
-}
-
-function stockText(state){
-  if(state==="out") return "OUT OF STOCK";
-  if(state==="low") return "LOW STOCK";
-  return "IN STOCK";
-}
-
-/* =========================================================
-   LOAD
-========================================================= */
-
-products = safeJSON(LS_PRODUCTS,[]);
-categories = safeJSON(LS_CATS,[]);
-scanHistory = safeJSON(LS_HISTORY,[]);
-
-/* backward compatibility */
-if(!products.length){
-  const old = safeJSON("stock_lab",[]);
-  if(Array.isArray(old) && old.length){
-    products = old;
-  }
-}
-
-if(!categories.length){
-  const oldCats = safeJSON("inv_cats_clean",[]);
-  if(Array.isArray(oldCats)) categories = oldCats;
-}
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-document.querySelectorAll(".navBtn").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    document.querySelectorAll(".navBtn")
-      .forEach(x=>x.classList.remove("active"));
-
-    document.querySelectorAll(".view")
-      .forEach(x=>x.classList.remove("active"));
-
-    btn.classList.add("active");
-    $(btn.dataset.view).classList.add("active");
-
-    if(btn.dataset.view !== "scannerView"){
-      stopCamera();
-    }
-  });
-});
-
-/* =========================================================
-   FILE STORAGE
-========================================================= */
-
-function fileStorageSupported(){
-  return !!(
-    window.showDirectoryPicker &&
-    window.FileSystemDirectoryHandle
-  );
-}
-
-async function getFolderPermission(handle){
-
-  if(!handle) return "denied";
+function loadProducts(){
 
   try{
 
-    if(handle.queryPermission){
-      const current =
-        await handle.queryPermission({mode:"readwrite"});
+    const raw =
+      localStorage.getItem(PRODUCTS_KEY) ||
+      localStorage.getItem("stock_lab_products_v4") ||
+      localStorage.getItem("stock_lab");
 
-      if(current === "granted") return "granted";
+    if(raw){
+
+      const parsed = JSON.parse(raw);
+
+      if(Array.isArray(parsed)){
+        products = parsed;
+      }
     }
 
-    if(handle.requestPermission){
-      const requested =
-        await handle.requestPermission({mode:"readwrite"});
+  }catch(error){
 
-      return requested;
-    }
+    console.error(error);
+    products = [];
+  }
 
-    return "unknown";
-
-  }catch(err){
-    console.error("Permission check:",err);
-    return "denied";
+  if(!Array.isArray(products)){
+    products = [];
   }
 }
 
-async function ensureFolder(name){
+function saveProducts(){
 
-  if(!folderHandle) throw new Error("No folder selected");
-
-  return await folderHandle.getDirectoryHandle(
-    name,
-    {create:true}
+  localStorage.setItem(
+    PRODUCTS_KEY,
+    JSON.stringify(products)
   );
 }
 
-function safeFileName(name){
-  return String(name || "product")
-    .replace(/[<>:"/\\|?*\x00-\x1F]/g,"_")
-    .replace(/\s+/g," ")
-    .trim()
-    .slice(0,70);
-}
 
-async function writeTextFile(dir,name,text){
+/* ---------- STATUS ---------- */
 
-  const fileHandle =
-    await dir.getFileHandle(name,{create:true});
+function getStatus(product){
 
-  const writable =
-    await fileHandle.createWritable();
+  const qty = Number(product.qty ?? product.quantity ?? 0);
+  const threshold =
+    Number(product.threshold ?? 5);
 
-  await writable.write(text);
-  await writable.close();
-}
+  if(qty <= 0){
+    return {
+      key:"out",
+      text:"OUT OF STOCK"
+    };
+  }
 
-async function saveDataFile(){
+  if(qty <= threshold){
+    return {
+      key:"low",
+      text:"LOW STOCK"
+    };
+  }
 
-  if(!folderHandle) return false;
-
-  const payload = {
-    app:"Stock Lab",
-    version:4,
-    savedAt:new Date().toISOString(),
-    products:products,
-    categories:categories
+  return {
+    key:"in",
+    text:"IN STOCK"
   };
-
-  await writeTextFile(
-    folderHandle,
-    "stock-lab-data.json",
-    JSON.stringify(payload,null,2)
-  );
-
-  return true;
 }
 
-function dataURLtoBlob(dataURL){
 
-  const parts = dataURL.split(",");
-  const mime =
-    parts[0].match(/:(.*?);/)[1];
+/* ---------- DASHBOARD ---------- */
 
-  const binary =
-    atob(parts[1]);
+function updateStats(){
 
-  const arr =
-    new Uint8Array(binary.length);
+  let low = 0;
+  let out = 0;
 
-  for(let i=0;i<binary.length;i++){
-    arr[i]=binary.charCodeAt(i);
-  }
+  products.forEach(product=>{
 
-  return new Blob([arr],{type:mime});
+    const status = getStatus(product);
+
+    if(status.key === "low") low++;
+    if(status.key === "out") out++;
+
+  });
+
+  $("totalProducts").textContent =
+    products.length;
+
+  $("lowStock").textContent = low;
+  $("outStock").textContent = out;
 }
 
-async function saveProductFiles(product){
 
-  if(!folderHandle) return;
+/* ---------- FILTERS ---------- */
 
-  const productsDir =
-    await ensureFolder("Products");
-
-  const base =
-    safeFileName(
-      (product.code || product.name || "product") +
-      "-" +
-      String(product.id).slice(-6)
-    );
-
-  const dir =
-    await productsDir.getDirectoryHandle(
-      base,
-      {create:true}
-    );
-
-  await writeTextFile(
-    dir,
-    "product.json",
-    JSON.stringify(
-      {...product,imgs:[]},
-      null,
-      2
-    )
-  );
-
-  for(let i=0;i<(product.imgs||[]).length;i++){
-
-    const blob =
-      dataURLtoBlob(product.imgs[i]);
-
-    const fileHandle =
-      await dir.getFileHandle(
-        `photo-${i+1}.jpg`,
-        {create:true}
-      );
-
-    const writable =
-      await fileHandle.createWritable();
-
-    await writable.write(blob);
-    await writable.close();
-  }
-}
-
-async function chooseFolder(){
-
-  if(!fileStorageSupported()){
-    toast("File folders aren't supported in this browser. Browser storage is still active.");
-    return;
-  }
-
-  try{
-
-    const picked =
-      await window.showDirectoryPicker({
-        mode:"readwrite"
-      });
-
-    folderHandle = picked;
-
-    let permission =
-      await getFolderPermission(folderHandle);
-
-    if(permission !== "granted"){
-
-      toast("Requesting folder access...");
-
-      permission =
-        await folderHandle.requestPermission({
-          mode:"readwrite"
-        });
-    }
-
-    if(permission !== "granted"){
-
-      $("storageStatus").textContent =
-        "Folder access was not granted";
-
-      toast("Folder access was not granted.");
-      return;
-    }
-
-    /* Test real directory access */
-    await ensureFolder("Products");
-
-    /* Test actual file writing */
-    await saveDataFile();
-
-    $("storageStatus").textContent =
-      "✓ Stock Lab folder connected";
-
-    $("storageStatus").classList.add("ok");
-
-    toast("Folder connected successfully.");
-
-  }catch(err){
-
-    console.error(err);
-
-    if(err.name === "AbortError"){
-      return;
-    }
-
-    $("storageStatus").textContent =
-      "Browser storage active";
-
-    toast(
-      "Folder access failed. Your products are still saved in browser storage."
-    );
-  }
-}
-
-$("chooseFolderBtn").addEventListener(
-  "click",
-  chooseFolder
-);
-
-$("folderBtn").addEventListener(
-  "click",
-  chooseFolder
-);
-
-/* =========================================================
-   RENDER CATEGORIES
-========================================================= */
-
-function renderCategories(){
+function updateCategories(){
 
   const select = $("categoryFilter");
-
   const current = select.value;
 
+  const categories = [
+    ...new Set(
+      products
+        .map(p=>p.category || p.cat || "")
+        .filter(Boolean)
+    )
+  ].sort();
+
   select.innerHTML =
-    `<option value="">All categories</option>`;
+    `<option value="">All categories</option>` +
+    categories
+      .map(c=>`
+        <option value="${escapeHTML(c)}">
+          ${escapeHTML(c)}
+        </option>
+      `)
+      .join("");
 
-  [...new Set(categories)]
-    .filter(Boolean)
-    .sort()
-    .forEach(cat=>{
-      const option =
-        document.createElement("option");
-
-      option.value=cat;
-      option.textContent=cat;
-
-      select.appendChild(option);
-    });
-
-  select.value=current;
+  select.value = current;
 }
 
-/* =========================================================
-   RENDER PRODUCTS
-========================================================= */
+
+/* ---------- RENDER ---------- */
 
 function renderProducts(){
 
-  const grid = $("products");
+  updateStats();
+  updateCategories();
 
   const search =
-    $("searchInput").value.trim().toLowerCase();
+    $("search").value.trim().toLowerCase();
 
   const category =
     $("categoryFilter").value;
 
-  const filter =
+  const stock =
     $("stockFilter").value;
 
   const sort =
-    $("sortSelect").value;
+    $("sortFilter").value;
 
-  let list = [...products];
+  let list = products.filter(product=>{
 
-  if(search){
-    list=list.filter(p=>{
-      return [
-        p.name,
-        p.code,
-        p.cat,
-        p.size,
-        p.color
-      ].join(" ").toLowerCase().includes(search);
-    });
-  }
+    const name =
+      String(product.name || "").toLowerCase();
 
-  if(category){
-    list=list.filter(p=>p.cat===category);
-  }
+    const code =
+      String(product.code || "").toLowerCase();
 
-  if(filter !== "all"){
-    list=list.filter(p=>stockState(p)===
-      (filter==="in"?"good":filter));
-  }
+    const cat =
+      product.category ||
+      product.cat ||
+      "";
 
-  if(sort==="name"){
+    const matchesSearch =
+      !search ||
+      name.includes(search) ||
+      code.includes(search) ||
+      String(cat).toLowerCase().includes(search);
+
+    const matchesCategory =
+      !category || cat === category;
+
+    const status =
+      getStatus(product);
+
+    const matchesStock =
+      !stock || status.key === stock;
+
+    return (
+      matchesSearch &&
+      matchesCategory &&
+      matchesStock
+    );
+  });
+
+
+  if(sort === "name"){
+
     list.sort((a,b)=>
       String(a.name).localeCompare(String(b.name))
     );
-  }
 
-  if(sort==="quantity"){
-    list.sort((a,b)=>totalUnits(b)-totalUnits(a));
-  }
+  }else if(sort === "qty"){
 
-  if(sort==="newest"){
     list.sort((a,b)=>
-      Number(b.created||0)-Number(a.created||0)
+      Number(b.qty ?? b.quantity ?? 0) -
+      Number(a.qty ?? a.quantity ?? 0)
+    );
+
+  }else if(sort === "price"){
+
+    list.sort((a,b)=>
+      Number(b.price || 0) -
+      Number(a.price || 0)
+    );
+
+  }else{
+
+    list.sort((a,b)=>
+      Number(b.updated || b.created || 0) -
+      Number(a.updated || a.created || 0)
     );
   }
+
+
+  const grid = $("productGrid");
 
   if(!list.length){
 
     grid.innerHTML = `
       <div class="empty" style="grid-column:1/-1">
-        No products found.
+        <div class="empty-icon">📦</div>
+        <div class="empty-title">
+          No products found
+        </div>
+        <div>
+          Add your first product to Stock Lab.
+        </div>
       </div>
     `;
 
     return;
   }
 
-  grid.innerHTML = list.map(p=>{
 
-    const state=stockState(p);
-    const q=totalUnits(p);
+  grid.innerHTML = list.map(product=>{
 
-    const img =
-      p.imgs && p.imgs.length
-      ? `<img src="${p.imgs[0]}" alt="">`
-      : `<div class="noImage">No image</div>`;
+    const status = getStatus(product);
+
+    const qty =
+      Number(product.qty ?? product.quantity ?? 0);
+
+    const image =
+      Array.isArray(product.imgs) &&
+      product.imgs.length
+        ? product.imgs[0]
+        : null;
+
+    const category =
+      product.category ||
+      product.cat ||
+      "";
+
+    const size =
+      product.size || "";
+
+    const color =
+      product.color || "";
+
+    const price =
+      product.price !== undefined &&
+      product.price !== null &&
+      product.price !== ""
+        ? `₹${Number(product.price).toLocaleString("en-IN")}`
+        : "";
+
 
     return `
-      <div class="card">
+      <article
+        class="product-card"
+        onclick="openProduct('${product.id}')"
+      >
 
-        <div class="cardImage">
-          ${img}
-        </div>
+        <div class="product-image">
 
-        <div class="cardBody">
+          ${
+            image
+              ? `<img
+                   src="${image}"
+                   alt="${escapeHTML(product.name)}"
+                   loading="lazy"
+                 >`
+              : `<div class="no-image">📦</div>`
+          }
 
-          <div class="cardName">
-            ${escapeHTML(p.name)}
-          </div>
-
-          <div class="cardMeta">
-            ${p.size ? escapeHTML(p.size)+" · " : ""}
-            ${p.code ? escapeHTML(p.code) : "No code"}
-          </div>
-
-          <div class="cardMeta">
-            Quantity: <b>${q}</b>
-            ${p.price ? " · ₹"+escapeHTML(p.price) : ""}
-          </div>
-
-          <span class="badge ${state}">
-            ${stockText(state)}
-          </span>
-
-          <div class="cardActions">
-            <button
-              class="smallBtn"
-              onclick="editProduct('${p.id}')">
-              Edit
-            </button>
-
-            <button
-              class="smallBtn delete"
-              onclick="deleteProduct('${p.id}')">
-              Delete
-            </button>
+          <div class="status ${status.key}">
+            ${status.text}
           </div>
 
         </div>
 
-      </div>
+
+        <div class="card-body">
+
+          <div class="product-name">
+            ${escapeHTML(product.name || "Unnamed product")}
+          </div>
+
+          ${
+            product.code
+              ? `<div class="product-code">
+                   ${escapeHTML(product.code)}
+                 </div>`
+              : ""
+          }
+
+
+          <div class="product-meta">
+
+            ${
+              category
+                ? `<span class="meta">
+                     ${escapeHTML(category)}
+                   </span>`
+                : ""
+            }
+
+            ${
+              size
+                ? `<span class="meta">
+                     ${escapeHTML(size)}
+                   </span>`
+                : ""
+            }
+
+            ${
+              color
+                ? `<span class="meta">
+                     ${escapeHTML(color)}
+                   </span>`
+                : ""
+            }
+
+          </div>
+
+
+          <div class="stock-row">
+
+            <div>
+              <div class="quantity">${qty}</div>
+              <div class="quantity-label">QUANTITY</div>
+            </div>
+
+            ${
+              price
+                ? `<div class="price">${price}</div>`
+                : ""
+            }
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="card-actions"
+          onclick="event.stopPropagation()"
+        >
+
+          <button
+            onclick="changeQuantity('${product.id}',-1)"
+          >
+            −
+          </button>
+
+          <button
+            class="primary"
+            onclick="openProduct('${product.id}')"
+          >
+            Edit
+          </button>
+
+          <button
+            onclick="changeQuantity('${product.id}',1)"
+          >
+            +
+          </button>
+
+        </div>
+
+      </article>
     `;
 
   }).join("");
-
-  $("totalStat").textContent=products.length;
-
-  $("lowStat").textContent=
-    products.filter(p=>stockState(p)==="low").length;
-
-  $("outStat").textContent=
-    products.filter(p=>stockState(p)==="out").length;
 }
 
-function refresh(){
 
-  saveLocal();
-  renderCategories();
+/* ---------- QUANTITY ---------- */
+
+function changeQuantity(id, amount){
+
+  const product =
+    products.find(p=>p.id === id);
+
+  if(!product) return;
+
+  const current =
+    Number(product.qty ?? product.quantity ?? 0);
+
+  product.qty =
+    Math.max(0,current + amount);
+
+  product.quantity = product.qty;
+
+  product.updated = Date.now();
+
+  saveProducts();
   renderProducts();
+
 }
 
-/* =========================================================
-   PRODUCT MODAL
-========================================================= */
 
-function openModal(product=null){
+/* ---------- PRODUCT MODAL ---------- */
 
-  editingId=product ? product.id : null;
+function resetProductForm(){
 
-  $("modalTitle").textContent =
-    product ? "Edit Product" : "Add Product";
+  $("pName").value = "";
+  $("pCode").value = "";
+  $("pCategory").value = "";
+  $("pSize").value = "";
+  $("pColor").value = "";
+  $("pQuantity").value = "0";
+  $("pThreshold").value = "5";
+  $("pPrice").value = "";
+  $("pImages").value = "";
 
-  $("pName").value=product?.name||"";
-  $("pCode").value=product?.code||"";
-  $("pCat").value=product?.cat||"";
-  $("pSize").value=product?.size||"";
-  $("pColor").value=product?.color||"";
-  $("pPrice").value=product?.price||"";
-  $("pBoxes").value=product?.boxes||0;
-  $("pUnits").value=product?.units||0;
-  $("pThreshold").value=product?.threshold||5;
+  pendingImages = [];
 
-  selectedImages =
-    product?.imgs ? [...product.imgs] : [];
+  $("photoPreview").innerHTML = "";
+}
 
-  renderPhotoPreview();
+function openProduct(id=null){
+
+  editingId = id;
+
+  resetProductForm();
+
+  if(id){
+
+    const product =
+      products.find(p=>p.id === id);
+
+    if(!product) return;
+
+    $("modalTitle").textContent =
+      "Edit Product";
+
+    $("pName").value =
+      product.name || "";
+
+    $("pCode").value =
+      product.code || "";
+
+    $("pCategory").value =
+      product.category ||
+      product.cat ||
+      "";
+
+    $("pSize").value =
+      product.size || "";
+
+    $("pColor").value =
+      product.color || "";
+
+    $("pQuantity").value =
+      product.qty ??
+      product.quantity ??
+      0;
+
+    $("pThreshold").value =
+      product.threshold ?? 5;
+
+    $("pPrice").value =
+      product.price ?? "";
+
+    pendingImages =
+      Array.isArray(product.imgs)
+        ? [...product.imgs]
+        : [];
+
+    renderPreview();
+
+  }else{
+
+    $("modalTitle").textContent =
+      "Add Product";
+  }
 
   $("productModal").classList.add("show");
 }
 
-function closeModal(){
+function closeProduct(){
 
-  $("productModal").classList.remove("show");
-  editingId=null;
-  selectedImages=[];
-  $("pPhotos").value="";
+  $("productModal")
+    .classList.remove("show");
+
+  editingId = null;
 }
 
-$("addBtn").addEventListener(
-  "click",
-  ()=>openModal()
-);
 
-$("closeModal").addEventListener(
-  "click",
-  closeModal
-);
+/* ---------- IMAGES ---------- */
 
-$("cancelModal").addEventListener(
-  "click",
-  closeModal
-);
+$("pImages").addEventListener(
+  "change",
+  async event=>{
 
-$("productModal").addEventListener("click",e=>{
-  if(e.target === $("productModal")){
-    closeModal();
-  }
-});
+    const files =
+      [...event.target.files];
 
-function renderPhotoPreview(){
+    for(const file of files){
 
-  $("photoPreview").innerHTML =
-    selectedImages.map((src,i)=>`
-      <div style="position:relative;flex:none">
-        <img src="${src}">
-        <button
-          onclick="removePhoto(${i})"
-          style="
-          position:absolute;
-          right:2px;
-          top:2px;
-          border:0;
-          background:#000c;
-          color:#fff;
-          border-radius:50%;
-          width:22px;
-          height:22px;
-          ">
-          ×
-        </button>
-      </div>
-    `).join("");
-}
+      if(!file.type.startsWith("image/")){
+        continue;
+      }
 
-function removePhoto(index){
+      const data =
+        await compressImage(file,1200,.82);
 
-  selectedImages.splice(index,1);
-  renderPhotoPreview();
-}
-
-$("pPhotos").addEventListener("change",async e=>{
-
-  const files=[...e.target.files];
-
-  for(const file of files){
-
-    if(!file.type.startsWith("image/")) continue;
-
-    try{
-
-      const src =
-        await compressImage(file);
-
-      selectedImages.push(src);
-
-    }catch(err){
-      console.error(err);
+      pendingImages.push(data);
     }
+
+    renderPreview();
   }
+);
 
-  renderPhotoPreview();
-  $("pPhotos").value="";
-});
 
-function compressImage(file){
+function compressImage(
+  file,
+  maxSize=1200,
+  quality=.82
+){
 
-  return new Promise((resolve,reject)=>{
+  return new Promise(resolve=>{
 
-    const reader=new FileReader();
+    const reader =
+      new FileReader();
 
-    reader.onload=()=>{
+    reader.onload = ()=>{
 
-      const img=new Image();
+      const img =
+        new Image();
 
-      img.onload=()=>{
+      img.onload = ()=>{
 
-        const max=1400;
+        let width = img.width;
+        let height = img.height;
 
-        let w=img.width;
-        let h=img.height;
+        if(width > maxSize || height > maxSize){
 
-        if(w>max || h>max){
+          const ratio =
+            Math.min(
+              maxSize / width,
+              maxSize / height
+            );
 
-          const scale=Math.min(
-            max/w,
-            max/h
-          );
-
-          w=Math.round(w*scale);
-          h=Math.round(h*scale);
+          width *= ratio;
+          height *= ratio;
         }
 
-        const canvas=document.createElement("canvas");
+        const canvas =
+          document.createElement("canvas");
 
-        canvas.width=w;
-        canvas.height=h;
+        canvas.width = width;
+        canvas.height = height;
 
-        const ctx=canvas.getContext("2d");
+        const ctx =
+          canvas.getContext("2d");
 
-        ctx.drawImage(img,0,0,w,h);
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          width,
+          height
+        );
 
         resolve(
-          canvas.toDataURL("image/jpeg",.82)
+          canvas.toDataURL(
+            "image/jpeg",
+            quality
+          )
         );
       };
 
-      img.onerror=reject;
-      img.src=reader.result;
+      img.src = reader.result;
     };
 
-    reader.onerror=reject;
     reader.readAsDataURL(file);
-
   });
 }
 
-$("saveProduct").addEventListener(
-  "click",
-  saveProduct
-);
 
-async function saveProduct(){
+function renderPreview(){
+
+  $("photoPreview").innerHTML =
+    pendingImages.map((img,index)=>`
+
+      <div class="preview-item">
+
+        <img src="${img}">
+
+        <button
+          onclick="removeImage(${index})"
+          style="
+            position:absolute;
+            right:3px;
+            top:3px;
+            width:20px;
+            height:20px;
+            border-radius:6px;
+            background:rgba(0,0,0,.7);
+            color:white;
+            font-size:10px;
+          "
+        >
+          ×
+        </button>
+
+      </div>
+
+    `).join("");
+}
+
+function removeImage(index){
+
+  pendingImages.splice(index,1);
+
+  renderPreview();
+}
+
+
+/* ---------- SAVE PRODUCT ---------- */
+
+function saveProduct(){
 
   const name =
     $("pName").value.trim();
 
   if(!name){
-    toast("Product name is required.");
+
+    toast("Enter a product name");
     return;
   }
 
-  const now=Date.now();
+  const now = Date.now();
 
-  const product={
-    id:editingId || uid(),
+  const data = {
+
     name,
-    code:$("pCode").value.trim(),
-    cat:$("pCat").value.trim(),
-    size:$("pSize").value.trim(),
-    color:$("pColor").value.trim(),
-    price:$("pPrice").value,
-    boxes:Number($("pBoxes").value||0),
-    units:Number($("pUnits").value||0),
-    threshold:Number($("pThreshold").value||5),
-    imgs:[...selectedImages],
-    created:editingId
-      ? (products.find(p=>p.id===editingId)?.created||now)
-      : now,
+
+    code:
+      $("pCode").value.trim(),
+
+    category:
+      $("pCategory").value.trim(),
+
+    cat:
+      $("pCategory").value.trim(),
+
+    size:
+      $("pSize").value.trim(),
+
+    color:
+      $("pColor").value.trim(),
+
+    qty:
+      Math.max(
+        0,
+        Number($("pQuantity").value || 0)
+      ),
+
+    quantity:
+      Math.max(
+        0,
+        Number($("pQuantity").value || 0)
+      ),
+
+    threshold:
+      Math.max(
+        0,
+        Number($("pThreshold").value || 5)
+      ),
+
+    price:
+      $("pPrice").value === ""
+        ? ""
+        : Number($("pPrice").value),
+
+    imgs:
+      [...pendingImages],
+
     updated:now
   };
 
-  const index =
-    products.findIndex(p=>p.id===product.id);
 
-  if(index>=0){
-    products[index]=product;
+  if(editingId){
+
+    const index =
+      products.findIndex(
+        p=>p.id === editingId
+      );
+
+    if(index !== -1){
+
+      data.id = editingId;
+
+      data.created =
+        products[index].created || now;
+
+      products[index] = data;
+    }
+
   }else{
-    products.unshift(product);
+
+    data.id = uid();
+    data.created = now;
+
+    products.unshift(data);
   }
 
-  if(product.cat &&
-     !categories.includes(product.cat)){
-    categories.push(product.cat);
+
+  saveProducts();
+  renderProducts();
+  closeProduct();
+
+  toast(
+    editingId
+      ? "Product updated"
+      : "Product added"
+  );
+}
+
+
+/* ---------- DELETE ---------- */
+
+function deleteProduct(id){
+
+  const product =
+    products.find(p=>p.id === id);
+
+  if(!product) return;
+
+  if(
+    !confirm(
+      `Delete "${product.name}"?`
+    )
+  ){
+    return;
   }
 
-  refresh();
+  products =
+    products.filter(p=>p.id !== id);
 
-  closeModal();
+  saveProducts();
+  renderProducts();
 
-  toast("Product saved.");
+  toast("Product deleted");
+}
 
-  /* file-backed save */
-  if(folderHandle){
 
-    try{
+/* ---------- SCANNER ---------- */
 
-      await saveProductFiles(product);
-      await saveDataFile();
+async function startNativeScan(){
 
-    }catch(err){
+  const button =
+    $("nativeScanBtn");
 
-      console.error("File save error:",err);
+  button.disabled = true;
+  button.textContent = "Opening scanner...";
+
+  try{
+
+    if(
+      !window.StockLabNativeScanner ||
+      !window.StockLabNativeScanner.available
+    ){
 
       toast(
-        "Saved on device. File folder update failed."
+        "Native scanner is not loaded yet"
       );
+
+      return;
     }
+
+
+    const result =
+      await window.StockLabNativeScanner.scan();
+
+
+    if(
+      result &&
+      result.success &&
+      result.code
+    ){
+
+      showScanResult(
+        result.code,
+        result.format
+      );
+
+    }else{
+
+      if(result?.error){
+        toast(result.error);
+      }
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    toast(
+      "Unable to open scanner"
+    );
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent = "📷 Scan Barcode";
   }
 }
 
-window.editProduct=function(id){
 
-  const p=products.find(x=>x.id===id);
+function showScanResult(
+  code,
+  format=""
+){
 
-  if(p) openModal(p);
-};
+  scannedCode = code;
+  scannedFormat = format || "";
 
-window.deleteProduct=async function(id){
+  $("resultCode").textContent =
+    code;
 
-  const p=products.find(x=>x.id===id);
+  $("resultFormat").textContent =
+    format
+      ? `Format: ${format}`
+      : "Barcode detected";
 
-  if(!p) return;
+  $("scanResult")
+    .classList.remove("hidden");
+}
 
-  if(!confirm(`Delete "${p.name}"?`)) return;
 
-  products=products.filter(x=>x.id!==id);
+function useManualCode(){
 
-  refresh();
+  const code =
+    $("manualCode").value.trim();
 
-  toast("Product deleted.");
+  if(!code){
 
-  if(folderHandle){
+    toast("Enter a barcode");
+    return;
+  }
+
+  showScanResult(
+    code,
+    "Manual"
+  );
+}
+
+
+function addScannedProduct(){
+
+  if(!scannedCode){
+    return;
+  }
+
+  showPage("stock");
+
+  openProduct();
+
+  $("pCode").value =
+    scannedCode;
+
+  toast(
+    "Barcode added to new product"
+  );
+}
+
+
+/* ---------- BACKUP ---------- */
+
+function backupData(){
+
+  const backup = {
+
+    app:"Stock Lab",
+
+    version:"2.0",
+
+    exportedAt:
+      new Date().toISOString(),
+
+    products
+
+  };
+
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          backup,
+          null,
+          2
+        )
+      ],
+      {
+        type:"application/json"
+      }
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    "stock-lab-backup-" +
+    new Date()
+      .toISOString()
+      .slice(0,10) +
+    ".json";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  a.remove();
+
+  setTimeout(
+    ()=>URL.revokeObjectURL(url),
+    1000
+  );
+
+  toast("Backup created");
+}
+
+
+/* ---------- RESTORE ---------- */
+
+$("restoreInput").addEventListener(
+  "change",
+  async event=>{
+
+    const file =
+      event.target.files[0];
+
+    if(!file){
+      return;
+    }
 
     try{
-      await saveDataFile();
-    }catch(err){
-      console.error(err);
+
+      const text =
+        await file.text();
+
+      const data =
+        JSON.parse(text);
+
+
+      const imported =
+        Array.isArray(data)
+          ? data
+          : data.products;
+
+
+      if(!Array.isArray(imported)){
+
+        toast(
+          "Invalid Stock Lab backup"
+        );
+
+        return;
+      }
+
+
+      const replace =
+        confirm(
+          "Replace current inventory with this backup?\n\n" +
+          "Choose Cancel to merge instead."
+        );
+
+
+      if(replace){
+
+        products =
+          imported;
+
+      }else{
+
+        const existingIds =
+          new Set(
+            products.map(p=>p.id)
+          );
+
+        imported.forEach(product=>{
+
+          if(
+            product.id &&
+            existingIds.has(product.id)
+          ){
+
+            const index =
+              products.findIndex(
+                p=>p.id === product.id
+              );
+
+            products[index] =
+              product;
+
+          }else{
+
+            product.id =
+              product.id || uid();
+
+            products.push(product);
+          }
+
+        });
+      }
+
+
+      saveProducts();
+      renderProducts();
+
+      toast(
+        `${imported.length} products restored`
+      );
+
+    }catch(error){
+
+      console.error(error);
+
+      toast(
+        "Could not restore backup"
+      );
+
+    }finally{
+
+      event.target.value = "";
     }
   }
-};
+);
 
-/* =========================================================
-   SEARCH
-========================================================= */
 
-$("searchInput").addEventListener(
+/* ---------- PAGES ---------- */
+
+function showPage(page){
+
+  $("stockPage")
+    .classList.toggle(
+      "hidden",
+      page !== "stock"
+    );
+
+  $("scannerPage")
+    .classList.toggle(
+      "hidden",
+      page !== "scanner"
+    );
+
+  $("aboutPage")
+    .classList.toggle(
+      "hidden",
+      page !== "about"
+    );
+
+
+  $("navStock")
+    .classList.toggle(
+      "active",
+      page === "stock"
+    );
+
+  $("navScanner")
+    .classList.toggle(
+      "active",
+      page === "scanner"
+    );
+
+  $("navAbout")
+    .classList.toggle(
+      "active",
+      page === "about"
+    );
+}
+
+
+/* ---------- PIN SECURITY ---------- */
+
+function setupPin(){
+
+  const existing =
+    localStorage.getItem(PIN_KEY);
+
+  if(existing){
+    return;
+  }
+
+  const pin =
+    prompt(
+      "Create a Stock Lab PIN.\n\n" +
+      "Leave empty if you don't want an app PIN."
+    );
+
+  if(pin && pin.trim()){
+
+    localStorage.setItem(
+      PIN_KEY,
+      pin.trim()
+    );
+
+    toast("PIN protection enabled");
+  }
+}
+
+
+function lockApp(){
+
+  const pin =
+    localStorage.getItem(PIN_KEY);
+
+  if(!pin){
+
+    const newPin =
+      prompt(
+        "Create a PIN for Stock Lab:"
+      );
+
+    if(
+      newPin &&
+      newPin.trim()
+    ){
+
+      localStorage.setItem(
+        PIN_KEY,
+        newPin.trim()
+      );
+
+      toast("PIN created");
+    }
+
+    return;
+  }
+
+
+  localStorage.setItem(
+    LOCK_KEY,
+    "1"
+  );
+
+  $("lockScreen")
+    .classList.add("show");
+
+  $("unlockPin").value = "";
+}
+
+
+function unlockApp(){
+
+  const saved =
+    localStorage.getItem(PIN_KEY);
+
+  const entered =
+    $("unlockPin").value;
+
+  if(
+    saved &&
+    entered === saved
+  ){
+
+    localStorage.removeItem(
+      LOCK_KEY
+    );
+
+    $("lockScreen")
+      .classList.remove("show");
+
+    $("lockError").textContent = "";
+
+  }else{
+
+    $("lockError").textContent =
+      "Incorrect PIN";
+  }
+}
+
+
+function checkLock(){
+
+  const pin =
+    localStorage.getItem(PIN_KEY);
+
+  const locked =
+    localStorage.getItem(LOCK_KEY);
+
+  if(pin && locked === "1"){
+
+    $("lockScreen")
+      .classList.add("show");
+  }
+}
+
+
+/* ---------- EVENTS ---------- */
+
+$("search").addEventListener(
   "input",
   renderProducts
 );
@@ -1542,1009 +2574,67 @@ $("stockFilter").addEventListener(
   renderProducts
 );
 
-$("sortSelect").addEventListener(
+$("sortFilter").addEventListener(
   "change",
   renderProducts
 );
 
-/* =========================================================
-   SCANNER
-========================================================= */
 
-function cameraSupported(){
+/* ---------- AUTO LOCK ---------- */
 
-  return !!(
-    navigator.mediaDevices &&
-    navigator.mediaDevices.getUserMedia
-  );
-}
-
-async function getSupportedBarcodeFormats(){
-
-  const wanted=[
-    "aztec",
-    "code_128",
-    "code_39",
-    "code_93",
-    "codabar",
-    "data_matrix",
-    "ean_13",
-    "ean_8",
-    "itf",
-    "pdf417",
-    "qr_code",
-    "upc_a",
-    "upc_e"
-  ];
-
-  if(!("BarcodeDetector" in window)){
-    return [];
-  }
-
-  try{
-
-    if(BarcodeDetector.getSupportedFormats){
-
-      const supported =
-        await BarcodeDetector.getSupportedFormats();
-
-      return wanted.filter(x=>
-        supported.includes(x)
-      );
-    }
-
-  }catch(err){
-    console.error(err);
-  }
-
-  return wanted;
-}
-
-async function createDetector(){
-
-  const formats =
-    await getSupportedBarcodeFormats();
-
-  if(!("BarcodeDetector" in window)){
-
-    $("formatInfo").textContent =
-      "Not supported";
-
-    return null;
-  }
-
-  try{
-
-    if(formats.length){
-
-      detector =
-        new BarcodeDetector({formats});
-
-      $("formatInfo").textContent =
-        formats.length+" formats";
-
-    }else{
-
-      detector =
-        new BarcodeDetector();
-
-      $("formatInfo").textContent =
-        "Default formats";
-    }
-
-    return detector;
-
-  }catch(err){
-
-    console.error(err);
-
-    $("formatInfo").textContent =
-      "Unavailable";
-
-    return null;
-  }
-}
-
-/*
-  IMPORTANT CAMERA STRATEGY
-
-  We don't lock the camera to 1920x1080.
-  We first request very high resolution.
-  Then we inspect the actual capabilities and
-  apply the maximum width/height the browser exposes.
-*/
-
-async function getBestCameraStream(){
-
-  if(!cameraSupported()){
-    throw new Error("Camera API unavailable");
-  }
-
-  const attempts=[
-
-    {
-      video:{
-        facingMode:{exact:"environment"},
-        width:{ideal:3840,min:1920},
-        height:{ideal:2160,min:1080},
-        frameRate:{ideal:30,max:60}
-      },
-      audio:false
-    },
-
-    {
-      video:{
-        facingMode:{exact:"environment"},
-        width:{ideal:2560,min:1920},
-        height:{ideal:1440,min:1080},
-        frameRate:{ideal:30}
-      },
-      audio:false
-    },
-
-    {
-      video:{
-        facingMode:"environment",
-        width:{ideal:1920},
-        height:{ideal:1080},
-        frameRate:{ideal:30}
-      },
-      audio:false
-    },
-
-    {
-      video:{
-        facingMode:"environment"
-      },
-      audio:false
-    }
-
-  ];
-
-  let lastError=null;
-
-  for(const constraints of attempts){
-
-    try{
-
-      return await navigator.mediaDevices
-        .getUserMedia(constraints);
-
-    }catch(err){
-
-      lastError=err;
-      console.warn(
-        "Camera attempt failed:",
-        err
-      );
-    }
-  }
-
-  throw lastError || new Error("Could not open camera");
-}
-
-async function configureCamera(){
-
-  if(!videoTrack) return;
-
-  cameraCapabilities =
-    videoTrack.getCapabilities
-      ? videoTrack.getCapabilities()
-      : {};
-
-  cameraSettings =
-    videoTrack.getSettings
-      ? videoTrack.getSettings()
-      : {};
-
-  /*
-    Request maximum practical resolution
-    exposed by this particular camera.
-  */
-
-  const advanced={};
-
-  if(cameraCapabilities.width){
-
-    const maxWidth =
-      cameraCapabilities.width.max;
-
-    if(maxWidth){
-      advanced.width=maxWidth;
-    }
-  }
-
-  if(cameraCapabilities.height){
-
-    const maxHeight =
-      cameraCapabilities.height.max;
-
-    if(maxHeight){
-      advanced.height=maxHeight;
-    }
-  }
-
-  /*
-    Autofocus
-  */
-
-  if(
-    Array.isArray(cameraCapabilities.focusMode) &&
-    cameraCapabilities.focusMode.includes("continuous")
-  ){
-    advanced.focusMode="continuous";
-  }
-
-  /*
-    Start at minimum/1x zoom.
-    This avoids starting with ugly digital zoom.
-  */
-
-  if(cameraCapabilities.zoom){
-
-    advanced.zoom =
-      Math.max(
-        cameraCapabilities.zoom.min ?? 1,
-        1
-      );
-  }
-
-  try{
-
-    if(Object.keys(advanced).length){
-
-      await videoTrack.applyConstraints({
-        advanced:[advanced]
-      });
-    }
-
-  }catch(err){
-
-    console.warn(
-      "Advanced camera constraints failed:",
-      err
-    );
-
-    /*
-      Try only autofocus separately.
-    */
-
-    try{
-
-      if(
-        Array.isArray(cameraCapabilities.focusMode) &&
-        cameraCapabilities.focusMode.includes("continuous")
-      ){
-
-        await videoTrack.applyConstraints({
-          focusMode:"continuous"
-        });
-      }
-
-    }catch(e){
-      console.warn(e);
-    }
-  }
-
-  /*
-    Read final REAL settings after constraints.
-  */
-
-  cameraSettings =
-    videoTrack.getSettings
-      ? videoTrack.getSettings()
-      : {};
-
-  updateCameraInfo();
-
-  setupZoom();
-
-}
-
-function updateCameraInfo(){
-
-  const w =
-    cameraSettings.width || video.videoWidth;
-
-  const h =
-    cameraSettings.height || video.videoHeight;
-
-  $("resolutionInfo").textContent =
-    w && h ? `${w} × ${h}` : "—";
-
-  const modes =
-    cameraCapabilities.focusMode;
-
-  if(
-    Array.isArray(modes) &&
-    modes.includes("continuous")
-  ){
-
-    $("focusInfo").textContent =
-      "Continuous";
-
-  }else if(
-    Array.isArray(modes) &&
-    modes.length
-  ){
-
-    $("focusInfo").textContent =
-      modes.join(", ");
-
-  }else{
-
-    $("focusInfo").textContent =
-      "Auto / browser controlled";
-  }
-
-  if(cameraCapabilities.zoom){
-
-    const current =
-      cameraSettings.zoom ??
-      cameraCapabilities.zoom.min ??
-      1;
-
-    $("zoomInfo").textContent =
-      Number(current).toFixed(1)+"×";
-
-  }else{
-
-    $("zoomInfo").textContent =
-      "Unavailable";
-  }
-}
-
-function setupZoom(){
-
-  const slider=$("zoomSlider");
-
-  if(!cameraCapabilities.zoom){
-
-    slider.disabled=true;
-    slider.min=1;
-    slider.max=1;
-    slider.value=1;
-
-    $("zoomValue").textContent="1×";
-
-    return;
-  }
-
-  slider.disabled=false;
-
-  const min =
-    Number(cameraCapabilities.zoom.min ?? 1);
-
-  const max =
-    Number(cameraCapabilities.zoom.max ?? 1);
-
-  const step =
-    Number(cameraCapabilities.zoom.step ?? .1);
-
-  slider.min=min;
-  slider.max=max;
-  slider.step=step;
-
-  const current =
-    Number(cameraSettings.zoom ?? min);
-
-  slider.value =
-    Math.max(min,Math.min(max,current));
-
-  updateZoomText();
-}
-
-function updateZoomText(){
-
-  const value =
-    Number($("zoomSlider").value||1);
-
-  $("zoomValue").textContent =
-    value.toFixed(1)+"×";
-
-  $("zoomInfo").textContent =
-    value.toFixed(1)+"×";
-}
-
-$("zoomSlider").addEventListener(
-  "input",
-  async ()=>{
-
-    updateZoomText();
-
-    if(!videoTrack ||
-       !cameraCapabilities.zoom) return;
-
-    const value =
-      Number($("zoomSlider").value);
-
-    try{
-
-      await videoTrack.applyConstraints({
-        advanced:[{zoom:value}]
-      });
-
-    }catch(err){
-      console.warn(err);
-    }
-  }
-);
-
-/* =========================================================
-   TAP TO FOCUS
-========================================================= */
-
-$("videoWrap").addEventListener(
-  "click",
-  async e=>{
-
-    if(!videoTrack) return;
-
-    if(
-      !Array.isArray(cameraCapabilities.focusMode)
-    ) return;
-
-    const modes =
-      cameraCapabilities.focusMode;
-
-    try{
-
-      if(modes.includes("single-shot")){
-
-        await videoTrack.applyConstraints({
-          advanced:[
-            {focusMode:"single-shot"}
-          ]
-        });
-
-        setTimeout(async()=>{
-          try{
-
-            if(modes.includes("continuous")){
-
-              await videoTrack.applyConstraints({
-                advanced:[
-                  {focusMode:"continuous"}
-                ]
-              });
-            }
-
-          }catch(err){}
-        },700);
-
-      }else if(modes.includes("continuous")){
-
-        await videoTrack.applyConstraints({
-          advanced:[
-            {focusMode:"continuous"}
-          ]
-        });
-      }
-
-      toast("Focus adjusted.");
-
-    }catch(err){
-
-      console.warn(err);
-    }
-  }
-);
-
-$("focusBtn").addEventListener(
-  "click",
-  async ()=>{
-
-    if(!videoTrack){
-      toast("Start the camera first.");
-      return;
-    }
-
-    try{
-
-      if(
-        Array.isArray(cameraCapabilities.focusMode) &&
-        cameraCapabilities.focusMode.includes("single-shot")
-      ){
-
-        await videoTrack.applyConstraints({
-          advanced:[
-            {focusMode:"single-shot"}
-          ]
-        });
-
-        setTimeout(async()=>{
-          try{
-
-            if(
-              cameraCapabilities.focusMode.includes(
-                "continuous"
-              )
-            ){
-
-              await videoTrack.applyConstraints({
-                advanced:[
-                  {focusMode:"continuous"}
-                ]
-              });
-            }
-
-          }catch(err){}
-        },700);
-
-      }else if(
-        Array.isArray(cameraCapabilities.focusMode) &&
-        cameraCapabilities.focusMode.includes("continuous")
-      ){
-
-        await videoTrack.applyConstraints({
-          advanced:[
-            {focusMode:"continuous"}
-          ]
-        });
-      }
-
-      toast("Focus adjusted.");
-
-    }catch(err){
-
-      toast("Manual focus isn't exposed by this camera.");
-    }
-  }
-);
-
-/* =========================================================
-   TORCH
-========================================================= */
-
-let torchOn=false;
-
-$("torchBtn").addEventListener(
-  "click",
-  async ()=>{
-
-    if(!videoTrack){
-      toast("Start the camera first.");
-      return;
-    }
-
-    if(!cameraCapabilities.torch){
-
-      toast("Torch control isn't available.");
-      return;
-    }
-
-    try{
-
-      torchOn=!torchOn;
-
-      await videoTrack.applyConstraints({
-        advanced:[
-          {torch:torchOn}
-        ]
-      });
-
-      $("torchBtn").textContent =
-        torchOn ? "🔦 Torch ON" : "🔦 Torch";
-
-    }catch(err){
-
-      torchOn=false;
-
-      toast("Torch couldn't be controlled.");
-    }
-  }
-);
-
-/* =========================================================
-   START CAMERA
-========================================================= */
-
-async function startCamera(){
-
-  if(scanning) return;
-
-  if(!cameraSupported()){
-
-    $("cameraMessage").textContent =
-      "This browser does not support camera access.";
-
-    return;
-  }
-
-  try{
-
-    $("cameraMessage").textContent =
-      "Opening highest-quality rear camera...";
-
-    stopCamera();
-
-    /*
-      Create detector first.
-    */
-
-    await createDetector();
-
-    /*
-      Ask Android for the camera.
-    */
-
-    stream =
-      await getBestCameraStream();
-
-    video.srcObject=stream;
-
-    /*
-      NEVER crop the camera preview.
-    */
-
-    video.style.objectFit="contain";
-
-    await video.play();
-
-    videoTrack =
-      stream.getVideoTracks()[0];
-
-    /*
-      Configure using actual camera capabilities.
-    */
-
-    await configureCamera();
-
-    scanning=true;
-
-    $("cameraMessage").textContent =
-      "Camera ready — place barcode inside the frame.";
-
-    toast("High-quality camera started.");
-
-    scanLoop();
-
-  }catch(err){
-
-    console.error("Camera error:",err);
-
-    scanning=false;
-
-    let message="Could not start camera.";
-
-    if(err.name==="NotAllowedError"){
-      message =
-        "Camera permission was denied. Allow camera access in Android/browser settings.";
-    }
-
-    if(err.name==="NotFoundError"){
-      message =
-        "No camera was found.";
-    }
-
-    if(err.name==="NotReadableError"){
-      message =
-        "Camera is being used by another app.";
-    }
-
-    if(err.name==="SecurityError"){
-      message =
-        "Camera requires a secure browser context.";
-    }
-
-    $("cameraMessage").textContent=message;
-
-    toast(message);
-  }
-}
-
-/* =========================================================
-   STOP CAMERA
-========================================================= */
-
-function stopCamera(){
-
-  scanning=false;
-  scanBusy=false;
-
-  if(stream){
-
-    stream.getTracks().forEach(
-      track=>track.stop()
-    );
-  }
-
-  stream=null;
-  videoTrack=null;
-  video.srcObject=null;
-
-  torchOn=false;
-
-  $("torchBtn").textContent="🔦 Torch";
-}
-
-$("startCamera").addEventListener(
-  "click",
-  startCamera
-);
-
-$("stopCamera").addEventListener(
-  "click",
-  ()=>{
-    stopCamera();
-
-    $("cameraMessage").textContent =
-      "Camera stopped.";
-  }
-);
-
-/* =========================================================
-   BARCODE SCAN LOOP
-========================================================= */
-
-async function scanLoop(){
-
-  if(!scanning) return;
-
-  if(
-    detector &&
-    video.readyState >= 2 &&
-    !scanBusy
-  ){
-
-    scanBusy=true;
-
-    try{
-
-      const codes =
-        await detector.detect(video);
-
-      if(codes && codes.length){
-
-        for(const item of codes){
-
-          const value =
-            item.rawValue?.trim();
-
-          if(value){
-
-            processScan(value);
-            break;
-          }
-        }
-      }
-
-    }catch(err){
-
-      /*
-        Detection errors are common while camera
-        frames are changing. Don't kill the camera.
-      */
-
-    }finally{
-
-      scanBusy=false;
-    }
-  }
-
-  setTimeout(
-    scanLoop,
-    100
-  );
-}
-
-/* =========================================================
-   PROCESS SCAN
-========================================================= */
-
-function processScan(code){
-
-  const now=Date.now();
-
-  /*
-    Avoid repeated detection of same barcode.
-  */
-
-  if(
-    code===lastCode &&
-    now-lastScanTime<1800
-  ){
-    return;
-  }
-
-  lastCode=code;
-  lastScanTime=now;
-
-  scanHistory.unshift({
-    code,
-    time:now
-  });
-
-  scanHistory =
-    scanHistory.slice(0,30);
-
-  saveLocal();
-
-  showScanResult(code);
-
-  renderHistory();
-
-  /*
-    Automatically look for product.
-  */
-
-  const product =
-    products.find(
-      p=>String(p.code).trim()===String(code).trim()
-    );
-
-  if(product){
-
-    toast("Found: "+product.name);
-
-  }else{
-
-    toast("Barcode detected: "+code);
-  }
-}
-
-function showScanResult(code){
-
-  const product =
-    products.find(
-      p=>String(p.code).trim()===String(code).trim()
-    );
-
-  const box=$("scanResult");
-
-  box.classList.remove("hidden");
-
-  if(product){
-
-    box.innerHTML=`
-      <strong>${escapeHTML(product.name)}</strong>
-      <br>
-      <small>
-        Code: ${escapeHTML(code)}
-        · Stock: ${totalUnits(product)}
-      </small>
-      <br><br>
-      <button
-        class="controlBtn primary"
-        onclick="editProduct('${product.id}')">
-        Edit Product
-      </button>
-    `;
-
-  }else{
-
-    box.innerHTML=`
-      <strong>${escapeHTML(code)}</strong>
-      <br>
-      <small>No matching product found.</small>
-      <br><br>
-      <button
-        class="controlBtn primary"
-        onclick="openProductWithCode('${escapeHTML(code)}')">
-        Add Product With This Code
-      </button>
-    `;
-  }
-}
-
-window.openProductWithCode=function(code){
-
-  openModal();
-
-  $("pCode").value=code;
-};
-
-/* =========================================================
-   MANUAL SCAN
-========================================================= */
-
-$("manualScan").addEventListener(
-  "click",
-  ()=>{
-
-    const code =
-      $("manualCode").value.trim();
-
-    if(!code){
-
-      toast("Enter a barcode.");
-      return;
-    }
-
-    processScan(code);
-  }
-);
-
-$("manualCode").addEventListener(
-  "keydown",
-  e=>{
-    if(e.key==="Enter"){
-      $("manualScan").click();
-    }
-  }
-);
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-function renderHistory(){
-
-  const box=$("historyList");
-
-  if(!scanHistory.length){
-
-    box.innerHTML=
-      `<div class="empty">No scans yet.</div>`;
-
-    return;
-  }
-
-  box.innerHTML =
-    scanHistory.map(item=>`
-
-      <div class="historyItem">
-
-        <span>${escapeHTML(item.code)}</span>
-
-        <small>
-          ${new Date(item.time).toLocaleTimeString()}
-        </small>
-
-      </div>
-
-    `).join("");
-}
-
-/* =========================================================
-   VISIBILITY
-========================================================= */
+let lastActivity =
+  Date.now();
 
 document.addEventListener(
-  "visibilitychange",
+  "touchstart",
   ()=>{
+    lastActivity = Date.now();
+  },
+  {passive:true}
+);
 
-    if(document.hidden){
-      stopCamera();
-    }
+document.addEventListener(
+  "click",
+  ()=>{
+    lastActivity = Date.now();
   }
 );
 
-/* =========================================================
-   INITIAL RENDER
-========================================================= */
-
-refresh();
-renderHistory();
 
 /*
-  Show File System Access availability.
+  Auto-lock after 10 minutes if
+  PIN protection has been enabled.
 */
 
-if(!fileStorageSupported()){
+setInterval(()=>{
 
-  $("storageStatus").textContent =
-    "Browser storage active · Folder storage unavailable in this browser";
+  const pin =
+    localStorage.getItem(PIN_KEY);
 
-}
+  if(!pin) return;
 
-/*
-  Improve camera UI after metadata is loaded.
-*/
+  if(
+    Date.now() - lastActivity >
+    10 * 60 * 1000
+  ){
 
-$("video").addEventListener(
-  "loadedmetadata",
-  ()=>{
-    if(videoTrack){
-      cameraSettings =
-        videoTrack.getSettings
-          ? videoTrack.getSettings()
-          : {};
+    localStorage.setItem(
+      LOCK_KEY,
+      "1"
+    );
 
-      updateCameraInfo();
-    }
+    $("lockScreen")
+      .classList.add("show");
   }
-);
+
+},30000);
+
+
+/* ---------- START ---------- */
+
+loadProducts();
+renderProducts();
+checkLock();
 
 </script>
 
