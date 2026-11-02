@@ -54,7 +54,7 @@ const StockLabStorage = (() => {
     if(!("indexedDB" in window)) throw new Error("This browser does not support IndexedDB");
     db=await open();
     const existing=await getAll("products");
-    if(existing.length===0){
+    if(existing.length===0 && localStorage.getItem("stock_lab_idb_migrated_v1")!=="1"){
       const legacyProducts=JSON.parse(localStorage.getItem("stock_lab_products_v21") || localStorage.getItem("stock_lab_products_v4") || "[]");
       const legacyCategories=JSON.parse(localStorage.getItem("stock_lab_categories_v21") || "[]");
       const legacyHistory=JSON.parse(localStorage.getItem("stock_lab_scan_history_v21") || "[]");
