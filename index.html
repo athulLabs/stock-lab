@@ -546,6 +546,21 @@ button:disabled{opacity:.5}
   </div>
 
   <div class="setting-section">
+    <div class="setting-section-title">Cloud Sync · Cloudflare</div>
+    <div class="setting-card" style="padding:14px">
+      <div style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:12px">Connect your private Cloudflare Worker to back up inventory online. Local inventory continues working offline. Cloud restore replaces this device's inventory only after confirmation.</div>
+      <div class="field" style="margin-bottom:9px"><label>CLOUDFLARE WORKER HTTPS URL</label><input id="syncEndpoint" type="url" placeholder="https://stock-lab-sync.yourname.workers.dev"></div>
+      <div class="field" style="margin-bottom:10px"><label>SYNC PASSWORD (16+ CHARACTERS)</label><input id="syncPassword" type="password" autocomplete="off" placeholder="Enter your private sync password"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+        <button class="small-btn" onclick="stockLabCloudCheck()">Check backup</button>
+        <button class="small-btn" onclick="stockLabCloudUpload()">Upload backup</button>
+      </div>
+      <button class="small-btn" style="width:100%;margin-top:7px" onclick="stockLabCloudDownload()">Restore from cloud</button>
+      <div id="syncStatus" role="status" style="font-size:10px;margin-top:10px;color:var(--muted)">Not connected · Cloudflare setup required</div>
+    </div>
+  </div>
+
+  <div class="setting-section">
     <div class="setting-section-title">Data</div>
     <div class="setting-card">
 
@@ -767,6 +782,7 @@ button:disabled{opacity:.5}
 
 <div id="toast" class="toast"></div>
 
+<script type="module" src="/cloud-sync.js"></script>
 <script type="module" src="/native-scanner.js"></script>
 <script type="module" src="/biometric-auth.js"></script>
 
