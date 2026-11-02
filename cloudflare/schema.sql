@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS sync_state (id INTEGER PRIMARY KEY, updated_at TEXT NOT NULL, byte_size INTEGER NOT NULL, product_count INTEGER NOT NULL);
