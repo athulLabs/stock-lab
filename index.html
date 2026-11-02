@@ -983,11 +983,14 @@ function normalizeCategories(){
     .map(p=>p.category||"")
     .filter(Boolean);
 
-  categories=[
+  const normalized=[
     ...new Set([...categories,...fromProducts])
   ].sort();
 
-  saveCategories();
+  if(JSON.stringify(normalized)!==JSON.stringify(categories)){
+    categories=normalized;
+    saveCategories();
+  }
 }
 
 function populateCategories(){
