@@ -767,6 +767,7 @@ button:disabled{opacity:.5}
 
 <div id="toast" class="toast"></div>
 
+<script type="module" src="/storage.js"></script>
 <script type="module" src="/native-scanner.js"></script>
 <script type="module" src="/biometric-auth.js"></script>
 
@@ -838,18 +839,11 @@ function escapeHTML(value){
 
 /* DATA */
 
-function loadData(){
-  try{
-    const current=localStorage.getItem(PRODUCTS_KEY);
-    const old=localStorage.getItem("stock_lab_products_v4");
-    products=current?JSON.parse(current):old?JSON.parse(old):[];
-  }catch{products=[]}
-
-  try{categories=JSON.parse(localStorage.getItem(CATEGORY_KEY)||"[]")}
-  catch{categories=[]}
-
-  try{scanHistory=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]")}
-  catch{scanHistory=[]}
+async function loadData(){
+  const data=await window.StockLabStorage.loadAll();
+  products=data.products;
+  categories=data.categories;
+  scanHistory=data.history;
 
   quantityMode=localStorage.getItem(QUANTITY_KEY)!=="0";
   historyEnabled=localStorage.getItem(HISTORY_ENABLED_KEY)!=="0";
@@ -867,17 +861,18 @@ function loadData(){
   updateToggles();
 }
 
-function saveProducts(){
-  localStorage.setItem(PRODUCTS_KEY,JSON.stringify(products));
+function persistOffline(task){
+  task.then(()=>window.StockLabStorage.autoBackup({
+    app:"Stock Lab",version:"2.3",exportedAt:new Date().toISOString(),products,categories,scanHistory
+  })).catch(error=>{
+    console.error("Stock Lab local save failed",error);
+    toast("Save failed — check device storage");
+  });
 }
+function saveProducts(){persistOffline(window.StockLabStorage.saveProducts(products));}
+function saveCategories(){persistOffline(window.StockLabStorage.saveCategories(categories));}
+function saveHistory(){persistOffline(window.StockLabStorage.saveHistory(scanHistory));}
 
-function saveCategories(){
-  localStorage.setItem(CATEGORY_KEY,JSON.stringify(categories));
-}
-
-function saveHistory(){
-  localStorage.setItem(HISTORY_KEY,JSON.stringify(scanHistory));
-}
 
 /* THEME */
 
@@ -988,11 +983,14 @@ function normalizeCategories(){
     .map(p=>p.category||"")
     .filter(Boolean);
 
-  categories=[
+  const normalized=[
     ...new Set([...categories,...fromProducts])
   ].sort();
 
-  saveCategories();
+  if(JSON.stringify(normalized)!==JSON.stringify(categories)){
+    categories=normalized;
+    saveCategories();
+  }
 }
 
 function populateCategories(){
@@ -1984,24 +1982,18 @@ $("restoreInput").addEventListener(
         return;
       }
 
-      products=imported;
-
-      if(Array.isArray(data.categories))
-        categories=data.categories;
-
-      if(Array.isArray(data.scanHistory))
-        scanHistory=data.scanHistory;
-
-      saveProducts();
-      saveCategories();
-      saveHistory();
-
+      const restorePayload={
+        products:imported,
+        categories:Array.isArray(data.categories)?data.categories:categories,
+        scanHistory:Array.isArray(data.scanHistory)?data.scanHistory:scanHistory
+      };
+      await window.StockLabStorage.restore(restorePayload);
+      products=restorePayload.products;
+      categories=restorePayload.categories;
+      scanHistory=restorePayload.scanHistory;
       renderProducts();
       renderHistory();
-
-      toast(
-        `${products.length} products restored`
-      );
+      toast(`${products.length} products restored`);
 
     }catch(error){
 
@@ -2380,14 +2372,22 @@ $("sortFilter")
     renderProducts
   );
 
-/* START */
-
-loadData();
-normalizeCategories();
-populateCategories();
-renderProducts();
-renderHistory();
-lockOnLaunch();
+/* START — wait until module scripts have initialized */
+document.addEventListener("DOMContentLoaded",async()=>{
+  try{
+    await window.StockLabStorage.init();
+    await loadData();
+    normalizeCategories();
+    populateCategories();
+    renderProducts();
+    renderHistory();
+    await window.StockLabStorage.autoBackup({app:"Stock Lab",version:"2.3",exportedAt:new Date().toISOString(),products,categories,scanHistory});
+    lockOnLaunch();
+  }catch(error){
+    console.error("Stock Lab startup failed",error);
+    toast("Could not load local inventory. Your previous data has not been intentionally cleared.");
+  }
+});
 
 </script>
 
