@@ -28,22 +28,23 @@ export default {
       "Vary": "Origin"
     };
 
+    const reply = (data, status = 200) => new Response(JSON.stringify(data), { status, headers: { ...headers, "content-type": "application/json; charset=utf-8", "cache-control": "no-store" } });
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers });
-    if (url.pathname !== "/api/sync") return json({ error: "Not found" }, 404);
-    if (!["GET", "PUT"].includes(request.method)) return json({ error: "Method not allowed" }, 405);
-    if (corsOrigin === "null") return json({ error: "Origin not allowed" }, 403);
-    if (!authorized(request, env)) return json({ error: "Invalid sync password" }, 401);
+    if (url.pathname !== "/api/sync") return reply({ error: "Not found" }, 404);
+    if (!["GET", "PUT"].includes(request.method)) return reply({ error: "Method not allowed" }, 405);
+    if (corsOrigin === "null") return reply({ error: "Origin not allowed" }, 403);
+    if (!authorized(request, env)) return reply({ error: "Invalid sync password" }, 401);
 
     try {
       if (request.method === "PUT") {
         const length = Number(request.headers.get("content-length") || 0);
-        if (length > 25 * 1024 * 1024) return json({ error: "Backup exceeds 25 MB limit" }, 413);
+        if (length > 25 * 1024 * 1024) return reply({ error: "Backup exceeds 25 MB limit" }, 413);
         const body = await request.text();
-        if (body.length > 25 * 1024 * 1024) return json({ error: "Backup exceeds 25 MB limit" }, 413);
+        if (body.length > 25 * 1024 * 1024) return reply({ error: "Backup exceeds 25 MB limit" }, 413);
         let backup;
-        try { backup = JSON.parse(body); } catch { return json({ error: "Invalid JSON backup" }, 400); }
+        try { backup = JSON.parse(body); } catch { return reply({ error: "Invalid JSON backup" }, 400); }
         if (!backup || !Array.isArray(backup.products) || !Array.isArray(backup.categories) || !Array.isArray(backup.scanHistory)) {
-          return json({ error: "Backup must contain products, categories and scanHistory arrays" }, 400);
+          return reply({ error: "Backup must contain products, categories and scanHistory arrays" }, 400);
         }
         const now = new Date().toISOString();
         await env.STOCKLAB_BACKUPS.put("primary/backup.json", body, {
@@ -53,11 +54,11 @@ export default {
         await env.DB.prepare(
           "INSERT INTO sync_state (id, updated_at, byte_size, product_count) VALUES (1, ?1, ?2, ?3) ON CONFLICT(id) DO UPDATE SET updated_at=excluded.updated_at, byte_size=excluded.byte_size, product_count=excluded.product_count"
         ).bind(now, new TextEncoder().encode(body).length, backup.products.length).run();
-        return json({ success: true, updatedAt: now, productCount: backup.products.length });
+        return reply({ success: true, updatedAt: now, productCount: backup.products.length });
       }
 
       const object = await env.STOCKLAB_BACKUPS.get("primary/backup.json");
-      if (!object) return json({ error: "No cloud backup exists yet" }, 404);
+      if (!object) return reply({ error: "No cloud backup exists yet" }, 404);
       const meta = await env.DB.prepare("SELECT updated_at, byte_size, product_count FROM sync_state WHERE id=1").first();
       return new Response(object.body, {
         headers: { ...headers, "content-type": "application/json; charset=utf-8", "cache-control": "no-store",
@@ -66,7 +67,7 @@ export default {
       });
     } catch (error) {
       console.error("Stock Lab sync error", error);
-      return json({ error: "Cloud sync temporarily unavailable" }, 500);
+      return reply({ error: "Cloud sync temporarily unavailable" }, 500);
     }
   }
 };
