@@ -29,12 +29,12 @@ const StockLabStorage = (() => {
     const tx=db.transaction(store,"readwrite");
     const os=tx.objectStore(store);
     os.clear();
-    values.forEach((value,index)=>os.put({id:String(value.id ?? index),value}));
+    values.forEach((value,index)=>os.put({id:String(value.id ?? index),order:index,value}));
     await new Promise((resolve,reject)=>{tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});
   }
   async function read(store) {
     const rows=await getAll(store);
-    return rows.sort((a,b)=>String(a.id).localeCompare(String(b.id))).map(row=>row.value);
+    return rows.sort((a,b)=>(a.order??0)-(b.order??0)).map(row=>row.value);
   }
   async function writeSnapshot(payload) {
     const tx=db.transaction("snapshots","readwrite");
@@ -88,7 +88,7 @@ const StockLabStorage = (() => {
     const tx=db.transaction(["products","categories","history"],"readwrite");
     for(const [name,values] of [["products",payload.products],["categories",payload.categories],["history",payload.scanHistory]]){
       const os=tx.objectStore(name); os.clear();
-      values.forEach((value,index)=>os.put({id:String(value.id ?? index),value}));
+      values.forEach((value,index)=>os.put({id:String(value.id ?? index),order:index,value}));
     }
     await new Promise((resolve,reject)=>{tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});
     await writeSnapshot(payload);
