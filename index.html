@@ -862,7 +862,9 @@ async function loadData(){
 }
 
 function persistOffline(task){
-  task.catch(error=>{
+  task.then(()=>window.StockLabStorage.autoBackup({
+    app:"Stock Lab",version:"2.3",exportedAt:new Date().toISOString(),products,categories,scanHistory
+  })).catch(error=>{
     console.error("Stock Lab local save failed",error);
     toast("Save failed — check device storage");
   });
@@ -2367,8 +2369,8 @@ $("sortFilter")
     renderProducts
   );
 
-/* START */
-(async function startStockLab(){
+/* START — wait until module scripts have initialized */
+document.addEventListener("DOMContentLoaded",async()=>{
   try{
     await window.StockLabStorage.init();
     await loadData();
@@ -2382,7 +2384,7 @@ $("sortFilter")
     console.error("Stock Lab startup failed",error);
     toast("Could not load local inventory. Your previous data has not been intentionally cleared.");
   }
-})();
+});
 
 </script>
 
